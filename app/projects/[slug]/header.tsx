@@ -20,13 +20,13 @@ export const Header: React.FC<Props> = ({ project, views }) => {
 	const links: { label: string; href: string }[] = [];
 	if (project.repository) {
 		links.push({
-			label: "GitHub",
+			label: "View source on GitHub",
 			href: `https://github.com/${project.repository}`,
 		});
 	}
 	if (project.url) {
 		links.push({
-			label: "Website",
+			label: "Download on Google Play",
 			href: project.url,
 		});
 	}
@@ -67,7 +67,7 @@ export const Header: React.FC<Props> = ({ project, views }) => {
 								views,
 							)}
 						</span>
-						<Link target="_blank" href="https://twitter.com/chronark_">
+						<Link target="_blank" href="https://tashilapathum.bsky.social">
 							<Twitter
 								className={`w-6 h-6 duration-200 hover:font-medium ${
 									isIntersecting
@@ -76,7 +76,7 @@ export const Header: React.FC<Props> = ({ project, views }) => {
 								} `}
 							/>
 						</Link>
-						<Link target="_blank" href="https://github.com/chronark">
+						<Link target="_blank" href="https://github.com/tashilapathum">
 							<Github
 								className={`w-6 h-6 duration-200 hover:font-medium ${
 									isIntersecting
