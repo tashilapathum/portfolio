@@ -79,7 +79,7 @@ export const Header: React.FC<Props> = ({ project, views }) => {
 
 							{/* Share Sheet */}
 							{isOpen && (
-								<div className="absolute top-full mt-2 bg-zinc-800 shadow-md p-4 rounded-lg z-10">
+								<div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 bg-zinc-800 shadow-md p-4 rounded-lg z-10 max-w-xs">
 									<p className="text-sm mb-2 font-medium text-zinc-200 text-center">Share this page</p>
 									<div className="flex space-x-2">
 										<FacebookShareButton url={window.location.href}>
@@ -98,7 +98,6 @@ export const Header: React.FC<Props> = ({ project, views }) => {
 										<button
 											onClick={() => {
 												navigator.clipboard.writeText(window.location.href).then(r => {
-													//alert('Link copied to clipboard!');
 													setCopied(true);
 													setTimeout(() => setCopied(false), 2000);
 												});
