@@ -1,7 +1,9 @@
 "use client";
-import { ArrowLeft, Eye, Github, Twitter } from "lucide-react";
+import {ArrowLeft, Copy, CopyIcon, Github, Link2, Share2, Twitter} from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
+import { FacebookShareButton, TwitterShareButton, LinkedinShareButton, RedditShareButton } from "react-share";
+import { FacebookIcon, TwitterIcon, LinkedinIcon, RedditIcon } from "react-share";
 
 type Props = {
 	project: {
@@ -16,6 +18,9 @@ type Props = {
 export const Header: React.FC<Props> = ({ project, views }) => {
 	const ref = useRef<HTMLElement>(null);
 	const [isIntersecting, setIntersecting] = useState(true);
+	const [isOpen, setIsOpen] = useState(false);
+	const toggleShareSheet = () => setIsOpen(!isOpen);
+	const [copied, setCopied] = useState(false);
 
 	const links: { label: string; href: string }[] = [];
 	if (project.repository) {
@@ -54,19 +59,65 @@ export const Header: React.FC<Props> = ({ project, views }) => {
 			>
 				<div className="container flex flex-row-reverse items-center justify-between p-6 mx-auto">
 					<div className="flex justify-between gap-8">
-						<span
-							title="View counter for this page"
-							className={`duration-200 hover:font-medium flex items-center gap-1 ${
-								isIntersecting
-									? " text-zinc-400 hover:text-zinc-100"
-									: "text-zinc-600 hover:text-zinc-900"
-							} `}
-						>
-							<Eye className="w-5 h-5" />{" "}
-							{Intl.NumberFormat("en-US", { notation: "compact" }).format(
-								views,
+						<div className="relative">
+							<button
+								onClick={toggleShareSheet}
+								className={`w-6 h-6 duration-200 hover:font-medium ${
+									isIntersecting
+										? "text-zinc-400 hover:text-zinc-100"
+										: "text-zinc-600 hover:text-zinc-900"
+								}`}
+							>
+								<Share2
+									className={`w-6 h-6 duration-200 hover:font-medium ${
+										isIntersecting
+											? " text-zinc-400 hover:text-zinc-100"
+											: "text-zinc-600 hover:text-zinc-900"
+									} `}
+								/>
+							</button>
+
+							{/* Share Sheet */}
+							{isOpen && (
+								<div className="absolute top-full mt-2 bg-zinc-800 shadow-md p-4 rounded-lg z-10">
+									<p className="text-sm mb-2 font-medium text-zinc-200 text-center">Share this page</p>
+									<div className="flex space-x-2">
+										<FacebookShareButton url={window.location.href}>
+											<FacebookIcon size={32} round iconFillColor="white"
+														  bgStyle={{fill: '#3b5998'}}/>
+										</FacebookShareButton>
+										<LinkedinShareButton url={window.location.href}>
+											<LinkedinIcon size={32} round iconFillColor="white"
+														  bgStyle={{fill: '#0077B5'}}/>
+										</LinkedinShareButton>
+										<RedditShareButton url={window.location.href}>
+											<RedditIcon size={32} round iconFillColor="white"/>
+										</RedditShareButton>
+
+										{/* Copy Link Button */}
+										<button
+											onClick={() => {
+												navigator.clipboard.writeText(window.location.href).then(r => {
+													//alert('Link copied to clipboard!');
+													setCopied(true);
+													setTimeout(() => setCopied(false), 2000);
+												});
+											}}
+											className="flex items-center justify-center w-8 h-8 bg-zinc-700 hover:bg-zinc-600 rounded-full"
+										>
+											<Link2
+												className={`w-6 h-6 duration-200 hover:font-medium ${
+													isIntersecting
+														? " text-zinc-400 hover:text-zinc-100"
+														: "text-zinc-600 hover:text-zinc-900"
+												} `}
+											/>
+										</button>
+									</div>
+									{copied && <p className="text-xs text-green-500 text-center mt-2">Copied!</p>}
+								</div>
 							)}
-						</span>
+						</div>
 						<Link target="_blank" href="https://tashilapathum.bsky.social">
 							<Twitter
 								className={`w-6 h-6 duration-200 hover:font-medium ${
@@ -95,7 +146,7 @@ export const Header: React.FC<Props> = ({ project, views }) => {
 								: "text-zinc-600 hover:text-zinc-900"
 						} `}
 					>
-						<ArrowLeft className="w-6 h-6 " />
+						<ArrowLeft className="w-6 h-6 "/>
 					</Link>
 				</div>
 			</div>
@@ -111,7 +162,8 @@ export const Header: React.FC<Props> = ({ project, views }) => {
 					</div>
 
 					<div className="mx-auto mt-10 max-w-2xl lg:mx-0 lg:max-w-none">
-						<div className="grid grid-cols-1 gap-y-6 gap-x-8 text-base font-semibold leading-7 text-white sm:grid-cols-2 md:flex lg:gap-x-10">
+						<div
+							className="grid grid-cols-1 gap-y-6 gap-x-8 text-base font-semibold leading-7 text-white sm:grid-cols-2 md:flex lg:gap-x-10">
 							{links.map((link) => (
 								<Link target="_blank" key={link.label} href={link.href}>
 									{link.label} <span aria-hidden="true">&rarr;</span>
