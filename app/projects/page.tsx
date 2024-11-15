@@ -4,23 +4,10 @@ import { allProjects } from "contentlayer/generated";
 import { Navigation } from "../components/nav";
 import { Card } from "../components/card";
 import { Article } from "./article";
-// import { Redis } from "@upstash/redis";  // Comment out Redis import
 import { Eye } from "lucide-react";
-
-// const redis = Redis.fromEnv();  // Comment out Redis initialization
 
 export const revalidate = 60;
 export default async function ProjectsPage() {
-  // Comment out the Redis views fetching
-  // const views = (
-  //   await redis.mget<number[]>(
-  //     ...allProjects.map((p) => ["pageviews", "projects", p.slug].join(":")),
-  //   )
-  // ).reduce((acc, v, i) => {
-  //   acc[allProjects[i].slug] = v ?? 0;
-  //   return acc;
-  // }, {} as Record<string, number>);
-
   const featured = allProjects.find((project) => project.slug === "please-wait-library")!;
   const top2 = allProjects.find((project) => project.slug === "neon-video-downloader")!;
   const top3 = allProjects.find((project) => project.slug === "one-finance")!;
