@@ -47,7 +47,8 @@ export default async function ProjectsPage() {
               Projects
             </h2>
             <p className="mt-4 text-zinc-400">
-              Some of the projects are from work and some are on my own time.
+              Personal, work and freelancing projects. Most of the freelancing projects have been abandoned by the
+              clients and removed from Google Play but I've left the project overviews in this page.
             </p>
           </div>
           <div className="w-full h-px bg-zinc-800" />
