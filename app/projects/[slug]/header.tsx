@@ -1,9 +1,9 @@
 "use client";
-import {ArrowLeft, Copy, CopyIcon, Github, Link2, Share2, Twitter} from "lucide-react";
+import {ArrowLeft, Github, Link2, Share2, Twitter} from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
-import { FacebookShareButton, TwitterShareButton, LinkedinShareButton, RedditShareButton } from "react-share";
-import { FacebookIcon, TwitterIcon, LinkedinIcon, RedditIcon } from "react-share";
+import { FacebookShareButton, LinkedinShareButton, RedditShareButton } from "react-share";
+import { FacebookIcon, LinkedinIcon, RedditIcon } from "react-share";
 
 type Props = {
 	project: {
@@ -12,10 +12,8 @@ type Props = {
 		description: string;
 		repository?: string;
 	};
-
-	views: number;
 };
-export const Header: React.FC<Props> = ({ project, views }) => {
+export const Header: React.FC<Props> = ({ project }) => {
 	const ref = useRef<HTMLElement>(null);
 	const [isIntersecting, setIntersecting] = useState(true);
 	const [isOpen, setIsOpen] = useState(false);
