@@ -37,15 +37,15 @@ export default function Home() {
 
             <div
                 className="hidden w-screen h-px animate-glow md:block animate-fade-right bg-gradient-to-r from-zinc-300/0 via-zinc-300/50 to-zinc-300/0"/>
-            <div className="my-8 text-center animate-fade-in">
-                <h2 className="text-m text-zinc-500 ">
+            <div className="my-8 animate-fade-in">
+                <h2 className="text-m text-zinc-500">
                     I'm a Mobile Software Engineer with:
-                    <ul>5+ years of experience in Native Android development using Java, Kotlin and Firebase</ul>
-                    <ul>2+ years of experience in iOS development using Objective C and Swift</ul>
-                    <ul>2+ years of experience in Flutter development</ul>
-                    <br></br>
-
                 </h2>
+                <ul className="list-disc pl-6 mt-2 text-zinc-500">
+                    <li>5+ years of experience in Native Android development using Java, Kotlin and Firebase</li>
+                    <li>Hands-on experience with Flutter for cross-platform development</li>
+                    <li>Working knowledge of iOS development with Objective C</li>
+                </ul>
             </div>
         </div>
     );
