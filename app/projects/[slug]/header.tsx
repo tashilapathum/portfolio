@@ -1,5 +1,5 @@
 "use client";
-import {ArrowLeft, Github, Link2, Share2, Twitter} from "lucide-react";
+import { ArrowLeft, Github, Link2, Linkedin, Share2 } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import { FacebookShareButton, LinkedinShareButton, RedditShareButton } from "react-share";
@@ -9,7 +9,7 @@ type Props = {
 	project: {
 		url?: string;
 		title: string;
-		description: string;
+		description?: string;
 		repository?: string;
 	};
 };
@@ -115,8 +115,8 @@ export const Header: React.FC<Props> = ({ project }) => {
 								</div>
 							)}
 						</div>
-						<Link target="_blank" href="https://bsky.app/profile/tashila.me">
-							<Twitter
+						<Link target="_blank" href="https://www.linkedin.com/in/tashilapathum">
+							<Linkedin
 								className={`w-6 h-6 duration-200 hover:font-medium ${
 									isIntersecting
 										? " text-zinc-400 hover:text-zinc-100"
@@ -136,7 +136,7 @@ export const Header: React.FC<Props> = ({ project }) => {
 					</div>
 
 					<Link
-						href="/projects"
+						href="./"
 						className={`duration-200 hover:font-medium ${
 							isIntersecting
 								? " text-zinc-400 hover:text-zinc-100"
