@@ -18,11 +18,14 @@ const computedFields = {
 
 export const Project = defineDocumentType(() => ({
 	name: "Project",
-	filePathPattern: "./projects/**/*.mdx",
+	filePathPattern: "./projects/**/index.mdx",
 	contentType: "mdx",
 
 	fields: {
 		published: {
+			type: "boolean",
+		},
+		agreements: {
 			type: "boolean",
 		},
 		title: {
@@ -62,9 +65,29 @@ export const Page = defineDocumentType(() => ({
 	computedFields,
 }));
 
+export const LegalPage = defineDocumentType(() => ({
+	name: "LegalPage",
+	filePathPattern: "./projects/**/(privacy|terms).mdx",
+	contentType: "mdx",
+	fields: {
+		title: { type: "string", required: true },
+		pageType: {
+			type: "enum",
+			options: ["privacy", "terms"],
+			required: true
+		},
+		projectSlug: {
+			type: "string",
+			required: true,
+			description: "Slug of the parent project (e.g., 'my-android-app')"
+		},
+	},
+	computedFields
+}));
+
 export default makeSource({
 	contentDirPath: "./content",
-	documentTypes: [Page, Project],
+	documentTypes: [Page, Project, LegalPage],
 	mdx: {
 		remarkPlugins: [remarkGfm],
 		rehypePlugins: [
