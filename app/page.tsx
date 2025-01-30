@@ -37,7 +37,7 @@ export default function Home() {
 
             <div
                 className="hidden w-screen h-px animate-glow md:block animate-fade-right bg-gradient-to-r from-zinc-300/0 via-zinc-300/50 to-zinc-300/0"/>
-            <div className="my-8 animate-fade-in">
+            <div className="m-8 animate-fade-in">
                 <h2 className="text-m text-zinc-500">
                     I'm a Mobile Software Engineer with:
                 </h2>
