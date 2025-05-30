@@ -3,6 +3,7 @@ import remarkGfm from "remark-gfm";
 import rehypePrettyCode from "rehype-pretty-code";
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
+import { format } from 'date-fns';
 
 /** @type {import('contentlayer/source-files').ComputedFields} */
 const computedFields = {
@@ -85,9 +86,40 @@ export const LegalPage = defineDocumentType(() => ({
 	computedFields
 }));
 
+export const BlogPost = defineDocumentType(() => ({
+	name: "BlogPost",
+	filePathPattern: "./blog/*.mdx",
+	contentType: "mdx",
+	fields: {
+		published: {
+			type: "boolean",
+			default: true,
+		},
+		title: {
+			type: "string",
+			required: true,
+		},
+		description: {
+			type: "string",
+			required: true,
+		},
+		date: {
+			type: "date",
+			required: true,
+		},
+	},
+	computedFields: {
+		...computedFields,
+		formattedDate: {
+			type: "string",
+			resolve: (doc) => format(new Date(doc.date), "MMMM dd, yyyy"),
+		},
+	},
+}));
+
 export default makeSource({
 	contentDirPath: "./content",
-	documentTypes: [Page, Project, LegalPage],
+	documentTypes: [Page, Project, LegalPage, BlogPost],
 	mdx: {
 		remarkPlugins: [remarkGfm],
 		rehypePlugins: [

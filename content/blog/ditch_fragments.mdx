@@ -1,0 +1,12 @@
+---
+title: "Why I Ditched Fragments"
+description: "Simplifying navigation and maintenance"
+date: 2025-06-08
+published: true
+---
+
+Fragments are overkill for most use cases. Between the lifecycle issues, the boilerplate, and the constant need for FragmentManager gymnastics, I hit a wall.
+
+I switched to single-activity architecture with Jetpack Navigation + ViewModels scoped to navigation graphs. It’s cleaner, easier to test, and way less brittle.
+
+If your screen doesn't *need* to be a fragment, don't make it one. Activities or composables (if you're using Compose) are enough.

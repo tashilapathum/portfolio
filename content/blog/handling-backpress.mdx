@@ -1,0 +1,33 @@
+---
+title: "Handling Back Press with Custom Logic"
+description: "Avoid weird behavior and clean up properly"
+date: 2025-06-09
+published: true
+---
+
+Overriding back press is still relevant, especially when dealing with custom flows or unsaved state warnings.
+
+Here's how I handle it in an `Activity`:
+
+```kotlin
+override fun onBackPressed() {
+    if (shouldWarnUser()) {
+        showExitConfirmationDialog()
+    } else {
+        super.onBackPressed()
+    }
+}
+
+private fun shouldWarnUser(): Boolean {
+    return viewModel.hasUnsavedChanges()
+}
+
+private fun showExitConfirmationDialog() {
+    AlertDialog.Builder(this)
+        .setTitle("Unsaved Changes")
+        .setMessage("You have unsaved changes. Exit anyway?")
+        .setPositiveButton("Yes") { _, _ -> super.onBackPressed() }
+        .setNegativeButton("No", null)
+        .show()
+}
+```

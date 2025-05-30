@@ -1,0 +1,31 @@
+---
+title: "Hello World"
+description: "Kicking things off"
+date: 2025-05-30
+published: true
+---
+
+## Why Next.js and Contentlayer?
+
+Next.js provides an excellent framework for building static sites, while Contentlayer brings the power of content-as-data to your Markdown files.
+
+### Key Benefits
+
+1. **Static Site Generation** - Blazing fast performance
+2. **Type Safety** - Automatic TypeScript types for your content
+3. **MDX Support** - Mix Markdown with React components
+
+## Setting Up Your First Blog Post
+
+```js
+// Example code block
+import { defineDocumentType } from 'contentlayer/source-files';
+
+export const BlogPost = defineDocumentType(() => ({
+  name: 'BlogPost',
+  filePathPattern: `./blog/*.mdx`,
+  fields: {
+    title: { type: 'string', required: true },
+    date: { type: 'date', required: true },
+  },
+}));
