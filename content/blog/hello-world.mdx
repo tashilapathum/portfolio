@@ -5,13 +5,15 @@ date: 2025-05-30
 published: true
 ---
 
+## One of many problems with Windows
+
 I decided to kick things off with a rant about how bad Windows is. I reckon it's a pretty good way to start in this
-specific case because this site is mainly built on `ContentLayer`. Coming from *Native* Android Development, Working
+specific case because this site is mainly built on `ContentLayer`. Coming from **Native** Android Development, Working
 with React is completely new to me. So when I stumbled upon this template when browsing Vercel, I decided to give it a
 go, instead of building something from ground up and running head-first into the ground.
 
 When running the project for the first time, the console rightfully shows this:
-```
+```txt
 Warning: Contentlayer might not work as expected on Windows
 ```
 As an experienced software engineer, I rightfully ignored that warning and continued. As long as it's not a sea of red,
@@ -25,7 +27,7 @@ the same. When I finally looked it up after poking around blindly for a while, t
 beautiful, *invisible* `\r\n` line separators of Windows is causing the issue. So as any sane person, I set the line
 separator to `\n` of Linux, one mdx file at a time, for 20 of them. I'll just have to commit and it's all good.
 
-"It's okay,it's just one time, it's fine."
+"It's okay, it's just one time, it's fine."
 
 Those were my famous last words before I had to do it over and over again when I opened the project sometime later, for
 god-knows-how-many times.
@@ -37,9 +39,9 @@ back.
 
 So why am I complaining about Windows instead of ditching it and moving to Linux?
 
-### My toxic relationship with Windows
+## My toxic relationship with Windows
 
-## 1. Theming
+### 1. Theming
 
 I've actually tried several Linux distros by now; Mint, Manjaro, Garuda, Pop, Zorin among them. As you might notice, I
 prefer looks over anything else. With any software, OS or Android app I use, UI comes first. While Windows itself has
@@ -48,7 +50,7 @@ best either. Yes, you can polish it however you'd want but still, it's still a b
 easier with Windows. I just have to slap-on a theme found from DeviantArt, and put a Rainmeter skin over it, also from
 DeviantArt. However, this is not much of a deal-breaker for me.
 
-## 2. Gaming
+### 2. Gaming
 
 When it comes to gaming, I only play like 2 games on my mid-range potato gaming laptop. And for like an hour per day max.
 BUT, I do wanna play those without any hassle. While Linux has been getting better for gaming, it's still not good for
@@ -56,7 +58,7 @@ multiplayer games with Anti-cheat software. The Finals is the game I'm referring
 Sky but it has no problems on Linux as far as I know. So, if at some point when Linux starts supporting, and I mean
 *when*, not *if*, I'm saying goodbye to Windows.
 
-## 3. Dual-booting
+### 3. Dual-booting
 
 I just can't juggle 4 OS's. That's it. I already use Windows, Mac and Android, and if I started to use Linux as well, I'm
 gonna spend a significant portion of my lifetime customizing all the shit and finding good-looking software for my every
@@ -64,10 +66,11 @@ need.
 
 I'm not good with blogs so I don't know how to end this. See you, the 436,000 people reading this, in the next post.
 There's no view counter or comments so who knows?
+
 Maybe I'll implement that next.
 
 PS: I just found out that you can just change the line separator of all files on WebStorm with 1 click.
 
-```
+```txt
 File -> File Properties -> Line separators -> Select
 ```
