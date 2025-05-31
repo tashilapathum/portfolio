@@ -1,31 +1,73 @@
 ---
 title: "Hello World"
-description: "Kicking things off"
+description: "What's a better way to start a blog than complaining?"
 date: 2025-05-30
 published: true
 ---
 
-## Why Next.js and Contentlayer?
+I decided to kick things off with a rant about how bad Windows is. I reckon it's a pretty good way to start in this
+specific case because this site is mainly built on `ContentLayer`. Coming from *Native* Android Development, Working
+with React is completely new to me. So when I stumbled upon this template when browsing Vercel, I decided to give it a
+go, instead of building something from ground up and running head-first into the ground.
 
-Next.js provides an excellent framework for building static sites, while Contentlayer brings the power of content-as-data to your Markdown files.
+When running the project for the first time, the console rightfully shows this:
+```
+Warning: Contentlayer might not work as expected on Windows
+```
+As an experienced software engineer, I rightfully ignored that warning and continued. As long as it's not a sea of red,
+we're good to go.
 
-### Key Benefits
+Or so I thought.
 
-1. **Static Site Generation** - Blazing fast performance
-2. **Type Safety** - Automatic TypeScript types for your content
-3. **MDX Support** - Mix Markdown with React components
+Further down the console, there's a bunch of warnings saying there are unexpected characters in the `mdx` documents. I
+then navigate to the said files, and see nothing. I cleared the file and pasted the stuff as plain text, and it's still
+the same. When I finally looked it up after poking around blindly for a while, turns out the unique, one-of-a-kind,
+beautiful, *invisible* `\r\n` line separators of Windows is causing the issue. So as any sane person, I set the line
+separator to `\n` of Linux, one mdx file at a time, for 20 of them. I'll just have to commit and it's all good.
 
-## Setting Up Your First Blog Post
+"It's okay,it's just one time, it's fine."
 
-```js
-// Example code block
-import { defineDocumentType } from 'contentlayer/source-files';
+Those were my famous last words before I had to do it over and over again when I opened the project sometime later, for
+god-knows-how-many times.
 
-export const BlogPost = defineDocumentType(() => ({
-  name: 'BlogPost',
-  filePathPattern: `./blog/*.mdx`,
-  fields: {
-    title: { type: 'string', required: true },
-    date: { type: 'date', required: true },
-  },
-}));
+After all the information on my projects were published, I pulled the code into MacBook and started implementing the
+Blog feature, this one right here. And had zero issues with the line separators. Compile times were also better with
+the same amount of RAM and the same version of WebStorm. Still when I pulled the changes back to Windows, the issue is
+back.
+
+So why am I complaining about Windows instead of ditching it and moving to Linux?
+
+### My toxic relationship with Windows
+
+## 1. Theming
+
+I've actually tried several Linux distros by now; Mint, Manjaro, Garuda, Pop, Zorin among them. As you might notice, I
+prefer looks over anything else. With any software, OS or Android app I use, UI comes first. While Windows itself has
+been consistently inconsistent with UI design (like Windows 11 still having Windows XP UI elements!), Linux isn't the
+best either. Yes, you can polish it however you'd want but still, it's still a bit clunky IMO. But ricing is so much
+easier with Windows. I just have to slap-on a theme found from DeviantArt, and put a Rainmeter skin over it, also from
+DeviantArt. However, this is not much of a deal-breaker for me.
+
+## 2. Gaming
+
+When it comes to gaming, I only play like 2 games on my mid-range potato gaming laptop. And for like an hour per day max.
+BUT, I do wanna play those without any hassle. While Linux has been getting better for gaming, it's still not good for
+multiplayer games with Anti-cheat software. The Finals is the game I'm referring to btw. And the other game is No Man's
+Sky but it has no problems on Linux as far as I know. So, if at some point when Linux starts supporting, and I mean
+*when*, not *if*, I'm saying goodbye to Windows.
+
+## 3. Dual-booting
+
+I just can't juggle 4 OS's. That's it. I already use Windows, Mac and Android, and if I started to use Linux as well, I'm
+gonna spend a significant portion of my lifetime customizing all the shit and finding good-looking software for my every
+need.
+
+I'm not good with blogs so I don't know how to end this. See you, the 436,000 people reading this, in the next post.
+There's no view counter or comments so who knows?
+Maybe I'll implement that next.
+
+PS: I just found out that you can just change the line separator of all files on WebStorm with 1 click.
+
+```
+File -> File Properties -> Line separators -> Select
+```
