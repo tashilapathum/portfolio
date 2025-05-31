@@ -16,7 +16,7 @@ export default async function BlogPage() {
         .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
     return (
-        <div className="relative pb-16">
+        <div className="flex flex-col items-center justify-center w-screen h-screen overflow-hidden bg-gradient-to-tl from-black via-zinc-600/20 to-black">
             <Navigation />
             <div className="px-6 pt-20 mx-auto space-y-8 max-w-7xl lg:px-8 md:space-y-16 md:pt-24 lg:pt-32">
                 <div className="max-w-2xl mx-auto lg:mx-0">
@@ -51,10 +51,10 @@ export default async function BlogPage() {
                                     >
                                         {post.title}
                                     </h2>
-                                    <p className="mt-4 leading-8 duration-150 text-zinc-400 group-hover:text-zinc-300 line-clamp-3">
+                                    <p className="mt-4 mb-12 leading-8 duration-150 text-zinc-400 group-hover:text-zinc-300 line-clamp-3">
                                         {post.description}
                                     </p>
-                                    <div className="absolute bottom-4 md:bottom-8">
+                                    <div className="absolute bottom-4 right-4 md:bottom-8 md:right-8">
                                         <p className="hidden text-zinc-200 hover:text-zinc-50 lg:block">
                                             Read more <span aria-hidden="true">&rarr;</span>
                                         </p>
