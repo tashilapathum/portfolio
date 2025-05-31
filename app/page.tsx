@@ -35,7 +35,7 @@ export default function Home() {
                 quantity={100}
             />
             <img src={"https://avatars.githubusercontent.com/u/43470527"} className={"w-64 h-64 rounded-full animate-fade-in"} alt={"profile picture"}/>
-            <h1 className="py-3.5 px-0.5 z-10 text-2xl text-transparent duration-500 bg-white cursor-default text-edge-outline animate-title font-display sm:text-6xl md:text-9xl whitespace-nowrap bg-clip-text ">
+            <h1 className="py-3.5 px-0.5 z-10 text-4xl text-transparent duration-500 bg-white cursor-default text-edge-outline animate-title font-display sm:text-6xl md:text-9xl whitespace-nowrap bg-clip-text ">
                 Tashila Pathum
             </h1>
 
