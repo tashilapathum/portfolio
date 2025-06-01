@@ -6,8 +6,8 @@ import {Article} from "./article";
 
 export const revalidate = 60;
 export default async function ProjectsPage() {
-    const featured = allProjects.find((project) => project.slug === "please-wait-library")!;
-    const top2 = allProjects.find((project) => project.slug === "neon-video-downloader")!;
+    const featured = allProjects.find((project) => project.slug === "tap-to-donate")!;
+    const top2 = allProjects.find((project) => project.slug === "please-wait-library")!;
     const top3 = allProjects.find((project) => project.slug === "one-finance")!;
     const sorted = allProjects
         .filter((p) => p.published)
