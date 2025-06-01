@@ -4,6 +4,7 @@ import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import { FacebookShareButton, LinkedinShareButton, RedditShareButton } from "react-share";
 import { FacebookIcon, LinkedinIcon, RedditIcon } from "react-share";
+import ShareSheet from "@/app/components/share";
 
 type Props = {
 	project: {
@@ -77,41 +78,8 @@ export const Header: React.FC<Props> = ({ project }) => {
 
 							{/* Share Sheet */}
 							{isOpen && (
-								<div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 bg-zinc-800 shadow-md p-4 rounded-lg z-10 max-w-xs">
-									<p className="text-sm mb-2 font-medium text-zinc-200 text-center">Share this page</p>
-									<div className="flex space-x-2">
-										<FacebookShareButton url={window.location.href}>
-											<FacebookIcon size={32} round iconFillColor="white"
-														  bgStyle={{fill: '#3b5998'}}/>
-										</FacebookShareButton>
-										<LinkedinShareButton url={window.location.href}>
-											<LinkedinIcon size={32} round iconFillColor="white"
-														  bgStyle={{fill: '#0077B5'}}/>
-										</LinkedinShareButton>
-										<RedditShareButton url={window.location.href}>
-											<RedditIcon size={32} round iconFillColor="white"/>
-										</RedditShareButton>
-
-										{/* Copy Link Button */}
-										<button
-											onClick={() => {
-												navigator.clipboard.writeText(window.location.href).then(r => {
-													setCopied(true);
-													setTimeout(() => setCopied(false), 2000);
-												});
-											}}
-											className="flex items-center justify-center w-8 h-8 bg-zinc-700 hover:bg-zinc-600 rounded-full"
-										>
-											<Link2
-												className={`w-6 h-6 duration-200 hover:font-medium ${
-													isIntersecting
-														? " text-zinc-400 hover:text-zinc-100"
-														: "text-zinc-600 hover:text-zinc-900"
-												} `}
-											/>
-										</button>
-									</div>
-									{copied && <p className="text-xs text-green-500 text-center mt-2">Copied!</p>}
+								<div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2">
+									<ShareSheet url={window.location.href} />
 								</div>
 							)}
 						</div>
