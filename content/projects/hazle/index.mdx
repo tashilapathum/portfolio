@@ -1,0 +1,93 @@
+---
+title: Hazle
+description: An open-source Android AI chatbot fully written in Kotlin, backend to frontend
+date: "2026-02-04"
+url: https://play.google.com/store/apps/details?id=com.tashila.hazle
+published: true
+agreements: true
+---
+
+<div className="flex flex-row gap-4 items-start">
+    {/* Video: Vertical with Autoplay and Mute enabled */}
+    <div className="h-[450px] w-auto aspect-[9/20] bg-black rounded-xl overflow-hidden shadow-2xl shrink-0 border border-gray-800">
+        <iframe
+            src="https://www.youtube.com/embed/RD6OWGh7d2U?autoplay=1&mute=1&loop=1&playlist=RD6OWGh7d2U"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+            className="w-full h-full border-0"
+        ></iframe>
+    </div>
+
+    {/* Description Column */}
+    <div className="flex-1 text-sm lg:text-base">
+        <p>
+            <b>Hazle</b> is yet another AI chatbot assistant designed with Android system integration in mind. Instead of
+            switching apps, users can highlight text anywhere in the Android system, process it through the context
+            menu, and receive an AI-generated response via a background notification.
+
+            The project is under development and the code can be found in
+            <a href="https://github.com/tashilapathum/hazle-android" className="text-blue-500 hover:underline mx-1">hazle-android</a>
+            and
+            <a href="https://github.com/tashilapathum/hazle-backend" className="text-blue-500 hover:underline mx-1">hazle-backend</a>
+            repos.
+        </p>
+    </div>
+</div>
+### Project Architecture
+
+![deepseek_mermaid_20250530_7533cb](https://github.com/user-attachments/assets/ef792052-e185-4463-9bdf-64e56dbd0b2c)
+
+### Tech Stack
+1. **Android Client**:
+- **Jetpack Compose**: Material 3 dynamic UI with dark/light theme
+- **Koin**: Dependency injection for clean architecture
+- **Ktor**: API handling from client-side
+- **Coroutines**: Background message processing
+- **Room**: Local caching for offline support
+
+2. **Ktor Backend** (Middleware):
+- **Auth API**: JWT token handling
+- **Chat API**: Message queue management
+- **OpenAI API**: AI integration for message responses
+- **Koin**: Dependency injection
+
+3. **Supabase Services**:
+- **Auth**: Email/password + social logins
+- **Realtime DB**: PostgreSQL for chat history (roadmap)
+- **Storage**: File attachments (roadmap)
+
+### MVP Features
+| Component                    | Functionality                                                                 |
+|------------------------------|-------------------------------------------------------------------------------|
+| **Auth Flow**                | App → Ktor → Supabase Auth → JWT token → Session management                   |
+| **Chat Process**             | User message → Ktor → OpenAI → Ktor → Push notification                       |
+| **Notification**             | Tap opens chat thread with context-aware history                              |
+
+### Phase Roadmap
+1. **MVP** (Current): [[Progress tracker]](https://github.com/tashilapathum/hazle/issues/1)
+- Auth + basic chat
+- Notification system
+- Compose UI with themes
+- English, Sinhala and German languages
+
+2. **V2** (Quality of life features): [[Progress tracker]](https://github.com/tashilapathum/hazle/issues/2)
+- Supabase realtime chat sync
+- Prompt engineering dashboard
+- Message history
+- File attachment support
+- More localization
+
+3. **V3** (Cross-platform): [[Progress tracker]](https://github.com/tashilapathum/hazle/issues/3)
+- Shared KMP core module
+- iOS UI with Compose Multiplatform
+- Configurable AI personalities
+- Usage analytics
+
+### Learning Opportunities
+| Technology       | Key Concepts Learned                                               |
+|------------------|--------------------------------------------------------------------|
+| **Compose**      | Material 3 Expressive theming, custom animations                   |
+| **Koin**         | Cleaner modular code with Dependency injection                     |
+| **Ktor**         | REST API development, middleware                                   |
+| **Supabase**     | Firebase alternative, Authentication, PostgreSQL management        |
+| **Localization** | Multi-language support with Compose UI, German language            |
+
