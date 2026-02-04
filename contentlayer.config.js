@@ -68,19 +68,19 @@ export const Page = defineDocumentType(() => ({
 
 export const LegalPage = defineDocumentType(() => ({
 	name: "LegalPage",
-	filePathPattern: "./projects/**/(privacy|terms).mdx",
+	filePathPattern: "./projects/**/(privacy|terms|deletion).mdx",
 	contentType: "mdx",
 	fields: {
 		title: { type: "string", required: true },
 		pageType: {
 			type: "enum",
-			options: ["privacy", "terms"],
+			options: ["privacy", "terms", "deletion"],
 			required: true
 		},
 		projectSlug: {
 			type: "string",
 			required: true,
-			description: "Slug of the parent project (e.g., 'my-android-app')"
+			description: "Slug of the parent project"
 		},
 	},
 	computedFields
