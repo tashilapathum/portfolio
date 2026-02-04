@@ -1,6 +1,6 @@
 ---
 title: Hazle
-description: Get AI summaries for anything on-the-go while you're browsing
+description: An open-source Android AI chatbot fully written in Kotlin, backend to frontend
 date: "2026-02-04"
 url: https://play.google.com/store/apps/details?id=com.tashila.hazle
 published: true
@@ -9,7 +9,7 @@ agreements: true
 
 <div className="flex flex-row gap-4 items-start">
     {/* Video: Vertical with Autoplay and Mute enabled */}
-    <div className="h-[450px] w-auto aspect-[9/18] bg-black rounded-xl overflow-hidden shadow-2xl shrink-0 border border-gray-800">
+    <div className="h-[450px] w-auto aspect-[9/20] bg-black rounded-xl overflow-hidden shadow-2xl shrink-0 border border-gray-800">
         <iframe
             src="https://www.youtube.com/embed/RD6OWGh7d2U?autoplay=1&mute=1&loop=1&playlist=RD6OWGh7d2U"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
@@ -56,12 +56,11 @@ agreements: true
 - **Storage**: File attachments (roadmap)
 
 ### MVP Features
-| Component        | Functionality                                                                 |
-|------------------|-------------------------------------------------------------------------------|
-| **Auth Flow**    | App → Ktor → Supabase Auth → JWT token → Session management                   |
-| **Chat Process** | User message → Ktor → OpenAI → Ktor → Push notification |
-| **Notification** | Tap opens chat thread with context-aware history                              |
-| **Offline**      | Local caching with message queue for retries                                  |
+| Component                    | Functionality                                                                 |
+|------------------------------|-------------------------------------------------------------------------------|
+| **Auth Flow**                | App → Ktor → Supabase Auth → JWT token → Session management                   |
+| **Chat Process**             | User message → Ktor → OpenAI → Ktor → Push notification                       |
+| **Notification**             | Tap opens chat thread with context-aware history                              |
 
 ### Phase Roadmap
 1. **MVP** (Current): [[Progress tracker]](https://github.com/tashilapathum/hazle/issues/1)
@@ -84,11 +83,11 @@ agreements: true
 - Usage analytics
 
 ### Learning Opportunities
-| Technology       | Key Concepts Learned                                  |
-|------------------|------------------------------------------------------|
-| **Jetpack Compose** | Material 3 Expressive theming, custom animations        |
-| **Koin**         | Cleaner modular code with Dependency injection                 |
-| **Ktor**         | REST API development, middleware   |
-| **Supabase**     | Firebase alternative, Authentication, PostgreSQL management       |
-| **Localization**     | Multi-language support with Componse UI, German language       |
+| Technology       | Key Concepts Learned                                               |
+|------------------|--------------------------------------------------------------------|
+| **Compose**      | Material 3 Expressive theming, custom animations                   |
+| **Koin**         | Cleaner modular code with Dependency injection                     |
+| **Ktor**         | REST API development, middleware                                   |
+| **Supabase**     | Firebase alternative, Authentication, PostgreSQL management        |
+| **Localization** | Multi-language support with Compose UI, German language            |
 
