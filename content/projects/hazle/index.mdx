@@ -23,15 +23,16 @@ agreements: true
             <b>Hazle</b> is yet another AI chatbot assistant designed with Android system integration in mind. Instead of
             switching apps, users can highlight text anywhere in the Android system, process it through the context
             menu, and receive an AI-generated response via a background notification.
-
-            The project is under development and the code can be found in
-            <a href="https://github.com/tashilapathum/hazle-android" className="text-blue-500 hover:underline mx-1">hazle-android</a>
-            and
-            <a href="https://github.com/tashilapathum/hazle-backend" className="text-blue-500 hover:underline mx-1">hazle-backend</a>
-            repos.
         </p>
     </div>
 </div>
+
+<p>
+    The project is under active development and the code can be found in [hazle-android](https://github.com/tashilapathum/hazle-android)
+    and [hazle-backend](https://github.com/tashilapathum/hazle-android) repos.
+    The code of the [landing page](https://hazle.tashila.me) is also available in [hazle-web](https://github.com/tashilapathum/hazle-web) repo.
+</p>
+
 ### Project Architecture
 
 ![deepseek_mermaid_20250530_7533cb](https://github.com/user-attachments/assets/ef792052-e185-4463-9bdf-64e56dbd0b2c)
@@ -48,7 +49,6 @@ agreements: true
 - **Auth API**: JWT token handling
 - **Chat API**: Message queue management
 - **OpenAI API**: AI integration for message responses
-- **Koin**: Dependency injection
 
 3. **Supabase Services**:
 - **Auth**: Email/password + social logins
@@ -56,11 +56,11 @@ agreements: true
 - **Storage**: File attachments (roadmap)
 
 ### MVP Features
-| Component                    | Functionality                                                                 |
-|------------------------------|-------------------------------------------------------------------------------|
-| **Auth Flow**                | App → Ktor → Supabase Auth → JWT token → Session management                   |
-| **Chat Process**             | User message → Ktor → OpenAI → Ktor → Push notification                       |
-| **Notification**             | Tap opens chat thread with context-aware history                              |
+| Component         | Functionality                                                                 |
+|-------------------|-------------------------------------------------------------------------------|
+| **Auth Flow**     | App → Ktor → Supabase Auth → JWT token → Session management                   |
+| **Chat Process**  | User message → Ktor → OpenAI → Ktor → Push notification                       |
+| **Notification**  | Tap opens chat thread with context-aware history                              |
 
 ### Phase Roadmap
 1. **MVP** (Current): [[Progress tracker]](https://github.com/tashilapathum/hazle/issues/1)
