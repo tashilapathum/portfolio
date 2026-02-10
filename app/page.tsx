@@ -43,7 +43,7 @@ export default function Home() {
                 className="hidden w-screen h-px animate-glow md:block animate-fade-right bg-gradient-to-r from-zinc-300/0 via-zinc-300/50 to-zinc-300/0"/>
             <div className="m-8 animate-fade-in">
                 <h2 className="text-m text-zinc-500">
-                    I'm a Mobile Software Engineer with:
+                    I'm a Senior Mobile Software Engineer with:
                 </h2>
                 <ul className="list-disc pl-6 mt-2 text-zinc-500">
                     <li>5+ years of experience in Native Android development using Java, Kotlin and Firebase</li>
