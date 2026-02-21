@@ -11,7 +11,7 @@ const navigation = [
 export default function Home() {
     return (
         <div
-            className="flex flex-col items-center justify-center w-screen h-screen overflow-hidden bg-gradient-to-tl from-black via-zinc-600/20 to-black">
+            className="flex flex-col items-center justify-center w-screen min-h-screen overflow-y-auto bg-gradient-to-tl from-black via-zinc-600/20 to-black">
             <nav className="my-16 animate-fade-in">
                 <ul className="flex items-center justify-center gap-8">
                     {navigation.map((item) => (
@@ -31,7 +31,7 @@ export default function Home() {
             <div
                 className="hidden w-screen h-px animate-glow md:block animate-fade-left bg-gradient-to-r from-zinc-300/0 via-zinc-300/50 to-zinc-300/0"/>
             <Particles
-                className="absolute inset-0 -z-10 animate-fade-in"
+                className="fixed inset-0 -z-10 animate-fade-in"
                 quantity={100}
             />
             <img src={"https://avatars.githubusercontent.com/u/43470527"} className={"w-64 h-64 rounded-full animate-fade-in"} alt={"profile picture"}/>
