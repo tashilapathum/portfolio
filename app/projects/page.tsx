@@ -6,9 +6,12 @@ import {Article} from "./article";
 
 export const revalidate = 60;
 export default async function ProjectsPage() {
+    // 1. Show featured projects
     const featured = allProjects.find((project) => project.slug === "hazle")!;
     const top2 = allProjects.find((project) => project.slug === "please-wait-library")!;
     const top3 = allProjects.find((project) => project.slug === "one-finance")!;
+
+    // 2. Sort the rest of the projects
     const sorted = allProjects
         .filter((p) => p.published)
         .filter(
@@ -23,12 +26,18 @@ export default async function ProjectsPage() {
                 new Date(a.date ?? Number.POSITIVE_INFINITY).getTime(),
         );
 
+    // 3. Categorize the remaining ones
+    const hobby = sorted.filter((p) => p.category === "Hobby");
+    const work = sorted.filter((p) => p.category === "Work");
+    const freelancing = sorted.filter((p) => p.category === "Freelancing");
+    const library = sorted.filter((p) => p.category === "Library");
+
     return (
         <div className="relative pb-16">
             <Navigation/>
             <div className="px-6 pt-20 mx-auto space-y-8 max-w-7xl lg:px-8 md:space-y-16 md:pt-24 lg:pt-32">
                 <div className="max-w-2xl mx-auto lg:mx-0">
-                    <h2 className="text-3xl font-bold tracking-tight text-zinc-100 sm:text-4xl">
+                    <h2 className="text-3xl font-bold tracking-tight text-zinc-100 sm:text-5xl">
                         Projects
                     </h2>
                     <p className="mt-4 text-zinc-400">
@@ -38,6 +47,12 @@ export default async function ProjectsPage() {
                     </p>
                 </div>
                 <div className="w-full h-px bg-zinc-800"/>
+
+                <div className="max-w-2xl mx-auto lg:mx-0">
+                    <h2 className="text-3xl font-bold tracking-tight text-zinc-100 sm:text-3xl">
+                        Featured
+                    </h2>
+                </div>
 
                 <div className="grid grid-cols-1 gap-8 mx-auto lg:grid-cols-2 ">
                     <Card>
@@ -86,35 +101,165 @@ export default async function ProjectsPage() {
                 </div>
                 <div className="hidden w-full h-px md:block bg-zinc-800"/>
 
-                <div className="grid grid-cols-1 gap-4 mx-auto lg:mx-0 md:grid-cols-3">
-                    <div className="grid grid-cols-1 gap-4">
-                        {sorted
-                            .filter((_, i) => i % 3 === 0)
-                            .map((project) => (
-                                <Card key={project.slug}>
-                                    <Article project={project}/>
-                                </Card>
-                            ))}
-                    </div>
-                    <div className="grid grid-cols-1 gap-4">
-                        {sorted
-                            .filter((_, i) => i % 3 === 1)
-                            .map((project) => (
-                                <Card key={project.slug}>
-                                    <Article project={project}/>
-                                </Card>
-                            ))}
-                    </div>
-                    <div className="grid grid-cols-1 gap-4">
-                        {sorted
-                            .filter((_, i) => i % 3 === 2)
-                            .map((project) => (
-                                <Card key={project.slug}>
-                                    <Article project={project}/>
-                                </Card>
-                            ))}
-                    </div>
-                </div>
+                {hobby.length > 0 && (
+                    <>
+                        <div className="max-w-2xl mx-auto lg:mx-0">
+                            <h2 className="text-3xl font-bold tracking-tight text-zinc-100 sm:text-3xl">
+                                Hobby
+                            </h2>
+                        </div>
+                        <div className="grid grid-cols-1 gap-4 mx-auto lg:mx-0 md:grid-cols-3">
+                            <div className="grid grid-cols-1 gap-4">
+                                {hobby
+                                    .filter((_, i) => i % 3 === 0)
+                                    .map((project) => (
+                                        <Card key={project.slug}>
+                                            <Article project={project}/>
+                                        </Card>
+                                    ))}
+                            </div>
+                            <div className="grid grid-cols-1 gap-4">
+                                {hobby
+                                    .filter((_, i) => i % 3 === 1)
+                                    .map((project) => (
+                                        <Card key={project.slug}>
+                                            <Article project={project}/>
+                                        </Card>
+                                    ))}
+                            </div>
+                            <div className="grid grid-cols-1 gap-4">
+                                {hobby
+                                    .filter((_, i) => i % 3 === 2)
+                                    .map((project) => (
+                                        <Card key={project.slug}>
+                                            <Article project={project}/>
+                                        </Card>
+                                    ))}
+                            </div>
+                        </div>
+                        <div className="hidden w-full h-px md:block bg-zinc-800"/>
+                    </>
+                )}
+
+                {freelancing.length > 0 && (
+                    <>
+                        <div className="max-w-2xl mx-auto lg:mx-0">
+                            <h2 className="text-3xl font-bold tracking-tight text-zinc-100 sm:text-3xl">
+                                Freelancing
+                            </h2>
+                        </div>
+                        <div className="grid grid-cols-1 gap-4 mx-auto lg:mx-0 md:grid-cols-3">
+                            <div className="grid grid-cols-1 gap-4">
+                                {freelancing
+                                    .filter((_, i) => i % 3 === 0)
+                                    .map((project) => (
+                                        <Card key={project.slug}>
+                                            <Article project={project}/>
+                                        </Card>
+                                    ))}
+                            </div>
+                            <div className="grid grid-cols-1 gap-4">
+                                {freelancing
+                                    .filter((_, i) => i % 3 === 1)
+                                    .map((project) => (
+                                        <Card key={project.slug}>
+                                            <Article project={project}/>
+                                        </Card>
+                                    ))}
+                            </div>
+                            <div className="grid grid-cols-1 gap-4">
+                                {freelancing
+                                    .filter((_, i) => i % 3 === 2)
+                                    .map((project) => (
+                                        <Card key={project.slug}>
+                                            <Article project={project}/>
+                                        </Card>
+                                    ))}
+                            </div>
+                        </div>
+                        <div className="hidden w-full h-px md:block bg-zinc-800"/>
+                    </>
+                )}
+
+                {library.length > 0 && (
+                    <>
+                        <div className="max-w-2xl mx-auto lg:mx-0">
+                            <h2 className="text-3xl font-bold tracking-tight text-zinc-100 sm:text-3xl">
+                                Library
+                            </h2>
+                        </div>
+                        <div className="grid grid-cols-1 gap-4 mx-auto lg:mx-0 md:grid-cols-3">
+                            <div className="grid grid-cols-1 gap-4">
+                                {library
+                                    .filter((_, i) => i % 3 === 0)
+                                    .map((project) => (
+                                        <Card key={project.slug}>
+                                            <Article project={project}/>
+                                        </Card>
+                                    ))}
+                            </div>
+                            <div className="grid grid-cols-1 gap-4">
+                                {library
+                                    .filter((_, i) => i % 3 === 1)
+                                    .map((project) => (
+                                        <Card key={project.slug}>
+                                            <Article project={project}/>
+                                        </Card>
+                                    ))}
+                            </div>
+                            <div className="grid grid-cols-1 gap-4">
+                                {library
+                                    .filter((_, i) => i % 3 === 2)
+                                    .map((project) => (
+                                        <Card key={project.slug}>
+                                            <Article project={project}/>
+                                        </Card>
+                                    ))}
+                            </div>
+                        </div>
+                        <div className="hidden w-full h-px md:block bg-zinc-800"/>
+                    </>
+                )}
+
+                {work.length > 0 && (
+                    <>
+                        <div className="max-w-2xl mx-auto lg:mx-0">
+                            <h2 className="text-3xl font-bold tracking-tight text-zinc-100 sm:text-3xl">
+                                Work
+                            </h2>
+                        </div>
+                        <div className="grid grid-cols-1 gap-4 mx-auto lg:mx-0 md:grid-cols-3">
+                            <div className="grid grid-cols-1 gap-4">
+                                {work
+                                    .filter((_, i) => i % 3 === 0)
+                                    .map((project) => (
+                                        <Card key={project.slug}>
+                                            <Article project={project}/>
+                                        </Card>
+                                    ))}
+                            </div>
+                            <div className="grid grid-cols-1 gap-4">
+                                {work
+                                    .filter((_, i) => i % 3 === 1)
+                                    .map((project) => (
+                                        <Card key={project.slug}>
+                                            <Article project={project}/>
+                                        </Card>
+                                    ))}
+                            </div>
+                            <div className="grid grid-cols-1 gap-4">
+                                {work
+                                    .filter((_, i) => i % 3 === 2)
+                                    .map((project) => (
+                                        <Card key={project.slug}>
+                                            <Article project={project}/>
+                                        </Card>
+                                    ))}
+                            </div>
+                        </div>
+                        <div className="hidden w-full h-px md:block bg-zinc-800"/>
+                    </>
+                )}
             </div>
         </div>
     );
