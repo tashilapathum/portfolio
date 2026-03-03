@@ -46,9 +46,9 @@ export default function Home() {
                     I'm a Senior Mobile Software Engineer with:
                 </h2>
                 <ul className="list-disc pl-6 mt-2 text-zinc-500">
-                    <li>5+ years of experience in Native Android development using Java, Kotlin and Firebase</li>
+                    <li>7+ years of experience in Native Android development using Java, Kotlin and Firebase</li>
                     <li>Hands-on experience with Flutter for cross-platform development</li>
-                    <li>Working knowledge of iOS development with Objective C</li>
+                    <li>Working knowledge of iOS development with Objective-C</li>
                 </ul>
             </div>
         </div>
