@@ -1,0 +1,64 @@
+---
+title: NeoMusic
+description: Cyberpunk-inspired Android music player built with custom Canvas-drawn UI
+category: Hobby
+date: "2026-03-20"
+url: https://play.google.com/store/apps/details?id=com.tashila.neomusic
+published: true
+agreements: true
+---
+
+# NeoMusic 🎵
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/b604a7de-b416-4b7e-90b0-90d09a478cab" width="100%" alt="NeoMusic Landscape Header" />
+</p>
+
+A high-performance, **cyberpunk-inspired** Android music player built with a 100% custom Canvas-drawn UI. NeoMusic rejects standard UI kits in favor of a hand-crafted, neon-drenched aesthetic powered by Jetpack Compose.
+
+---
+
+### ✨ Key Features
+
+<div style={{ display: 'flex', flexDirection: 'row', gap: '20px', alignItems: 'center', flexWrap: 'wrap' }}>
+  <div style={{ flex: '2', minWidth: '300px' }}>
+    * **Hand-Crafted UI:** Zero Material3 widgets. Everything from buttons to seek bars is drawn using the **Compose Canvas API**, featuring chamfered corners, neon glows, and custom gradients.
+    * **Real-Time Spectrum Analyzer:** A 16-band log-spaced FFT visualizer that reacts instantly to your music with smooth spring animations.
+    * **Retro Hardware Controls:** Interactive "Rotary Knobs" and "Retro Seek Bars" that mimic high-end analog audio equipment.
+    * **Cyberpunk Aesthetics:** A "Neo" theme utilizing over 30 custom neon color definitions and the **TiltNeon** display font.
+    * **Modern Audio Engine:** Powered by **Media3 (ExoPlayer)** with a custom `SpectrumAudioProcessor` for precise frequency analysis.
+    * **Lightweight & Fast:** Efficient MediaStore indexing and optimized Canvas rendering ensure a lag-free experience even on older devices.
+  </div>
+  <div style={{ flex: '1', textAlign: 'center', minWidth: '280px' }}>
+    <img
+      src="https://github.com/user-attachments/assets/4e8ca387-5677-4cf8-83d6-e476c013124f"
+      width="280"
+      alt="NeoMusic Portrait View"
+      style={{ borderRadius: '12px', boxShadow: '0 0 20px rgba(0, 255, 255, 0.3)' }}
+    />
+  </div>
+</div>
+
+## 🚀 Overview
+
+NeoMusic is designed for users who want their music player to look as good as it sounds. Built using the latest Android technologies (**Media3, Koin, Compose**), it features a unique "Canvas-only" architecture where every button, slider, and visualizer is drawn manually for maximum performance and visual consistency.
+
+## 🛠 Tech Stack
+
+| Category | Technology |
+| :--- | :--- |
+| **Language** | Kotlin 2.2.10 |
+| **UI Framework** | Jetpack Compose (Canvas API) |
+| **Architecture** | MVVM + Koin DI |
+| **Audio Engine** | Media3 (ExoPlayer) + MediaSessionService |
+| **DI** | Koin |
+| **Processing** | Cooley–Tukey Radix-2 FFT |
+| **Compatibility** | Min SDK 24 / Target SDK 36 |
+
+## 📦 Project Structure
+
+* `ui/` — Custom Canvas components (`RotaryKnob`, `SpectrumAnalyzer`) and screens.
+* `player/` — Media3 implementation and the FFT audio processor.
+* `viewmodel/` — State management via `PlayerViewModel` and `PlayerUiState`.
+* `data/` — MediaStore repository and permission handling.
+* `di/` — Koin modules for dependency injection.
