@@ -32,6 +32,9 @@ module.exports = {
 				sans: ["var(--font-inter)", ...defaultTheme.fontFamily.sans],
 				display: ["var(--font-calsans)"],
 			},
+			colors: {
+				accent: "#0EA5E9",
+			},
 			backgroundImage: {
 				"gradient-radial":
 					"radial-gradient(50% 50% at 50% 50%, var(--tw-gradient-stops))",
