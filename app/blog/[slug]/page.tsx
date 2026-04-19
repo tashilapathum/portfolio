@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { allBlogPosts } from "contentlayer/generated";
+import "../../projects/[slug]/mdx.css";
 import { Mdx } from "@/app/components/mdx";
 import { Header } from "./header";
 

@@ -35,39 +35,39 @@ XML layout based UIs would've shat the bed with this one.
 Here's a sneak peek of the code used for the thumb of the seekbar:
 
 ```kotlin
-        // ── High-Intensity Thumb ──────────────────────────────
-        val thumbX = padH + trackW * currentFraction
-        val thumbW = 6.dp.toPx()
-        val thumbH = h - 4.dp.toPx()
+// ── High-Intensity Thumb ──────────────────────────────
+val thumbX = padH + trackW * currentFraction
+val thumbW = 6.dp.toPx()
+val thumbH = h - 4.dp.toPx()
 
-        // Glow effect
-        drawRect(
-            brush = Brush.radialGradient(
-                colors = listOf((
-                    if (enabled) accentColor
-                    else accentColor.copy(alpha = 0.5f)
-                    ).copy(alpha = 0.5f),
-                    Color.Transparent
-                ),
-                center = Offset(thumbX, cy),
-                radius = 18.dp.toPx()
-            ),
-            topLeft = Offset(thumbX - 18.dp.toPx(), 0f),
-            size = Size(36.dp.toPx(), h)
-        )
+// Glow effect
+drawRect(
+    brush = Brush.radialGradient(
+        colors = listOf((
+            if (enabled) accentColor
+            else accentColor.copy(alpha = 0.5f)
+            ).copy(alpha = 0.5f),
+            Color.Transparent
+        ),
+        center = Offset(thumbX, cy),
+        radius = 18.dp.toPx()
+    ),
+    topLeft = Offset(thumbX - 18.dp.toPx(), 0f),
+    size = Size(36.dp.toPx(), h)
+)
 
-        // Main thumb bar
-        drawRect(
-            color = if (enabled) accentColor else accentColor.copy(alpha = 0.5f),
-            topLeft = Offset(thumbX - thumbW / 2f, cy - thumbH / 2f),
-            size = Size(thumbW, thumbH)
-        )
-        // Glass highlight
-        drawRect(
-            color = Color.White.copy(alpha = if (enabled) 0.8f else 0.4f),
-            topLeft = Offset(thumbX - 1.dp.toPx(), cy - thumbH / 2f + 4.dp.toPx()),
-            size = Size(2.dp.toPx(), thumbH - 8.dp.toPx())
-        )
+// Main thumb bar
+drawRect(
+    color = if (enabled) accentColor else accentColor.copy(alpha = 0.5f),
+    topLeft = Offset(thumbX - thumbW / 2f, cy - thumbH / 2f),
+    size = Size(thumbW, thumbH)
+)
+// Glass highlight
+drawRect(
+    color = Color.White.copy(alpha = if (enabled) 0.8f else 0.4f),
+    topLeft = Offset(thumbX - 1.dp.toPx(), cy - thumbH / 2f + 4.dp.toPx()),
+    size = Size(2.dp.toPx(), thumbH - 8.dp.toPx())
+)
 ```
 
 ## The Project
@@ -89,7 +89,7 @@ and [r/HowToMen](https://www.reddit.com/r/HowToMen)
 communities. After that, I added the rest of the features I had in the backlog over the
 next iterations. At the time of writing, the app is almost fully completed with:
 - EQ Panel with presets
-- Library with tracks, artist, albums, and folder views
+- Library with tracks, artists, albums, and folder views
 - Playlists with favourites, recent hits, and old hits sections
 - Stats with listening history, top tracks, and top artists
 - Sleep timer and queue management
@@ -100,9 +100,10 @@ next iterations. At the time of writing, the app is almost fully completed with:
 
 This is my time to complain, so buckle up.
 
-### Colors
+### I. Colors
 
 *Fun fact: I'm colorblind.*
+
 And at that, it's Protanopia (red-green colorblind). Means I can only perceive like ~20% red according
 to a bunch of online tests. However, despite all that, I made the default color of the app VERY red. Like crazy red.
 And apparently I can't even see how red it is. Another side effect of this is that I have to keep referring to hex codes
@@ -110,7 +111,7 @@ all the time to avoid some parts of the app randomly becoming green, brown, or g
 
 This is the main reason I decided to ship a color slider with the MVP. Because it might be blinding red for others.
 
-### Monetization
+### II. Monetization
 
 Due to NeoMusic being an extremely niche app, I tried making the app a paid app first. Because,
 1. I can't revert the app to paid from Google Play Console if it was made free.
@@ -119,7 +120,7 @@ Due to NeoMusic being an extremely niche app, I tried making the app a paid app 
 I can't just leave a paid app on Google Play because I could almost hear the sounds of crickets. So I gave out promo
 codes but it still didn't get much traction. At the end I gave in and switched to a freemium model. It turned out to work well.
 
-### Deployment
+### III. Deployment
 
 Google Play takes way too freaking long to review updates. I used to get the updates approved for my previously
 published apps within the same day, but with this, it takes at least 3-4 days per update. It's probably due to all the
