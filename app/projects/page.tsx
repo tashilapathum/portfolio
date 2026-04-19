@@ -81,6 +81,18 @@ export default async function ProjectsPage() {
                                 <p className="mt-4 leading-8 duration-150 text-zinc-400 group-hover:text-zinc-300">
                                     {featured.description}
                                 </p>
+                                {featured.tech && featured.tech.length > 0 && (
+                                    <div className="flex flex-wrap gap-1.5 mt-3">
+                                        {featured.tech.map((t) => (
+                                            <span
+                                                key={t}
+                                                className="px-2 py-0.5 text-xs text-zinc-600 border border-zinc-800 rounded-full bg-zinc-900/30"
+                                            >
+                                                {t}
+                                            </span>
+                                        ))}
+                                    </div>
+                                )}
                                 <div className="absolute bottom-4 md:bottom-8">
                                     <p className="hidden text-zinc-200 hover:text-zinc-50 lg:block">
                                         Read more <span aria-hidden="true">&rarr;</span>

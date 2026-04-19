@@ -49,6 +49,10 @@ export const Project = defineDocumentType(() => ({
 		category: {
 			type: "string",
 		},
+		tech: {
+			type: "list",
+			of: { type: "string" },
+		},
 	},
 	computedFields,
 }));

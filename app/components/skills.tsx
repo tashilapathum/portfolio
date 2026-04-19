@@ -1,7 +1,11 @@
 const skillGroups = [
     {
-        label: "Languages",
-        skills: ["Kotlin", "Java", "Dart"],
+        label: "Native Android",
+        skills: ["Kotlin", "Java", "Gradle"],
+    },
+    {
+        label: "Cross-platform",
+        skills: ["Flutter", "Dart", "Compose Multiplatform"],
     },
     {
         label: "Android",
@@ -12,12 +16,20 @@ const skillGroups = [
         skills: ["MVVM", "Clean Architecture", "Multi-module", "Offline-first"],
     },
     {
-        label: "Cross-platform",
-        skills: ["Flutter", "Compose Multiplatform"],
+        label: "Services & Cloud",
+        skills: ["Firebase", "Google Cloud", "Supabase", "Vercel", "Jira"],
     },
     {
-        label: "Cloud & Backend",
-        skills: ["Firebase", "Supabase", "Ktor", "OpenAI API"],
+        label: "Backend",
+        skills: ["Ktor", "PostgreSQL", "Render"],
+    },
+    {
+        label: "Web",
+        skills: ["Next.js", "TailwindCSS"],
+    },
+    {
+        label: "iOS",
+        skills: ["Swift", "Objective-C"],
     },
 ];
 
