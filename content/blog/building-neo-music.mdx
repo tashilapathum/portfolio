@@ -1,0 +1,145 @@
+---
+title: "Building NeoMusic"
+description: "Why I wanted to build a music player from scratch"
+date: 2026-04-19
+published: true
+---
+
+![Cover](https://i.imgur.com/Ds7sBg0.png)
+
+## The Inspiration
+
+I always wanted to build a music player with a visualizer that actually reacts to music. I looked for one forever, but I
+could never find such an app. The closest I've gotten was just static waveforms. I also found a music player that picks
+up sound from the microphone to show a visualizer, but it barely reacts to the music. And it's not like I listen to music on
+loudspeaker on a regular basis.
+
+This idea was in the back of my mind and the final trigger was this one video I saw, which is a game teaser from the
+studio that created The Last of Us. I think the game's name was Intergalactic, and it was getting a ton of hate from
+the community. However, I believe one thing they got right was the retro vibe from the CD player and the track from
+Pet Shop Boys. It just hit the spot.
+
+So this is the only frame I found interesting from that 5-minute trailer:
+![](https://i.imgur.com/j2NMXz9.jpeg)
+
+## The Implementation
+
+If CD Players can do it, why not Android? So I got into it.
+
+I love the Material UI components, but so does literally every other Android dev. Plus, it's gonna be hell customizing
+those layouts, so I needed to move away from Material components and build things from scratch. NeoMusic's UI design
+would've never been possible without the Jetpack Compose Canvas API. I was skeptical seeing the performance on debug builds,
+but the release builds just worked like butter. The hot-reload type changes of the Compose code also came in clutch.
+XML layout based UIs would've shat the bed with this one.
+
+Here's a sneak peek of the code used for the thumb of the seekbar:
+
+```kotlin
+        // ── High-Intensity Thumb ──────────────────────────────
+        val thumbX = padH + trackW * currentFraction
+        val thumbW = 6.dp.toPx()
+        val thumbH = h - 4.dp.toPx()
+
+        // Glow effect
+        drawRect(
+            brush = Brush.radialGradient(
+                colors = listOf((
+                    if (enabled) accentColor
+                    else accentColor.copy(alpha = 0.5f)
+                    ).copy(alpha = 0.5f),
+                    Color.Transparent
+                ),
+                center = Offset(thumbX, cy),
+                radius = 18.dp.toPx()
+            ),
+            topLeft = Offset(thumbX - 18.dp.toPx(), 0f),
+            size = Size(36.dp.toPx(), h)
+        )
+
+        // Main thumb bar
+        drawRect(
+            color = if (enabled) accentColor else accentColor.copy(alpha = 0.5f),
+            topLeft = Offset(thumbX - thumbW / 2f, cy - thumbH / 2f),
+            size = Size(thumbW, thumbH)
+        )
+        // Glass highlight
+        drawRect(
+            color = Color.White.copy(alpha = if (enabled) 0.8f else 0.4f),
+            topLeft = Offset(thumbX - 1.dp.toPx(), cy - thumbH / 2f + 4.dp.toPx()),
+            size = Size(2.dp.toPx(), thumbH - 8.dp.toPx())
+        )
+```
+
+## The Project
+
+I spent so much time on this app because my OCD-ass wanted to get every single detail pixel-perfect. There was an
+unhealthy amount of floating point adjustments, an ungodly amount of color calibration, and an unstoppable flow of new
+ideas in the backlog. With a full-time job, I had to do all these mostly at night and on the weekends. Over-engineering
+is a concern I have with all the projects, so with this, I needed to get an MVP out as soon as possible.
+
+I decided to include only the main player and a couple of customization settings in the first release. The player is a
+given in the first release, but I decided to include color settings because this app will be used by the people who would
+obviously like the choices.
+
+This initial release got a ton of positive feedback from the amazing redditors at
+[r/Cyberpunk](https://www.reddit.com/r/Cyberpunk),
+[r/googleplayconsole](https://www.reddit.com/r/googleplayconsole),
+[r/androiddesign](https://www.reddit.com/r/androiddesign),
+and [r/HowToMen](https://www.reddit.com/r/HowToMen)
+communities. After that, I added the rest of the features I had in the backlog over the
+next iterations. At the time of writing, the app is almost fully completed with:
+- EQ Panel with presets
+- Library with tracks, artist, albums, and folder views
+- Playlists with favourites, recent hits, and old hits sections
+- Stats with listening history, top tracks, and top artists
+- Sleep timer and queue management
+- Lyrics with embedded, online syncing, and word/line highlighting
+- A shit-ton of settings and customization
+
+## The Problems
+
+This is my time to complain, so buckle up.
+
+### Colors
+
+*Fun fact: I'm colorblind.*
+And at that, it's Protanopia (red-green colorblind). Means I can only perceive like ~20% red according
+to a bunch of online tests. However, despite all that, I made the default color of the app VERY red. Like crazy red.
+And apparently I can't even see how red it is. Another side effect of this is that I have to keep referring to hex codes
+all the time to avoid some parts of the app randomly becoming green, brown, or god help me, orange.
+
+This is the main reason I decided to ship a color slider with the MVP. Because it might be blinding red for others.
+
+### Monetization
+
+Due to NeoMusic being an extremely niche app, I tried making the app a paid app first. Because,
+1. I can't revert the app to paid from Google Play Console if it was made free.
+2. Implementing a premium version with guarded features takes too much extra development time.
+
+I can't just leave a paid app on Google Play because I could almost hear the sounds of crickets. So I gave out promo
+codes but it still didn't get much traction. At the end I gave in and switched to a freemium model. It turned out to work well.
+
+### Deployment
+
+Google Play takes way too freaking long to review updates. I used to get the updates approved for my previously
+published apps within the same day, but with this, it takes at least 3-4 days per update. It's probably due to all the
+vibe-coded AI slop apps they have to review daily, and all the rapidly shipped updates for those apps.
+
+Because of this, I had to ditch the Open Testing track to avoid two review cycles. And instead, I'm using staged rollout
+on the Production track. At the time of writing (19th April), there's an update in review since 16th April. And I already
+have the next version ready for release, rotting in the draft releases.
+
+## The Plans
+
+As I mentioned earlier, I tend to overengineer the apps stuffing up features and optional functions for users. So there's
+a whole lot of features on my mind, so that users wouldn't need to switch over to a different app for any music-related need.
+And those users also include me. I need features like:
+- Editing and embedding lyrics from the app itself
+- Importing and exporting playlists
+- Multiple options for visualizers
+- App-wide font selection
+
+And these are just from the top of my head right now, and they're not even in the roadmap. And yes, there's a roadmap
+with even more features.
+
+I can't remember the last time I touched grass, and I won't for at least a couple more weeks.
