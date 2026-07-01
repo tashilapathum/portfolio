@@ -4,38 +4,70 @@ pageType: privacy
 projectSlug: neo-music
 ---
 
-**Last Updated:** March 20, 2026<br/>
-**Effective Date:** March 20, 2026
+**Last Updated:** July 1, 2026<br/>
+**Effective Date:** July 1, 2026
 
-NeoMusic ("we," "our," or "the app") values your privacy above all else. This Privacy Policy outlines our commitment to your data security and explains why NeoMusic is a "zero-data" application.
+NeoMusic ("we," "our," or "the app") is built privacy-first. We do not run analytics, we do not track you, and we do not operate any server that stores your data. This policy explains the few, strictly optional cases where the app talks to the internet, and what happens to your information in each.
+
+This policy applies to all distributions of NeoMusic, including **Google Play** and **Huawei AppGallery**.
 
 ---
 
-## 1. Data Collection
-In accordance with the **General Data Protection Regulation (GDPR)**, specifically the principle of **Data Minimization (Article 5)**, NeoMusic is designed to function without collecting any personal data.
+## 1. Data We Collect
+In accordance with the **General Data Protection Regulation (GDPR)** principle of **Data Minimization (Article 5)**, NeoMusic is designed to function without collecting personal data.
 
 * **No Personal Data:** We do not collect names, email addresses, phone numbers, or IP addresses.
-* **No Tracking:** We do not use cookies, device identifiers, or any form of behavioral tracking.
-* **No Analytics/Crashlytics:** We do not use third-party SDKs (like Firebase or Sentry) to monitor app performance or crashes.
+* **No Tracking:** We do not use cookies, advertising identifiers, or any form of behavioral tracking.
+* **No Analytics / Crashlytics:** We do not use third-party analytics or crash-reporting SDKs (such as Firebase or Sentry).
+* **No Accounts:** NeoMusic does not require or offer any sign-up or login.
 
-## 2. Information Processing
-NeoMusic is a **fully offline** application. All data processing occurs locally on your device:
-* **Media Library:** The app requires access to your local storage to index and play your music files. This index is stored locally and is never transmitted.
+## 2. Local Processing
+NeoMusic runs primarily on-device. The following data is stored **only on your device** and is never transmitted to us:
 
-## 3. Android Permissions
-To provide the experience, the app requests the following system permissions:
-* **READ_MEDIA_AUDIO / READ_EXTERNAL_STORAGE:** Required to access and play your music files.
+* **Media Library Index:** The app scans your device storage to index and play your music files.
+* **Preferences & Personalisation:** Themes, accent colors, EQ settings, and other options.
+* **Playlists, Favorites & Listening Stats:** Your playlists, favorited tracks, and listening history are stored in a local database on your device.
 
-## 4. Your Rights
+## 3. Optional Online Features
+Some features reach the internet **only when you enable or trigger them**. They are off or on-demand by default and can be disabled at any time.
+
+* **Online Lyrics (LRCLib):** When online lyrics are enabled, NeoMusic sends the **track title, artist, album, and duration** of the currently playing song to [LRCLib](https://lrclib.net) to look up matching lyrics. No personal identifiers, account data, or device identifiers are sent, and the audio file itself is never uploaded. Fetched lyrics are cached locally. You can disable this feature in **Settings**.
+
+## 4. Purchases & Premium
+NeoMusic offers an optional **one-time premium purchase** to unlock extra customization. We do not process or store any payment information ourselves.
+
+* Purchases are handled entirely by the platform's billing provider: **Google Play Billing** on Google Play, or **Huawei In-App Purchases (IAP)** on Huawei AppGallery.
+* These providers collect and process payment details under **their own privacy policies**. We only receive a confirmation that a purchase or restore succeeded, which is stored on your device as a local premium flag.
+
+## 5. Android Permissions
+To provide the experience, the app may request the following system permissions:
+
+* **READ_MEDIA_AUDIO / READ_EXTERNAL_STORAGE:** Required to find and play your music files.
+* **Write access to media files (on request):** When you use the built-in tag editor (to edit metadata or album art) or delete a track, Android shows a system confirmation dialog for that specific file. NeoMusic modifies files only with your explicit action.
+* **Internet:** Used solely for the optional online-lyrics lookup and to complete purchases through the platform billing provider.
+
+## 6. Your Rights
 You have the right to access, rectify, or erase your data. Since NeoMusic **does not store any of your data on our servers**, these rights are fulfilled by design:
-* **Right to Erasure:** Simply uninstalling the app removes all locally stored app preferences and indices.
-* **Right to Object:** You can revoke media permission at any time via your Android System Settings.
 
-## 5. Third-Party Services
-NeoMusic does not connect to any third-party services, APIs, or advertising networks. Your data never leaves your device.
+* **Right to Erasure:** Uninstalling the app removes all locally stored preferences, playlists, statistics, and cached lyrics.
+* **Right to Object:** You can revoke media permission at any time via your Android System Settings, and disable online lyrics in-app.
 
-## 6. Contact Us
-If you have any questions regarding this "Zero-Data" policy, please contact the developer:
+## 7. Third-Party Services
+NeoMusic does not use advertising networks or analytics services. The only third parties involved are:
+
+* **LRCLib** ([lrclib.net](https://lrclib.net)) — for optional online lyrics lookup.
+* **Billing providers** — Google Play, or Huawei IAP — for processing the optional premium purchase.
+
+Outside of these optional features, your data never leaves your device.
+
+## 8. Children's Privacy
+NeoMusic is not directed at children and does not knowingly collect personal information from anyone, including children.
+
+## 9. Changes to This Policy
+We may update this policy from time to time. Changes will be posted on this page with an updated "Last Updated" date.
+
+## 10. Contact Us
+If you have any questions regarding this policy, please contact the developer:
 
 **Developer:** Tashila Pathum<br/>
-**Email:** [tashila.pathum@gmail.com](mailto:tashila.pathum@gmail.com)
+**Email:** [neomusicapp@gmail.com](mailto:neomusicapp@gmail.com)
