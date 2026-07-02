@@ -75,7 +75,7 @@ export const Page = defineDocumentType(() => ({
 
 export const LegalPage = defineDocumentType(() => ({
 	name: "LegalPage",
-	filePathPattern: "./projects/**/(privacy|terms|deletion).mdx",
+	filePathPattern: "./projects/**/(privacy|terms|deletion)?(.*).mdx",
 	contentType: "mdx",
 	fields: {
 		title: { type: "string", required: true },
@@ -88,6 +88,15 @@ export const LegalPage = defineDocumentType(() => ({
 			type: "string",
 			required: true,
 			description: "Slug of the parent project"
+		},
+		lang: {
+			type: "enum",
+			options: [
+				"en", "si", "ja", "ko", "de", "es", "fr", "ru",
+				"hi", "zh-cn", "pt-br", "tr", "id", "vi", "th"
+			],
+			default: "en",
+			description: "BCP-47 language code of this translation"
 		},
 	},
 	computedFields

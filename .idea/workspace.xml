@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="eb028b40-4751-4f73-b9cd-77875eaef4e1" name="Changes" comment="Update NeoMusic privacy and terms">
+      <change beforePath="$PROJECT_DIR$/app/projects/[slug]/[type]/page.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/content/projects/neo-music/privacy.mdx" beforeDir="false" afterPath="$PROJECT_DIR$/content/projects/neo-music/privacy.mdx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/content/projects/neo-music/terms.mdx" beforeDir="false" afterPath="$PROJECT_DIR$/content/projects/neo-music/terms.mdx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/contentlayer.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/contentlayer.config.js" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager">
+    <option name="groupingKeys">
+      <option value="directory" />
+    </option>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="TypeScript JSX File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="dev" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="HARD" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;tashilapathum&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/tashilapathum/portfolio&quot;,
+    &quot;accountId&quot;: &quot;724df73b-0241-4241-8442-c2e2f1acc091&quot;
+  }
+}</component>
+  <component name="PackageJsonUpdateNotifier">
+    <dismissed value="$PROJECT_DIR$/package.json" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
+  <component name="ProjectId" id="2nyZYVYJgZrDpfepQB99oO2HRK5" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/payabledev/Development/Web/portfolio/content/projects/hazle&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_interpreter_path&quot;: &quot;node&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.inline.completion&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/payabledev/Development/Web/portfolio/node_modules/typescript/lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/content/projects/hazle" />
+      <recent name="$PROJECT_DIR$/content/blog" />
+      <recent name="$PROJECT_DIR$/content/projects/movie-updates" />
+      <recent name="$PROJECT_DIR$/content/projects/one-finance" />
+      <recent name="$PROJECT_DIR$/content/projects/cakemart" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/content/projects/tobo" />
+      <recent name="$PROJECT_DIR$/content/projects/sweet-dreams" />
+      <recent name="$PROJECT_DIR$/content/projects/safeu" />
+      <recent name="$PROJECT_DIR$/content/projects/rideon" />
+      <recent name="$PROJECT_DIR$/content/projects/please-wait-library" />
+    </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-WS-242.26775.11" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="eb028b40-4751-4f73-b9cd-77875eaef4e1" name="Changes" comment="" />
+      <created>1729947323611</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1729947323611</updated>
+      <workItem from="1729947324619" duration="1681000" />
+      <workItem from="1734058909600" duration="510000" />
+      <workItem from="1734059431685" duration="480000" />
+      <workItem from="1734064466344" duration="864000" />
+      <workItem from="1734081884956" duration="405000" />
+      <workItem from="1734083300625" duration="13000" />
+      <workItem from="1734604876950" duration="9000" />
+      <workItem from="1738139954394" duration="24943000" />
+      <workItem from="1748598264845" duration="5962000" />
+      <workItem from="1754024215598" duration="181000" />
+      <workItem from="1754039539293" duration="351000" />
+      <workItem from="1754041209084" duration="9000" />
+      <workItem from="1756198220349" duration="125000" />
+      <workItem from="1770199355518" duration="64000" />
+      <workItem from="1770199703586" duration="145000" />
+      <workItem from="1770199852310" duration="7525000" />
+      <workItem from="1770212259620" duration="254000" />
+      <workItem from="1770212518527" duration="1419000" />
+      <workItem from="1770214125492" duration="639000" />
+      <workItem from="1781327171898" duration="485000" />
+      <workItem from="1782915606490" duration="1331000" />
+      <workItem from="1783011157879" duration="2893000" />
+    </task>
+    <task id="LOCAL-00001" summary="Added privacy and tos pages">
+      <option name="closed" value="true" />
+      <created>1738170609232</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1738170609232</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Added blogs">
+      <option name="closed" value="true" />
+      <created>1748604128124</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1748604128124</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Add project Hazle">
+      <option name="closed" value="true" />
+      <created>1770207573482</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1770207573482</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Feature Hazle">
+      <option name="closed" value="true" />
+      <created>1770209471055</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1770209471055</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Add support for &quot;deletion&quot; legal pages">
+      <option name="closed" value="true" />
+      <created>1770213410766</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1770213410766</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Add Hazle deletion page">
+      <option name="closed" value="true" />
+      <created>1770213455443</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1770213455443</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Update Hazle project description">
+      <option name="closed" value="true" />
+      <created>1770214744620</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1770214744620</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Update NeoMusic privacy and terms">
+      <option name="closed" value="true" />
+      <created>1782916333075</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1782916333075</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Added privacy and tos pages" />
+    <MESSAGE value="Added blogs" />
+    <MESSAGE value="Add project Hazle" />
+    <MESSAGE value="Feature Hazle" />
+    <MESSAGE value="Add support for &quot;deletion&quot; legal pages" />
+    <MESSAGE value="Add Hazle deletion page" />
+    <MESSAGE value="Update Hazle project description" />
+    <MESSAGE value="Update NeoMusic privacy and terms" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update NeoMusic privacy and terms" />
+  </component>
+</project>
