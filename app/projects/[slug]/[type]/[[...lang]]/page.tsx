@@ -63,7 +63,7 @@ export default function LegalPage({ params }: { params: Params }) {
 	if (!page) return notFound();
 
 	// Locales that actually have a file for this page, in canonical display order.
-	const availableSet = new Set(
+	const availableSet = new Set<string>(
 		allLegalPages
 			.filter((p) => p.pageType === params.type && p.projectSlug === params.slug)
 			.map((p) => p.lang),

@@ -12,7 +12,7 @@ export function middleware(request: NextRequest) {
 	const [, slug, type] = match;
 
 	// Locales that actually have a translation for this page.
-	const available = allLegalPages
+	const available: string[] = allLegalPages
 		.filter((p) => p.projectSlug === slug && p.pageType === type)
 		.map((p) => p.lang);
 	if (available.length <= 1) return NextResponse.next();
