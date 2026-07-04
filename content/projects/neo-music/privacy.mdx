@@ -5,10 +5,12 @@ projectSlug: neo-music
 lang: en
 ---
 
+**Developer:** Tashila Pathum<br/>
+**Application:** NeoMusic<br/>
 **Last Updated:** July 1, 2026<br/>
 **Effective Date:** July 1, 2026
 
-NeoMusic ("we," "our," or "the app") is built privacy-first. We do not run analytics, we do not track you, and we do not operate any server that stores your data. This policy explains the few, strictly optional cases where the app talks to the internet, and what happens to your information in each.
+NeoMusic ("we," "our," or "the app") is developed by **Tashila Pathum**. It is built privacy-first. We do not run analytics, we do not track you, and we do not operate any server that stores your data. This policy explains the few, strictly optional cases where the app talks to the internet, and what happens to your information in each.
 
 This policy applies to all distributions of NeoMusic, including **Google Play** and **Huawei AppGallery**.
 
@@ -22,12 +24,16 @@ In accordance with the **General Data Protection Regulation (GDPR)** principle o
 * **No Analytics / Crashlytics:** We do not use third-party analytics or crash-reporting SDKs (such as Firebase or Sentry).
 * **No Accounts:** NeoMusic does not require or offer any sign-up or login.
 
+**NeoMusic does not collect, process, or transmit any sensitive personal information.** The audio files we index, along with their metadata (title, artist, album, artwork), are treated as your private content and **remain only on your device** — they are never uploaded to us or to any third party.
+
 ## 2. Local Processing
 NeoMusic runs primarily on-device. The following data is stored **only on your device** and is never transmitted to us:
 
 * **Media Library Index:** The app scans your device storage to index and play your music files.
 * **Preferences & Personalisation:** Themes, accent colors, EQ settings, and other options.
 * **Playlists, Favorites & Listening Stats:** Your playlists, favorited tracks, and listening history are stored in a local database on your device.
+
+NeoMusic does not collect any personal information while running in the background or in an unattended state. Background activity is limited to music playback through a foreground media service (MediaSessionService); no data is gathered or transmitted while the app is in the background.
 
 ## 3. Optional Online Features
 Some features reach the internet **only when you enable or trigger them**. They are off or on-demand by default and can be disabled at any time.
@@ -53,11 +59,12 @@ You have the right to access, rectify, or erase your data. Since NeoMusic **does
 * **Right to Erasure:** Uninstalling the app removes all locally stored preferences, playlists, statistics, and cached lyrics.
 * **Right to Object:** You can revoke media permission at any time via your Android System Settings, and disable online lyrics in-app.
 
-## 7. Third-Party Services
-NeoMusic does not use advertising networks or analytics services. The only third parties involved are:
+## 7. Third-Party Services & SDKs
+NeoMusic does not use advertising networks or analytics services. No third-party SDK collects personal information without your action. The only third parties involved, and exactly what each receives, are:
 
-* **LRCLib** ([lrclib.net](https://lrclib.net)) — for optional online lyrics lookup.
-* **Billing providers** — Google Play, or Huawei IAP — for processing the optional premium purchase.
+* **Huawei In-App Purchases (IAP)** — *Developer:* Huawei — *Data shared:* purchase and order details required to complete a transaction, handled by Huawei — *Purpose:* to process the optional one-time premium purchase on Huawei AppGallery — *Privacy policy:* [consumer.huawei.com/en/privacy/privacy-policy](https://consumer.huawei.com/en/privacy/privacy-policy/).
+* **Google Play Billing** — *Developer:* Google — *Data shared:* purchase details required to complete a transaction, handled by Google — *Purpose:* to process the optional one-time premium purchase on Google Play — *Privacy policy:* [policies.google.com/privacy](https://policies.google.com/privacy).
+* **LRCLib** — *Provider:* the LRCLib community lyrics network API ([lrclib.net](https://lrclib.net)) — *Data shared:* only the track title, artist, album, and duration of the currently playing song; no account data or personal identifiers are sent — *Purpose:* optional online lyrics lookup, active only when you enable it.
 
 Outside of these optional features, your data never leaves your device.
 
