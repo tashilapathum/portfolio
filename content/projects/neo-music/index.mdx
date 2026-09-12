@@ -7,13 +7,43 @@ url: https://play.google.com/store/apps/details?id=com.tashila.neomusic
 published: true
 agreements: true
 tech: ["Kotlin", "Jetpack Compose", "Media3"]
+image: "/projects/neo-music-cover.png"
+hero: "/projects/neo-music-visualizer.png"
+heroFit: "contain"
+featured: 1
+portrait: "https://lh3.googleusercontent.com/XCmv5Z8Wt3UqfWuUHRsJznEXcsL_agf0iNTwcDY4ytYa2OYTJ8MMDzVOpZ2WiSHPiU00mez1xmP835CmlSBU"
+tagline: "What happens when you bypass the Android View system entirely and draw a whole music player yourself."
+role: "Solo — design, app and audio engine"
+facts:
+  - label: "Role"
+    value: "Solo — design, app, audio engine"
+  - label: "Rendering"
+    value: "Compose Canvas, zero Material widgets"
+  - label: "Hard part"
+    value: "Real-time FFT off the render thread"
+  - label: "Constraint"
+    value: "Smooth on Min SDK 24 hardware"
+specs:
+  - label: "Language"
+    value: "Kotlin 2.2.10"
+  - label: "Audio engine"
+    value: "Media3 (ExoPlayer) + MediaSessionService"
+  - label: "Analysis"
+    value: "Cooley–Tukey radix-2 FFT, 16 log-spaced bands"
+  - label: "Architecture"
+    value: "MVVM + Koin · Min SDK 24 / Target SDK 36"
+notes:
+  - title: "Audio processor"
+    body: "A custom `SpectrumAudioProcessor` taps the Media3 PCM stream and runs the FFT for precise frequency analysis."
+  - title: "Canvas-only UI"
+    body: "Every button, seek bar and rotary knob is drawn with the Compose Canvas API — chamfered corners, neon glows and custom gradients, no Material 3 widgets."
+  - title: "Frame budget"
+    body: "Band values are spring-animated and the Canvas rendering is optimised so playback stays lag-free even on older devices."
+  - title: "State & service"
+    body: "One `PlayerUiState` driven off a MediaSessionService, so the queue survives configuration changes and process death."
 ---
 
 # NeoMusic 🎵
-
-<p align="center">
-  <img src="https://lh3.googleusercontent.com/yH7YEi3y1ghv1V_mBVOpe1MGbO-zYAw16Nhh4mkVu4gqu7xiw7aCE_4spuaQcI0Kf6J8aIPJ4aTw4hcFqYgngA" width="100%" alt="NeoMusic Landscape Header" />
-</p>
 
 A high-performance, **cyberpunk-inspired** Android music player built with a 100% custom Canvas-drawn UI. NeoMusic rejects standard UI kits in favor of a hand-crafted, neon-drenched aesthetic powered by Jetpack Compose.
 
@@ -22,14 +52,16 @@ A high-performance, **cyberpunk-inspired** Android music player built with a 100
 ### ✨ Key Features
 
 <div style={{ display: 'flex', flexDirection: 'row', gap: '20px', alignItems: 'center', flexWrap: 'wrap' }}>
-  <div style={{ flex: '2', minWidth: '300px' }}>
-    * **Hand-Crafted UI:** Zero Material3 widgets. Everything from buttons to seek bars is drawn using the **Compose Canvas API**, featuring chamfered corners, neon glows, and custom gradients.
-    * **Real-Time Spectrum Analyzer:** A 16-band log-spaced FFT visualizer that reacts instantly to your music with smooth spring animations.
-    * **Retro Hardware Controls:** Interactive "Rotary Knobs" and "Retro Seek Bars" that mimic high-end analog audio equipment.
-    * **Cyberpunk Aesthetics:** A "Neo" theme utilizing over 30 custom neon color definitions and the **TiltNeon** display font.
-    * **Modern Audio Engine:** Powered by **Media3 (ExoPlayer)** with a custom `SpectrumAudioProcessor` for precise frequency analysis.
-    * **Lightweight & Fast:** Efficient MediaStore indexing and optimized Canvas rendering ensure a lag-free experience even on older devices.
-  </div>
+<div style={{ flex: '2', minWidth: '300px' }}>
+
+* **Hand-Crafted UI:** Zero Material3 widgets. Everything from buttons to seek bars is drawn using the **Compose Canvas API**, featuring chamfered corners, neon glows, and custom gradients.
+* **Real-Time Spectrum Analyzer:** A 16-band log-spaced FFT visualizer that reacts instantly to your music with smooth spring animations.
+* **Retro Hardware Controls:** Interactive "Rotary Knobs" and "Retro Seek Bars" that mimic high-end analog audio equipment.
+* **Cyberpunk Aesthetics:** A "Neo" theme utilizing over 30 custom neon color definitions and the **TiltNeon** display font.
+* **Modern Audio Engine:** Powered by **Media3 (ExoPlayer)** with a custom `SpectrumAudioProcessor` for precise frequency analysis.
+* **Lightweight & Fast:** Efficient MediaStore indexing and optimized Canvas rendering ensure a lag-free experience even on older devices.
+
+</div>
   <div style={{ flex: '1', textAlign: 'center', minWidth: '280px' }}>
     <img
       src="https://lh3.googleusercontent.com/XCmv5Z8Wt3UqfWuUHRsJznEXcsL_agf0iNTwcDY4ytYa2OYTJ8MMDzVOpZ2WiSHPiU00mez1xmP835CmlSBU"

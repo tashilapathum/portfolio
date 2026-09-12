@@ -6,6 +6,37 @@ description: "A simple and lightweight Material 3 progress dialog library for An
 category: Library
 repository: "tashilapathum/PleaseWait"
 tech: ["Kotlin", "Material 3"]
+image: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZjczMmM0NzE1N2FlMmI3NmU5ZDYyODZmNWIzZjlhMjk3ZGZhMGU3YSZjdD1n/WxR15UuJyCwBzhpEYj/giphy.gif"
+featured: 4
+tagline: "A lightweight Material 3 progress dialog to replace the deprecated android.app.ProgressDialog."
+role: "Author and maintainer"
+facts:
+  - label: "Role"
+    value: "Author and maintainer"
+  - label: "Replaces"
+    value: "Deprecated android.app.ProgressDialog"
+  - label: "Modes"
+    value: "Determinate and indeterminate"
+  - label: "Safety"
+    value: "Retains state across orientation changes"
+specs:
+  - label: "Design systems"
+    value: "Material 2 and Material 3"
+  - label: "Indicators"
+    value: "Circular and linear progress bars"
+  - label: "Theming"
+    value: "Follows dark/light automatically, adopts app colors"
+  - label: "Interop"
+    value: "Fully usable from Java"
+notes:
+  - title: "Timing controls"
+    body: "A delay before showing and a minimum visible duration, so fast operations never flash a dialog at the user."
+  - title: "Rotation-safe"
+    body: "State is retained across configuration changes — the dialog does not vanish or double up when the device rotates."
+  - title: "Theme-adaptive"
+    body: "Follows the system dark/light mode and adopts the host app's theme colors rather than shipping its own palette."
+  - title: "Small by design"
+    body: "Lightweight and easy to drop in, with smooth Material animations and transitions inherited rather than reimplemented."
 ---
 
 | Indeterminate mode                                                                                                                                     | Determinate mode                                                                                                                                       | Dark and light modes                                                                                                                                   |

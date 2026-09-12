@@ -1,278 +1,75 @@
-import Link from "next/link";
-import {allProjects} from "contentlayer/generated";
-import {Navigation} from "../components/nav";
-import {Card} from "../components/card";
-import {Article} from "./article";
+import { allProjects } from "contentlayer/generated";
+import { Navigation } from "../components/nav";
+import { Glow } from "../components/ui";
+import { spell } from "../components/site";
+import { ProjectsList, type ProjectItem } from "./projects-list";
 
 export const revalidate = 60;
-export default async function ProjectsPage() {
-    // 1. Show featured projects
-    const featured = allProjects.find((project) => project.slug === "hazle")!;
-    const top2 = allProjects.find((project) => project.slug === "please-wait-library")!;
-    const top3 = allProjects.find((project) => project.slug === "one-finance")!;
 
-    // 2. Sort the rest of the projects
-    const sorted = allProjects
-        .filter((p) => p.published)
-        .filter(
-            (project) =>
-                project.slug !== featured.slug &&
-                project.slug !== top2.slug &&
-                project.slug !== top3.slug,
-        )
-        .sort(
-            (a, b) =>
-                new Date(b.date ?? Number.POSITIVE_INFINITY).getTime() -
-                new Date(a.date ?? Number.POSITIVE_INFINITY).getTime(),
-        );
+const CATEGORY_ORDER = ["Hobby", "Freelancing", "Library", "Work"];
 
-    // 3. Categorize the remaining ones
-    const hobby = sorted.filter((p) => p.category === "Hobby");
-    const work = sorted.filter((p) => p.category === "Work");
-    const freelancing = sorted.filter((p) => p.category === "Freelancing");
-    const library = sorted.filter((p) => p.category === "Library");
+export default function ProjectsPage() {
+	const published = allProjects.filter((p) => p.published);
 
-    return (
-        <div className="relative pb-16">
-            <Navigation/>
-            <div className="px-6 pt-20 mx-auto space-y-8 max-w-7xl lg:px-8 md:space-y-16 md:pt-24 lg:pt-32">
-                <div className="max-w-2xl mx-auto lg:mx-0">
-                    <h2 className="text-3xl font-bold tracking-tight text-zinc-100 sm:text-5xl">
-                        Projects
-                    </h2>
-                    <p className="mt-4 text-zinc-400">
-                        Personal, work and freelancing projects. Most of the freelancing projects have been abandoned by
-                        the
-                        clients and removed from Google Play but I've left the project overviews in this page.
-                    </p>
-                </div>
-                <div className="w-full h-px bg-zinc-800"/>
+	// Featured first, in explicit order; everything else newest-first.
+	const sorted = [...published].sort((a, b) => {
+		if (a.featured != null && b.featured != null)
+			return a.featured - b.featured;
+		if (a.featured != null) return -1;
+		if (b.featured != null) return 1;
+		return new Date(b.date ?? 0).getTime() - new Date(a.date ?? 0).getTime();
+	});
 
-                <div className="max-w-2xl mx-auto lg:mx-0">
-                    <h2 className="text-3xl font-bold tracking-tight text-zinc-100 sm:text-3xl">
-                        Featured
-                    </h2>
-                </div>
+	const projects: ProjectItem[] = sorted.map((p) => ({
+		slug: p.slug,
+		title: p.title,
+		description: p.description,
+		category: p.category ?? null,
+		year: p.date ? new Date(p.date).getFullYear().toString() : null,
+		tech: p.tech ?? [],
+		image: p.image ?? null,
+		imageAlt: p.imageAlt ?? null,
+		imageFit: p.imageFit === "contain" ? "contain" : "cover",
+		tagline: p.tagline ?? null,
+		featured: p.featured ?? null,
+	}));
 
-                <div className="grid grid-cols-1 gap-8 mx-auto lg:grid-cols-2 ">
-                    <Card>
-                        <Link href={`/projects/${featured.slug}`}>
-                            <article className="relative w-full h-full p-4 md:p-8">
-                                <div className="flex items-center justify-between gap-2">
-                                    <div className="text-xs text-zinc-100">
-                                        {featured.date ? (
-                                            <time dateTime={new Date(featured.date).toISOString()}>
-                                                {Intl.DateTimeFormat(undefined, {
-                                                    dateStyle: "medium",
-                                                }).format(new Date(featured.date))}
-                                            </time>
-                                        ) : (
-                                            <span>SOON</span>
-                                        )}
-                                    </div>
-                                </div>
+	// Counts derived from content — never hardcoded.
+	const categories = CATEGORY_ORDER.filter((label) =>
+		projects.some((p) => p.category === label),
+	).map((label) => ({
+		label,
+		count: projects.filter((p) => p.category === label).length,
+	}));
 
-                                <h2
-                                    id="featured-post"
-                                    className="mt-4 text-3xl font-bold text-zinc-100 group-hover:text-white sm:text-4xl font-display"
-                                >
-                                    {featured.title}
-                                </h2>
-                                <p className="mt-4 leading-8 duration-150 text-zinc-400 group-hover:text-zinc-300">
-                                    {featured.description}
-                                </p>
-                                {featured.tech && featured.tech.length > 0 && (
-                                    <div className="flex flex-wrap gap-1.5 mt-3">
-                                        {featured.tech.map((t) => (
-                                            <span
-                                                key={t}
-                                                className="px-2 py-0.5 text-xs text-zinc-600 border border-zinc-800 rounded-full bg-zinc-900/30"
-                                            >
-                                                {t}
-                                            </span>
-                                        ))}
-                                    </div>
-                                )}
-                                <div className="absolute bottom-4 md:bottom-8">
-                                    <p className="hidden text-zinc-200 hover:text-zinc-50 lg:block">
-                                        Read more <span aria-hidden="true">&rarr;</span>
-                                    </p>
-                                </div>
-                            </article>
-                        </Link>
-                    </Card>
+	return (
+		<div className="relative min-h-screen overflow-x-hidden">
+			<Navigation />
+			<Glow
+				className="-top-48 left-[-140px] h-[520px] w-[760px]"
+				strength={0.2}
+			/>
 
-                    <div
-                        className="flex flex-col w-full gap-8 mx-auto border-t border-gray-900/10 lg:mx-0 lg:border-t-0 ">
-                        {[top2, top3].map((project) => (
-                            <Card key={project.slug}>
-                                <Article project={project}/>
-                            </Card>
-                        ))}
-                    </div>
-                </div>
-                <div className="hidden w-full h-px md:block bg-zinc-800"/>
+			<main className="relative mx-auto max-w-7xl px-6 pt-28 lg:px-12">
+				<div className="flex flex-wrap items-end justify-between gap-9 border-b border-white/10 pb-6">
+					<h1 className="m-0 font-display text-5xl leading-[.96] text-fg-strong sm:text-6xl lg:text-[72px]">
+						{spell(projects.length)}
+						<br />
+						projects.
+					</h1>
+					<p className="m-0 max-w-[380px] text-[14.5px] leading-relaxed text-muted">
+						Personal apps, client work and Android libraries. Some freelance
+						apps were pulled from Play by their owners — the write-ups stay as a
+						record.
+					</p>
+				</div>
 
-                {hobby.length > 0 && (
-                    <>
-                        <div className="max-w-2xl mx-auto lg:mx-0">
-                            <h2 className="text-3xl font-bold tracking-tight text-zinc-100 sm:text-3xl">
-                                Hobby
-                            </h2>
-                        </div>
-                        <div className="grid grid-cols-1 gap-4 mx-auto lg:mx-0 md:grid-cols-3">
-                            <div className="grid grid-cols-1 gap-4">
-                                {hobby
-                                    .filter((_, i) => i % 3 === 0)
-                                    .map((project) => (
-                                        <Card key={project.slug}>
-                                            <Article project={project}/>
-                                        </Card>
-                                    ))}
-                            </div>
-                            <div className="grid grid-cols-1 gap-4">
-                                {hobby
-                                    .filter((_, i) => i % 3 === 1)
-                                    .map((project) => (
-                                        <Card key={project.slug}>
-                                            <Article project={project}/>
-                                        </Card>
-                                    ))}
-                            </div>
-                            <div className="grid grid-cols-1 gap-4">
-                                {hobby
-                                    .filter((_, i) => i % 3 === 2)
-                                    .map((project) => (
-                                        <Card key={project.slug}>
-                                            <Article project={project}/>
-                                        </Card>
-                                    ))}
-                            </div>
-                        </div>
-                        <div className="hidden w-full h-px md:block bg-zinc-800"/>
-                    </>
-                )}
+				<div className="mt-6">
+					<ProjectsList projects={projects} categories={categories} />
+				</div>
 
-                {freelancing.length > 0 && (
-                    <>
-                        <div className="max-w-2xl mx-auto lg:mx-0">
-                            <h2 className="text-3xl font-bold tracking-tight text-zinc-100 sm:text-3xl">
-                                Freelancing
-                            </h2>
-                        </div>
-                        <div className="grid grid-cols-1 gap-4 mx-auto lg:mx-0 md:grid-cols-3">
-                            <div className="grid grid-cols-1 gap-4">
-                                {freelancing
-                                    .filter((_, i) => i % 3 === 0)
-                                    .map((project) => (
-                                        <Card key={project.slug}>
-                                            <Article project={project}/>
-                                        </Card>
-                                    ))}
-                            </div>
-                            <div className="grid grid-cols-1 gap-4">
-                                {freelancing
-                                    .filter((_, i) => i % 3 === 1)
-                                    .map((project) => (
-                                        <Card key={project.slug}>
-                                            <Article project={project}/>
-                                        </Card>
-                                    ))}
-                            </div>
-                            <div className="grid grid-cols-1 gap-4">
-                                {freelancing
-                                    .filter((_, i) => i % 3 === 2)
-                                    .map((project) => (
-                                        <Card key={project.slug}>
-                                            <Article project={project}/>
-                                        </Card>
-                                    ))}
-                            </div>
-                        </div>
-                        <div className="hidden w-full h-px md:block bg-zinc-800"/>
-                    </>
-                )}
-
-                {library.length > 0 && (
-                    <>
-                        <div className="max-w-2xl mx-auto lg:mx-0">
-                            <h2 className="text-3xl font-bold tracking-tight text-zinc-100 sm:text-3xl">
-                                Library
-                            </h2>
-                        </div>
-                        <div className="grid grid-cols-1 gap-4 mx-auto lg:mx-0 md:grid-cols-3">
-                            <div className="grid grid-cols-1 gap-4">
-                                {library
-                                    .filter((_, i) => i % 3 === 0)
-                                    .map((project) => (
-                                        <Card key={project.slug}>
-                                            <Article project={project}/>
-                                        </Card>
-                                    ))}
-                            </div>
-                            <div className="grid grid-cols-1 gap-4">
-                                {library
-                                    .filter((_, i) => i % 3 === 1)
-                                    .map((project) => (
-                                        <Card key={project.slug}>
-                                            <Article project={project}/>
-                                        </Card>
-                                    ))}
-                            </div>
-                            <div className="grid grid-cols-1 gap-4">
-                                {library
-                                    .filter((_, i) => i % 3 === 2)
-                                    .map((project) => (
-                                        <Card key={project.slug}>
-                                            <Article project={project}/>
-                                        </Card>
-                                    ))}
-                            </div>
-                        </div>
-                        <div className="hidden w-full h-px md:block bg-zinc-800"/>
-                    </>
-                )}
-
-                {work.length > 0 && (
-                    <>
-                        <div className="max-w-2xl mx-auto lg:mx-0">
-                            <h2 className="text-3xl font-bold tracking-tight text-zinc-100 sm:text-3xl">
-                                Work
-                            </h2>
-                        </div>
-                        <div className="grid grid-cols-1 gap-4 mx-auto lg:mx-0 md:grid-cols-3">
-                            <div className="grid grid-cols-1 gap-4">
-                                {work
-                                    .filter((_, i) => i % 3 === 0)
-                                    .map((project) => (
-                                        <Card key={project.slug}>
-                                            <Article project={project}/>
-                                        </Card>
-                                    ))}
-                            </div>
-                            <div className="grid grid-cols-1 gap-4">
-                                {work
-                                    .filter((_, i) => i % 3 === 1)
-                                    .map((project) => (
-                                        <Card key={project.slug}>
-                                            <Article project={project}/>
-                                        </Card>
-                                    ))}
-                            </div>
-                            <div className="grid grid-cols-1 gap-4">
-                                {work
-                                    .filter((_, i) => i % 3 === 2)
-                                    .map((project) => (
-                                        <Card key={project.slug}>
-                                            <Article project={project}/>
-                                        </Card>
-                                    ))}
-                            </div>
-                        </div>
-                        <div className="hidden w-full h-px md:block bg-zinc-800"/>
-                    </>
-                )}
-            </div>
-        </div>
-    );
+				<div className="h-14" />
+			</main>
+		</div>
+	);
 }

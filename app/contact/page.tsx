@@ -1,63 +1,101 @@
-"use client";
-import {Github, Instagram, Linkedin, Mail, Twitter} from "lucide-react";
-import Link from "next/link";
+import { Github, Linkedin, Mail, Smartphone } from "lucide-react";
+import { Metadata } from "next";
 import { Navigation } from "../components/nav";
-import { Card } from "../components/card";
+import { Glow } from "../components/ui";
+import { SITE } from "../components/site";
 
-const socials = [
+export const metadata: Metadata = {
+	title: "Contact",
+	description: `Get in touch with ${SITE.name}.`,
+};
+
+const channels = [
 	{
-		icon: <Linkedin size={20} />,
-		href: "https://linkedin.com/in/tashilapathum",
-		label: "LinkedIn",
-		handle: "Tashila Pathum",
-	},
-	{
-		icon: <Mail size={20} />,
-		href: "mailto:tashilapathum@gmail.com",
+		icon: Mail,
+		href: `mailto:${SITE.email}`,
+		handle: SITE.email,
 		label: "Email",
-		handle: "tashilapathum@gmail.com",
+		primary: true,
 	},
 	{
-		icon: <Github size={20} />,
-		href: "https://github.com/tashilapathum",
-		label: "Github",
+		icon: Linkedin,
+		href: SITE.links.linkedin,
+		handle: SITE.name,
+		label: "LinkedIn",
+	},
+	{
+		icon: Github,
+		href: SITE.links.github,
 		handle: "tashilapathum",
+		label: "GitHub",
+	},
+	{
+		icon: Smartphone,
+		href: SITE.links.playStore,
+		handle: "15+ apps",
+		label: "Google Play developer page",
 	},
 ];
 
-export default function Example() {
+export default function ContactPage() {
 	return (
-		<div className=" bg-gradient-to-tl from-zinc-900/0 via-zinc-900 to-zinc-900/0">
+		<div className="relative min-h-screen overflow-x-hidden">
 			<Navigation />
-			<div className="container flex items-center justify-center min-h-screen px-4 mx-auto">
-				<div className="grid w-full grid-cols-1 gap-8 mx-auto mt-32 sm:mt-0 sm:grid-cols-3 lg:gap-16">
-					{socials.map((s) => (
-						<Card>
-							<Link
-								href={s.href}
-								target="_blank"
-								className="p-4 relative flex flex-col items-center gap-4 duration-700 group md:gap-8 md:py-24  lg:pb-48  md:p-16"
+			<Glow
+				className="bottom-[-190px] left-1/2 h-[380px] w-[520px] -translate-x-1/2"
+				strength={0.26}
+				pulse
+			/>
+
+			<main className="relative mx-auto flex min-h-screen max-w-lg flex-col justify-center px-6 py-28">
+				<h1 className="m-0 font-display text-4xl leading-tight text-fg-strong sm:text-[42px]">
+					Say hello.
+				</h1>
+				<p className="mb-7 mt-3 text-[14.5px] leading-relaxed text-muted">
+					Roles, collaborations or a question about a project.
+				</p>
+
+				<div className="grid gap-2.5">
+					{channels.map((c) => {
+						const Icon = c.icon;
+						return (
+							<a
+								key={c.href}
+								href={c.href}
+								target={c.href.startsWith("mailto:") ? undefined : "_blank"}
+								rel="noopener noreferrer"
+								className={`flex items-center gap-3.5 rounded-2xl p-[18px] transition-colors duration-200 ${
+									c.primary
+										? "border border-accent/30 bg-tile-accent shadow-[0_0_40px_-18px_rgba(14,165,233,.8)] hover:border-accent/60"
+										: "border border-line bg-surface hover:border-line-strong"
+								}`}
 							>
 								<span
-									className="absolute w-px h-2/3 bg-gradient-to-b from-zinc-500 via-zinc-500/50 to-transparent"
-									aria-hidden="true"
-								/>
-								<span className="relative z-10 flex items-center justify-center w-12 h-12 text-sm duration-1000 border rounded-full text-zinc-200 group-hover:text-white group-hover:bg-zinc-900 border-zinc-500 bg-zinc-900 group-hover:border-zinc-200 drop-shadow-orange">
-									{s.icon}
-								</span>{" "}
-								<div className="z-10 flex flex-col items-center">
-									<span className="lg:text-xl font-medium duration-150 xl:text-3xl text-zinc-200 group-hover:text-white font-display">
-										{s.handle}
+									className={`flex h-[38px] w-[38px] flex-none items-center justify-center rounded-xl ${
+										c.primary
+											? "bg-accent/20 text-accent-soft"
+											: "bg-white/[.07] text-muted"
+									}`}
+								>
+									<Icon size={18} />
+								</span>
+								<span>
+									<span className="block text-sm font-semibold leading-snug text-fg">
+										{c.handle}
 									</span>
-									<span className="mt-4 text-sm text-center duration-1000 text-zinc-400 group-hover:text-zinc-200">
-										{s.label}
+									<span
+										className={`mt-0.5 block font-mono text-xs leading-snug ${
+											c.primary ? "text-accent-soft" : "text-muted2"
+										}`}
+									>
+										{c.label}
 									</span>
-								</div>
-							</Link>
-						</Card>
-					))}
+								</span>
+							</a>
+						);
+					})}
 				</div>
-			</div>
+			</main>
 		</div>
 	);
 }

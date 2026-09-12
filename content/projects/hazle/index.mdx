@@ -7,6 +7,39 @@ url: https://play.google.com/store/apps/details?id=com.tashila.hazle
 published: true
 agreements: true
 tech: ["Kotlin", "Jetpack Compose", "Ktor", "Supabase", "OpenAI API"]
+image: "/projects/hazle-chat.png"
+imageFit: "contain"
+featured: 2
+repository: "tashilapathum/hazle-android"
+tagline: "Highlight text anywhere in Android and get an AI answer back as a notification — every line of it Kotlin."
+role: "Solo — Android client, Ktor middleware and landing page"
+facts:
+  - label: "Role"
+    value: "Solo — client, backend, landing page"
+  - label: "Integration"
+    value: "System-wide text selection context menu"
+  - label: "Hard part"
+    value: "Auth and message queue across three services"
+  - label: "Reach"
+    value: "English, Sinhala and German at MVP"
+specs:
+  - label: "Android client"
+    value: "Jetpack Compose (Material 3) · Koin · Room · Coroutines"
+  - label: "Middleware"
+    value: "Ktor — auth, chat queue and OpenAI integration"
+  - label: "Services"
+    value: "Supabase auth, PostgreSQL, storage"
+  - label: "Landing page"
+    value: "hazle.tashila.me, open source in hazle-web"
+notes:
+  - title: "Auth flow"
+    body: "App → Ktor → Supabase Auth → JWT token → session management, so the client never holds a provider key."
+  - title: "Chat process"
+    body: "User message → Ktor → OpenAI → Ktor → push notification. Tapping it opens the thread with context-aware history."
+  - title: "Why middleware"
+    body: "Putting Ktor between app and OpenAI keeps prompt engineering and rate limiting server-side, where they can change without a release."
+  - title: "Where it's going"
+    body: "V2 adds Supabase realtime sync and attachments; V3 moves the core to a shared KMP module with a Compose Multiplatform iOS UI."
 ---
 
 <div className="flex flex-row gap-4 items-start">

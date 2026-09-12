@@ -1,39 +1,29 @@
-"use client";
-import React, {useRef} from "react";
-import {Project} from "contentlayer/generated";
 import Link from "next/link";
+import React from "react";
 
-type Props = {
-    project: Project
+export type LegalLink = { label: string; href: string };
+
+/**
+ * Legal links are derived from the LegalPage documents that actually exist for
+ * this project, not from the `agreements` flag — that flag used to link a Terms
+ * page for projects that never had one.
+ */
+export const Footer: React.FC<{ links: LegalLink[] }> = ({ links }) => {
+	if (links.length === 0) return null;
+
+	return (
+		<footer className="mt-12 border-t border-line py-8">
+			<div className="flex flex-wrap justify-center gap-x-8 gap-y-3">
+				{links.map((link) => (
+					<Link
+						key={link.href}
+						href={link.href}
+						className="font-mono text-[11px] uppercase tracking-[.16em] text-muted2 transition-colors duration-200 hover:text-accent"
+					>
+						{link.label}
+					</Link>
+				))}
+			</div>
+		</footer>
+	);
 };
-export const Footer: React.FC<Props> = ({project}) => {
-    const ref = useRef<HTMLElement>(null);
-    const links: { label: string; href: string }[] = [];
-
-    links.push({
-        label: "Privacy Policy",
-        href: `/projects/${project.slug}/privacy`,
-    });
-    links.push({
-        label: "Terms of Service",
-        href: `/projects/${project.slug}/terms`,
-    });
-
-    if (project.agreements)
-        return (
-            <footer
-                ref={ref}
-                className="relative isolate overflow-hidden bg-gradient-to-tl from-black via-zinc-900 to-black py-12 sm:py-16">
-                <div className="container mx-auto max-w-7xl px-6 lg:px-8 text-center">
-                    <div
-                        className="grid grid-cols-1 gap-y-6 gap-x-8 text-base font-semibold leading-7 text-white sm:grid-cols-2 md:flex md:justify-center lg:gap-x-10">
-                        {links.map((link) => (
-                            <Link key={link.label} href={link.href}>
-                                {link.label}
-                            </Link>
-                        ))}
-                    </div>
-                </div>
-            </footer>
-        );
-}

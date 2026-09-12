@@ -1,126 +1,114 @@
-import Link from "next/link";
-import React from "react";
-import { Github, Linkedin, Smartphone } from "lucide-react";
-import Particles from "./components/particles";
-import { Skills } from "./components/skills";
-
-const SOCIAL_LINKS = {
-    github: "https://github.com/tashilapathum",
-    linkedin: "https://linkedin.com/in/tashila-pathum",
-    playStore: "https://play.google.com/store/apps/developer?id=Tashila+Pathum",
-};
-
-const navigation = [
-    { name: "Projects", href: "/projects" },
-    { name: "Blog", href: "/blog" },
-    { name: "Contact", href: "/contact" },
-];
-
-const stats = [
-    { label: "Years Experience", value: "7+" },
-    { label: "Apps Built", value: "15+" },
-    { label: "Languages", value: "3+" },
-];
+import Image from "next/image";
+import { allProjects } from "contentlayer/generated";
+import { Navigation } from "./components/nav";
+import { SiteFooter } from "./components/footer";
+import { Toolbox } from "./components/toolbox";
+import { Button, Glow, PlaceholderTile, SectionHead } from "./components/ui";
+import { SITE, STATS } from "./components/site";
 
 export default function Home() {
-    return (
-        <div className="flex flex-col items-center w-screen min-h-screen overflow-y-auto bg-gradient-to-tl from-black via-zinc-600/20 to-black">
-            <nav className="mt-12 mb-8 sm:mt-16 sm:mb-12 animate-fade-in">
-                <ul className="flex items-center justify-center gap-4 sm:gap-8">
-                    {navigation.map((item) => (
-                        <Link
-                            key={item.href}
-                            href={item.href}
-                            className="px-3 py-2 sm:px-4 text-sm sm:text-lg font-medium duration-300 transition-all
-                                       rounded-lg hover:bg-zinc-800 hover:bg-opacity-50
-                                       text-zinc-400 hover:text-white hover:scale-105
-                                       border border-transparent hover:border-zinc-700"
-                        >
-                            {item.name}
-                        </Link>
-                    ))}
-                </ul>
-            </nav>
+	const neoMusic = allProjects.find((p) => p.slug === "neo-music");
+	// The case-study hero is the loudest screen NeoMusic has — it leads here too.
+	const heroShot = neoMusic?.hero ?? neoMusic?.portrait;
 
-            <div className="hidden w-screen h-px animate-glow md:block animate-fade-left bg-gradient-to-r from-zinc-300/0 via-zinc-300/50 to-zinc-300/0" />
+	return (
+		<div className="relative min-h-screen overflow-x-hidden">
+			<Navigation />
+			<Glow
+				className="-top-64 right-[-120px] h-[620px] w-[900px]"
+				strength={0.26}
+				pulse
+			/>
 
-            <Particles className="fixed inset-0 -z-10 animate-fade-in" quantity={100} />
+			<main className="relative mx-auto max-w-7xl px-6 pt-28 lg:px-12">
+				{/* Hero */}
+				<section className="flex flex-col gap-10 pb-16 lg:grid lg:grid-cols-[1.12fr_.88fr] lg:items-center lg:gap-12">
+					<div className="animate-fade-in lg:col-start-1 lg:row-start-1">
+						{/*
+						 * The hard breaks are shaped for a wide column, so they only
+						 * apply once there is one; below `sm` the line wraps itself.
+						 */}
+						<h1 className="m-0 font-display text-[42px] leading-[.98] -tracking-[.02em] text-fg-strong sm:text-6xl lg:text-[74px]">
+							I build Android apps{" "}
+							<br className="hidden sm:inline" />
+							that feel{" "}
+							<em className="italic text-accent [text-shadow:0_0_40px_rgba(14,165,233,.55)]">
+								{" "}exciting{" "}
+							</em>
+							<br className="hidden sm:inline" />
+							to use.
+						</h1>
+						<p className="mt-6 max-w-[470px] text-[17px] leading-relaxed text-muted">
+							{SITE.role}. Seven years of Kotlin, Compose and Flutter, from a
+							music player drawn pixel by pixel on a Canvas to the Ktor backends
+							behind it.
+						</p>
+						<div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+							<Button href="/projects" className="w-full sm:w-auto">
+								See the projects
+							</Button>
+							<Button
+								href={`mailto:${SITE.email}`}
+								variant="ghost"
+								className="w-full sm:w-auto"
+							>
+								{SITE.email}
+							</Button>
+						</div>
+					</div>
 
-            {/* Hero */}
-            <div className="flex flex-col items-center text-center px-4 py-8 sm:py-12 animate-fade-in">
-                <img
-                    src="https://avatars.githubusercontent.com/u/43470527"
-                    className="w-24 h-24 sm:w-32 sm:h-32 rounded-full mb-6 ring-2 ring-zinc-700"
-                    alt="Tashila Pathum"
-                />
-                <h1 className="py-3.5 px-0.5 z-10 text-5xl text-transparent duration-500 bg-white cursor-default text-edge-outline animate-title font-display sm:text-7xl md:text-9xl whitespace-nowrap bg-clip-text">
-                    Tashila Pathum
-                </h1>
-                <p className="mt-4 text-base sm:text-lg text-zinc-400 font-medium">
-                    Senior Mobile Software Engineer
-                </p>
-                <p className="mt-2 text-sm text-zinc-600">
-                    Android · Kotlin · Java · Flutter
-                </p>
+					{/* Floating device */}
+					<div className="relative flex justify-center lg:col-start-2 lg:row-span-2 lg:row-start-1">
+						<Glow
+							className="inset-y-[-8%] inset-x-[4%]"
+							strength={0.34}
+							tone="crimson"
+						/>
+						{heroShot ? (
+							<Image
+								src={heroShot}
+								alt="NeoMusic player screen"
+								width={300}
+								height={667}
+								sizes="(min-width: 1024px) 300px, 220px"
+								priority
+								className="relative w-[220px] animate-float rounded-[28px] border border-white/10 shadow-[0_0_80px_-10px_rgba(234,51,59,.45),0_40px_80px_-30px_rgba(0,0,0,.9)] lg:w-[300px]"
+							/>
+						) : (
+							<PlaceholderTile
+								label="NeoMusic player screen"
+								className="relative aspect-[9/20] w-[200px] animate-float rounded-[28px] lg:w-[272px]"
+							/>
+						)}
+					</div>
 
-                {/* Social links */}
-                <div className="flex items-center gap-4 mt-6">
-                    <a
-                        href={SOCIAL_LINKS.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label="GitHub"
-                        className="p-2 text-zinc-500 hover:text-white transition-colors duration-200"
-                    >
-                        <Github className="w-5 h-5" />
-                    </a>
-                    <a
-                        href={SOCIAL_LINKS.linkedin}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label="LinkedIn"
-                        className="p-2 text-zinc-500 hover:text-accent transition-colors duration-200"
-                    >
-                        <Linkedin className="w-5 h-5" />
-                    </a>
-                    <a
-                        href={SOCIAL_LINKS.playStore}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label="Google Play"
-                        className="p-2 text-zinc-500 hover:text-accent transition-colors duration-200"
-                    >
-                        <Smartphone className="w-5 h-5" />
-                    </a>
-                </div>
-            </div>
+					{/* Four stats sit as an even 2 x 2 on a phone, one row from `sm` up. */}
+					<dl className="m-0 grid grid-cols-2 gap-x-6 gap-y-7 border-t border-line pt-7 sm:flex sm:flex-wrap sm:gap-9 lg:col-start-1 lg:row-start-2">
+						{STATS.map((stat) => (
+							<div key={stat.label}>
+								<dt className="sr-only">{stat.label}</dt>
+								<dd className="m-0">
+									<div className="font-display text-[34px] leading-none text-fg-strong">
+										{stat.value}
+									</div>
+									<div className="mt-1.5 font-mono text-[10.5px] font-medium uppercase leading-tight tracking-[.12em] text-muted2">
+										{stat.label}
+									</div>
+								</dd>
+							</div>
+						))}
+					</dl>
+				</section>
 
-            <div className="hidden w-screen h-px animate-glow md:block animate-fade-right bg-gradient-to-r from-zinc-300/0 via-zinc-300/50 to-zinc-300/0" />
+				<SiteFooter />
 
-            {/* Stats */}
-            <div className="flex items-center justify-center gap-8 sm:gap-16 py-8 sm:py-10 animate-fade-in">
-                {stats.map((stat, i) => (
-                    <React.Fragment key={stat.label}>
-                        <div className="text-center">
-                            <p className="text-2xl sm:text-3xl font-bold text-white font-display">
-                                {stat.value}
-                            </p>
-                            <p className="text-xs sm:text-sm text-zinc-500 mt-1">{stat.label}</p>
-                        </div>
-                        {i < stats.length - 1 && (
-                            <div className="h-8 w-px bg-zinc-800" />
-                        )}
-                    </React.Fragment>
-                ))}
-            </div>
-
-            {/* Skills */}
-            <div className="w-full max-w-2xl px-6 pb-16 animate-fade-in">
-                <p className="text-xs font-semibold text-accent uppercase tracking-widest text-center mb-8">
-                    Skills & Technologies
-                </p>
-                <Skills />
-            </div>
-        </div>
-    );
+				{/* Tech stack */}
+				<section className="pt-14">
+					<SectionHead title="Tech stack" className="mb-2.5" />
+					<Toolbox />
+				</section>
+				<div className="h-14" />
+			</main>
+		</div>
+	);
 }

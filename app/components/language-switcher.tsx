@@ -16,7 +16,12 @@ type Props = {
 	current: string;
 };
 
-export const LanguageSwitcher: React.FC<Props> = ({ slug, type, available, current }) => {
+export const LanguageSwitcher: React.FC<Props> = ({
+	slug,
+	type,
+	available,
+	current,
+}) => {
 	const router = useRouter();
 	const [open, setOpen] = useState(false);
 	const ref = useRef<HTMLDivElement>(null);
@@ -25,7 +30,8 @@ export const LanguageSwitcher: React.FC<Props> = ({ slug, type, available, curre
 	useEffect(() => {
 		if (!open) return;
 		const onClick = (e: MouseEvent) => {
-			if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+			if (ref.current && !ref.current.contains(e.target as Node))
+				setOpen(false);
 		};
 		const onKey = (e: KeyboardEvent) => {
 			if (e.key === "Escape") setOpen(false);
@@ -57,7 +63,7 @@ export const LanguageSwitcher: React.FC<Props> = ({ slug, type, available, curre
 				onClick={() => setOpen((v) => !v)}
 				aria-haspopup="listbox"
 				aria-expanded={open}
-				className="inline-flex items-center gap-2 rounded-md border border-zinc-300 bg-white px-3 py-1.5 text-sm font-medium text-zinc-700 shadow-sm duration-200 hover:bg-zinc-50 hover:text-zinc-900"
+				className="inline-flex items-center gap-2 rounded-xl border border-line bg-surface px-3 py-2 text-sm font-medium text-muted transition-colors duration-200 hover:border-line-strong hover:text-fg"
 			>
 				<Globe className="h-4 w-4" />
 				{nativeName(current)}
@@ -66,7 +72,7 @@ export const LanguageSwitcher: React.FC<Props> = ({ slug, type, available, curre
 			{open && (
 				<ul
 					role="listbox"
-					className="absolute right-0 z-50 mt-2 max-h-72 w-48 overflow-auto rounded-md border border-zinc-200 bg-white py-1 shadow-lg focus:outline-none"
+					className="absolute right-0 z-50 mt-2 max-h-72 w-48 overflow-auto rounded-xl border border-line bg-surface py-1 shadow-lg focus:outline-none"
 				>
 					{available.map((code) => (
 						<li key={code}>
@@ -75,8 +81,8 @@ export const LanguageSwitcher: React.FC<Props> = ({ slug, type, available, curre
 								role="option"
 								aria-selected={code === current}
 								onClick={() => select(code)}
-								className={`flex w-full items-center justify-between px-3 py-2 text-left text-sm duration-150 hover:bg-zinc-100 ${
-									code === current ? "font-semibold text-zinc-900" : "text-zinc-700"
+								className={`flex w-full items-center justify-between px-3 py-2 text-left text-sm transition-colors duration-150 hover:bg-white/5 ${
+									code === current ? "font-semibold text-accent" : "text-muted"
 								}`}
 							>
 								{nativeName(code)}

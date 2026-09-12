@@ -3,8 +3,45 @@
 @tailwind utilities;
 
 @layer base {
-  .text-edge-outline {
-    -webkit-text-stroke: 1px rgba(255,255,255,0.3);
-  }
+	html {
+		scroll-behavior: smooth;
+	}
+
+	body {
+		background-color: #101215;
+		color: #e8ebed;
+		text-rendering: optimizeLegibility;
+	}
+
+	::selection {
+		background-color: rgba(14, 165, 233, 0.3);
+	}
 }
 
+@layer components {
+	/* The recurring cinematic wash. Positioned by the caller. */
+	.glow {
+		background: radial-gradient(
+			50% 50% at 50% 50%,
+			rgba(var(--glow-rgb, 14, 165, 233), var(--glow-strength, 0.26)),
+			transparent 70%
+		);
+		filter: blur(18px);
+		pointer-events: none;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
+
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
+}

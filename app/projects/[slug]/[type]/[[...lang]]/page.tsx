@@ -1,9 +1,10 @@
-import { allLegalPages } from "contentlayer/generated";
+import { allLegalPages, allProjects } from "contentlayer/generated";
 import { Mdx } from "@/app/components/mdx";
 import React from "react";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { Header } from "@/app/projects/[slug]/header";
+import { Navigation } from "@/app/components/nav";
+import { Eyebrow, Glow } from "@/app/components/ui";
 import { LanguageSwitcher } from "@/app/components/language-switcher";
 import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from "@/lib/i18n";
 
@@ -26,7 +27,10 @@ export function generateStaticParams(): Params[] {
 function resolve(params: Params) {
 	const lang = params.lang?.[0] ?? DEFAULT_LOCALE;
 	const forLang = allLegalPages.find(
-		(p) => p.pageType === params.type && p.projectSlug === params.slug && p.lang === lang,
+		(p) =>
+			p.pageType === params.type &&
+			p.projectSlug === params.slug &&
+			p.lang === lang,
 	);
 	const fallback = allLegalPages.find(
 		(p) =>
@@ -65,32 +69,54 @@ export default function LegalPage({ params }: { params: Params }) {
 	// Locales that actually have a file for this page, in canonical display order.
 	const availableSet = new Set<string>(
 		allLegalPages
-			.filter((p) => p.pageType === params.type && p.projectSlug === params.slug)
+			.filter(
+				(p) => p.pageType === params.type && p.projectSlug === params.slug,
+			)
 			.map((p) => p.lang),
 	);
-	const available = SUPPORTED_LOCALES.map((l) => l.code).filter((c) => availableSet.has(c));
+	const available = SUPPORTED_LOCALES.map((l) => l.code).filter((c) =>
+		availableSet.has(c),
+	);
 
 	return (
-		<header>
-			<div>
-				<Header project={page} />
-				<div className="bg-zinc-50 min-h-screen">
-					<article
-						lang={lang}
-						className="px-4 py-12 mx-auto prose prose-zinc prose-quoteless"
+		<div className="relative min-h-screen overflow-x-hidden">
+			<Navigation />
+			<Glow
+				className="-top-44 right-[-120px] h-[420px] w-[680px]"
+				strength={0.18}
+			/>
+
+			<main className="relative mx-auto max-w-3xl px-6 pb-20 pt-28">
+				<Eyebrow tone="muted">
+					<a
+						href={`/projects/${params.slug}`}
+						className="transition-colors duration-200 hover:text-fg"
 					>
-						<div className="flex justify-end mb-8">
-							<LanguageSwitcher
-								slug={params.slug}
-								type={params.type}
-								available={available}
-								current={lang}
-							/>
-						</div>
-						<Mdx code={page.body.code} />
-					</article>
+						&larr;{" "}
+						{allProjects.find((p) => p.slug === params.slug)?.title ??
+							params.slug}
+					</a>
+				</Eyebrow>
+
+				<div className="mt-4 flex flex-wrap items-start justify-between gap-4">
+					<h1 className="m-0 font-display text-4xl leading-tight text-fg-strong sm:text-5xl">
+						{page.title}
+					</h1>
+					<LanguageSwitcher
+						slug={params.slug}
+						type={params.type}
+						available={available}
+						current={lang}
+					/>
 				</div>
-			</div>
-		</header>
+
+				<article
+					lang={lang}
+					className="prose prose-invert prose-quoteless mt-8 max-w-none border-t border-line pt-8"
+				>
+					<Mdx code={page.body.code} />
+				</article>
+			</main>
+		</div>
 	);
 }

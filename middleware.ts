@@ -6,7 +6,9 @@ import { DEFAULT_LOCALE, isSupportedLocale, pickLocale } from "@/lib/i18n";
 // Only bare legal URLs (no locale segment) are matched — see `config` below.
 export function middleware(request: NextRequest) {
 	const { pathname } = request.nextUrl;
-	const match = pathname.match(/^\/projects\/([^/]+)\/(privacy|terms|deletion)\/?$/);
+	const match = pathname.match(
+		/^\/projects\/([^/]+)\/(privacy|terms|deletion)\/?$/,
+	);
 	if (!match) return NextResponse.next();
 
 	const [, slug, type] = match;

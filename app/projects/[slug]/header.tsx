@@ -1,143 +1,86 @@
 "use client";
-import { ArrowLeft, Github, Link2, Linkedin, Share2 } from "lucide-react";
-import Link from "next/link";
-import React, { useEffect, useRef, useState } from "react";
-import { FacebookShareButton, LinkedinShareButton, RedditShareButton } from "react-share";
-import { FacebookIcon, LinkedinIcon, RedditIcon } from "react-share";
+import { Share2 } from "lucide-react";
+import React, { useState } from "react";
 import ShareSheet from "@/app/components/share";
+import { Button, Eyebrow, TextLink } from "@/app/components/ui";
 
 type Props = {
 	project: {
+		slug: string;
 		url?: string;
 		title: string;
 		description?: string;
+		tagline?: string;
 		repository?: string;
 	};
+	rank?: number;
+	/** Extra link shown as a text link, e.g. a project landing page. */
+	site?: string;
 };
-export const Header: React.FC<Props> = ({ project }) => {
-	const ref = useRef<HTMLElement>(null);
-	const [isIntersecting, setIntersecting] = useState(true);
+
+export const Header: React.FC<Props> = ({ project, rank, site }) => {
 	const [isOpen, setIsOpen] = useState(false);
-	const toggleShareSheet = () => setIsOpen(!isOpen);
-	const [copied, setCopied] = useState(false);
-
-	const links: { label: string; href: string }[] = [];
-	if (project.repository) {
-		links.push({
-			label: "View source on GitHub",
-			href: `https://github.com/${project.repository}`,
-		});
-	}
-	if (project.url) {
-		links.push({
-			label: "Download on Google Play",
-			href: project.url,
-		});
-	}
-	useEffect(() => {
-		if (!ref.current) return;
-		const observer = new IntersectionObserver(([entry]) =>
-			setIntersecting(entry.isIntersecting),
-		);
-
-		observer.observe(ref.current);
-		return () => observer.disconnect();
-	}, []);
 
 	return (
-		<header
-			ref={ref}
-			className="relative isolate overflow-hidden bg-gradient-to-tl from-black via-zinc-900 to-black"
-		>
-			<div
-				className={`fixed inset-x-0 top-0 z-50 backdrop-blur lg:backdrop-blur-none duration-200 border-b lg:bg-transparent ${
-					isIntersecting
-						? "bg-zinc-900/0 border-transparent"
-						: "bg-white/10  border-zinc-200 lg:border-transparent"
-				}`}
-			>
-				<div className="container flex flex-row-reverse items-center justify-between p-6 mx-auto">
-					<div className="flex justify-between gap-8">
-						<div className="relative">
-							<button
-								onClick={toggleShareSheet}
-								className={`w-6 h-6 duration-200 hover:font-medium ${
-									isIntersecting
-										? "text-zinc-400 hover:text-zinc-100"
-										: "text-zinc-600 hover:text-zinc-900"
-								}`}
-							>
-								<Share2
-									className={`w-6 h-6 duration-200 hover:font-medium ${
-										isIntersecting
-											? " text-zinc-400 hover:text-zinc-100"
-											: "text-zinc-600 hover:text-zinc-900"
-									} `}
-								/>
-							</button>
-
-							{/* Share Sheet */}
-							{isOpen && (
-								<div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2">
-									<ShareSheet url={window.location.href} />
-								</div>
-							)}
-						</div>
-						<Link target="_blank" href="https://www.linkedin.com/in/tashilapathum">
-							<Linkedin
-								className={`w-6 h-6 duration-200 hover:font-medium ${
-									isIntersecting
-										? " text-zinc-400 hover:text-zinc-100"
-										: "text-zinc-600 hover:text-zinc-900"
-								} `}
-							/>
-						</Link>
-						<Link target="_blank" href="https://github.com/tashilapathum">
-							<Github
-								className={`w-6 h-6 duration-200 hover:font-medium ${
-									isIntersecting
-										? " text-zinc-400 hover:text-zinc-100"
-										: "text-zinc-600 hover:text-zinc-900"
-								} `}
-							/>
-						</Link>
-					</div>
-
-					<Link
-						href="./"
-						className={`duration-200 hover:font-medium ${
-							isIntersecting
-								? " text-zinc-400 hover:text-zinc-100"
-								: "text-zinc-600 hover:text-zinc-900"
-						} `}
+		<div className="relative pb-9 pt-11">
+			<div className="flex items-start justify-between gap-6">
+				<Eyebrow tone="muted">
+					<a
+						href="/projects"
+						className="transition-colors duration-200 hover:text-fg"
 					>
-						<ArrowLeft className="w-6 h-6 "/>
-					</Link>
-				</div>
-			</div>
-			<div className="container mx-auto relative isolate overflow-hidden  py-24 sm:py-32">
-				<div className="mx-auto max-w-7xl px-6 lg:px-8 text-center flex flex-col items-center">
-					<div className="mx-auto max-w-2xl lg:mx-0">
-						<h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl font-display">
-							{project.title}
-						</h1>
-						<p className="mt-6 text-lg leading-8 text-zinc-300">
-							{project.description}
-						</p>
-					</div>
+						&larr; Projects
+					</a>
+					{rank ? ` / ${String(rank).padStart(2, "0")}` : ""}
+				</Eyebrow>
 
-					<div className="mx-auto mt-10 max-w-2xl lg:mx-0 lg:max-w-none">
-						<div
-							className="grid grid-cols-1 gap-y-6 gap-x-8 text-base font-semibold leading-7 text-white sm:grid-cols-2 md:flex lg:gap-x-10">
-							{links.map((link) => (
-								<Link target="_blank" key={link.label} href={link.href}>
-									{link.label} <span aria-hidden="true">&rarr;</span>
-								</Link>
-							))}
+				<div className="relative">
+					<button
+						type="button"
+						aria-label="Share"
+						onClick={() => setIsOpen((o) => !o)}
+						className="text-muted2 transition-colors duration-200 hover:text-fg"
+					>
+						<Share2 className="h-5 w-5" />
+					</button>
+					{isOpen && (
+						<div className="absolute right-0 top-full z-40 mt-2">
+							<ShareSheet url={window.location.href} />
 						</div>
-					</div>
+					)}
 				</div>
 			</div>
-		</header>
+
+			<h1 className="mt-5 font-display text-5xl leading-[.98] text-white sm:text-6xl lg:text-[76px]">
+				{project.title}
+			</h1>
+			<p className="mt-4 max-w-[620px] text-[17.5px] leading-relaxed text-muted">
+				{project.tagline ?? project.description}
+			</p>
+
+			<div className="mt-7 flex flex-wrap items-center gap-3">
+				{project.repository && (
+					<Button href={`https://github.com/${project.repository}`} external>
+						View source
+					</Button>
+				)}
+				{project.url && (
+					<Button
+						href={project.url}
+						variant={project.repository ? "ghost" : "primary"}
+						external
+					>
+						Play Store
+					</Button>
+				)}
+				{site && (
+					<span className="ml-1.5">
+						<TextLink href={site} external>
+							{site.replace(/^https?:\/\//, "")}
+						</TextLink>
+					</span>
+				)}
+			</div>
+		</div>
 	);
 };
