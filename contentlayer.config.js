@@ -90,8 +90,15 @@ export const Project = defineDocumentType(() => ({
 		imageFit: {
 			type: "string",
 		},
-		/** Fit for the hero specifically. Defaults to `imageFit`. */
+		/**
+		 * Fit for the hero specifically. Defaults to `imageFit`. "banner" crops like
+		 * "cover" and adds grain, scanlines and a vignette to hide a low-res graphic.
+		 */
 		heroFit: {
+			type: "string",
+		},
+		/** CSS object-position for a "banner" hero crop. Defaults to "50% 40%". */
+		heroPosition: {
 			type: "string",
 		},
 		/** Portrait shot shown in the case-study sidebar. */

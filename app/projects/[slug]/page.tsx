@@ -62,7 +62,10 @@ export default async function ProjectPage({ params }: Props) {
 
 	// The index shot and the hero can differ; `hero` wins on the detail page.
 	const heroSrc = project.hero ?? project.image;
-	const heroContain = (project.heroFit ?? project.imageFit) === "contain";
+	const heroFit = project.heroFit ?? project.imageFit;
+	const heroContain = heroFit === "contain";
+	// A low-res store banner: cropped, then dressed so the upscale doesn't show.
+	const heroBanner = heroFit === "banner";
 
 	return (
 		<div className="relative min-h-screen overflow-x-hidden">
@@ -77,7 +80,40 @@ export default async function ProjectPage({ params }: Props) {
 				<Header project={project} rank={index >= 0 ? index + 1 : undefined} />
 
 				{/* Full-bleed hero */}
-				{heroSrc ? (
+				{heroSrc && heroBanner ? (
+					<div className="relative">
+						{/* Ambient spill: the cover's own colours light the page around it */}
+						<div
+							aria-hidden="true"
+							className="pointer-events-none absolute inset-x-[4%] inset-y-[-6%] opacity-40"
+						>
+							<Image
+								src={heroSrc}
+								alt=""
+								fill
+								sizes="600px"
+								className="scale-110 object-cover blur-3xl saturate-150"
+							/>
+						</div>
+						{/* Store banners are ~2:1, so phones show all of it; wider screens crop */}
+						<div className="relative aspect-[2/1] overflow-hidden rounded-[20px] border border-accent/30 sm:aspect-auto sm:h-[340px]">
+							<Image
+								src={heroSrc}
+								alt={project.imageAlt ?? `${project.title} cover`}
+								fill
+								sizes="(min-width: 1280px) 1200px, 100vw"
+								className="object-cover saturate-[1.15]"
+								style={{ objectPosition: project.heroPosition ?? "50% 40%" }}
+								priority
+							/>
+							<div
+								aria-hidden="true"
+								className="banner-texture absolute inset-0"
+							/>
+							<div aria-hidden="true" className="banner-scrim absolute inset-0" />
+						</div>
+					</div>
+				) : heroSrc ? (
 					<div
 						className={`relative overflow-hidden rounded-[20px] border border-accent/30 shadow-[0_0_80px_-30px_rgba(14,165,233,.6)] ${
 							heroContain ? "h-[420px] bg-surface2" : "h-[300px]"

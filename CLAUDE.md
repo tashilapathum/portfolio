@@ -36,7 +36,11 @@ thin project still renders correctly:
 - `hero` — a different shot for the detail hero only; falls back to `image`
 - `imageFit` / `heroFit` — `"contain"` shows the whole image on a quiet surface with a
   glow behind it (phone screenshots, logos); anything else crops to the frame. `heroFit`
-  defaults to `imageFit`
+  defaults to `imageFit`. `heroFit: "banner"` is for low-res Play Store feature graphics
+  (`public/projects/*-cover.*`): the hero crops (full 2:1 on phones) and layers grain, scanlines
+  and a vignette over it, with a blurred copy spilling the cover's colours around the frame.
+  `heroPosition` (CSS object-position, default `50% 40%`) moves that crop when the
+  important part of a cover isn't near the middle
 - `portrait` — portrait screenshot for the case-study sidebar
 - `featured: 1..4` — promotes a project to a full-scale alternating act on the index
 - `tagline` — replaces `description` in hero copy

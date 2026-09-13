@@ -1,16 +1,11 @@
 import Image from "next/image";
-import { allProjects } from "contentlayer/generated";
 import { Navigation } from "./components/nav";
 import { SiteFooter } from "./components/footer";
 import { Toolbox } from "./components/toolbox";
-import { Button, Glow, PlaceholderTile, SectionHead } from "./components/ui";
+import { Button, Glow, SectionHead } from "./components/ui";
 import { SITE, STATS } from "./components/site";
 
 export default function Home() {
-	const neoMusic = allProjects.find((p) => p.slug === "neo-music");
-	// The case-study hero is the loudest screen NeoMusic has — it leads here too.
-	const heroShot = neoMusic?.hero ?? neoMusic?.portrait;
-
 	return (
 		<div className="relative min-h-screen overflow-x-hidden">
 			<Navigation />
@@ -57,29 +52,22 @@ export default function Home() {
 						</div>
 					</div>
 
-					{/* Floating device */}
+					{/* Floating player: fills the row once the hero stacks, the column beside the copy from `lg` */}
 					<div className="relative flex justify-center lg:col-start-2 lg:row-span-2 lg:row-start-1">
 						<Glow
 							className="inset-y-[-8%] inset-x-[4%]"
 							strength={0.34}
 							tone="crimson"
 						/>
-						{heroShot ? (
-							<Image
-								src={heroShot}
-								alt="NeoMusic player screen"
-								width={300}
-								height={667}
-								sizes="(min-width: 1024px) 300px, 220px"
-								priority
-								className="relative w-[220px] animate-float rounded-[28px] border border-white/10 shadow-[0_0_80px_-10px_rgba(234,51,59,.45),0_40px_80px_-30px_rgba(0,0,0,.9)] lg:w-[300px]"
-							/>
-						) : (
-							<PlaceholderTile
-								label="NeoMusic player screen"
-								className="relative aspect-[9/20] w-[200px] animate-float rounded-[28px] lg:w-[272px]"
-							/>
-						)}
+						<Image
+							src="/hero.png"
+							alt="NeoMusic player screen"
+							width={1020}
+							height={1123}
+							sizes="(min-width: 1024px) 520px, 100vw"
+							priority
+							className="relative h-auto w-full animate-float rounded-[20px] border border-white/10 shadow-[0_0_80px_-10px_rgba(234,51,59,.45),0_40px_80px_-30px_rgba(0,0,0,.9)] sm:rounded-[28px]"
+						/>
 					</div>
 
 					{/* Four stats sit as an even 2 x 2 on a phone, one row from `sm` up. */}

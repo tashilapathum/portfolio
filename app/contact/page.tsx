@@ -32,8 +32,8 @@ const channels = [
 	{
 		icon: Smartphone,
 		href: SITE.links.playStore,
-		handle: "15+ apps",
-		label: "Google Play developer page",
+		handle: "Tashila Pathum",
+		label: "Google Play",
 	},
 ];
 
