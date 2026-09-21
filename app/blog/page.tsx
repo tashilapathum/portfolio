@@ -1,8 +1,7 @@
 import Link from "next/link";
 import { Metadata } from "next";
 import { allBlogPosts } from "contentlayer/generated";
-import { Navigation } from "../components/nav";
-import { Glow, TextLink } from "../components/ui";
+import { IndexCard, Label, Main, Paper, Title } from "../components/paper";
 
 export const revalidate = 60;
 
@@ -19,72 +18,57 @@ export default function BlogPage() {
 	const [latest, ...rest] = posts;
 
 	return (
-		<div className="relative min-h-screen overflow-x-hidden">
-			<Navigation />
-			<Glow
-				className="-top-40 right-[-120px] h-[380px] w-[520px]"
-				strength={0.2}
-			/>
+		<Main className="max-w-3xl">
+			<Title as="h1" className="text-[38px] sm:text-[52px]">
+				Blog
+			</Title>
+			<p className="mb-10 mt-4 max-w-[52ch] text-[15px] leading-relaxed text-graphite-soft">
+				Build logs and things I had to figure out the hard way.
+			</p>
 
-			<main className="relative mx-auto max-w-2xl px-6 pb-20 pt-28">
-				<h1 className="m-0 font-display text-4xl leading-tight text-fg-strong sm:text-[42px]">
-					Blog
-				</h1>
-				<p className="mb-7 mt-3 text-[14.5px] leading-relaxed text-muted">
-					Build logs and things I had to figure out the hard way.
-				</p>
-
-				{latest && (
-					<article className="mb-3 rounded-[20px] border border-accent/25 bg-gradient-to-b from-[#18222a] to-[#141719] p-6 shadow-[0_0_50px_-26px_rgba(14,165,233,.8)]">
-						<div className="flex justify-between font-mono text-[10px] font-medium uppercase tracking-[.12em] text-accent">
-							<span>Latest</span>
-							<span>{latest.readingTime} min</span>
+			{latest && (
+				<Paper curl={2} tilt={-0.4}>
+					<Link href={`/blog/${latest.slug}`} className="block p-6 sm:p-8">
+						<div className="flex items-baseline justify-between gap-4">
+							<Label>Latest</Label>
+							<span className="font-mono text-[10.5px] tabular-nums tracking-[.16em] text-graphite-faint">
+								{latest.readingTime} MIN
+							</span>
 						</div>
-						<h2 className="mt-2.5 font-display text-[28px] leading-tight text-white">
-							<Link
-								href={`/blog/${latest.slug}`}
-								className="transition-colors duration-200 hover:text-accent"
-							>
-								{latest.title}
-							</Link>
-						</h2>
-						<p className="mt-2.5 text-sm leading-relaxed text-muted">
+						<Title as="h2" className="mt-4 text-[26px] sm:text-[32px]">
+							{latest.title}
+						</Title>
+						<p className="mt-3.5 max-w-[56ch] text-[14px] leading-relaxed text-graphite-soft">
 							{latest.description}
 						</p>
-						<div className="mt-4">
-							<TextLink href={`/blog/${latest.slug}`}>Read the post</TextLink>
+						<div className="mt-5 font-mono text-[11px] uppercase tracking-[.16em] text-vermillion">
+							Read the post
 						</div>
-					</article>
-				)}
+					</Link>
+				</Paper>
+			)}
 
-				<div className="grid gap-2.5">
-					{rest.map((post) => (
-						<Link
-							key={post.slug}
-							href={`/blog/${post.slug}`}
-							className="flex items-center justify-between gap-4 rounded-[18px] border border-line bg-surface px-6 py-5 transition-colors duration-200 hover:border-line-strong"
-						>
-							<span>
-								<span className="block text-[15px] font-semibold leading-snug text-fg">
-									{post.title}
-								</span>
-								<span className="mt-1.5 block text-[13px] leading-relaxed text-muted">
-									{post.description}
-								</span>
-							</span>
-							<span className="flex-none font-mono text-xs text-muted2">
-								{post.readingTime} min
-							</span>
+			{rest.length > 0 && (
+				<div className="mt-10 grid gap-6 sm:grid-cols-2">
+					{rest.map((post, i) => (
+						<Link key={post.slug} href={`/blog/${post.slug}`}>
+							<IndexCard
+								title={post.title}
+								meta={`${post.formattedDate} · ${post.readingTime} min`}
+								tilt={i % 2 === 0 ? -0.5 : 0.4}
+							>
+								{post.description}
+							</IndexCard>
 						</Link>
 					))}
 				</div>
+			)}
 
-				{posts.length === 0 && (
-					<p className="py-16 text-center font-mono text-xs uppercase tracking-[.2em] text-muted2">
-						Nothing published yet
-					</p>
-				)}
-			</main>
-		</div>
+			{posts.length === 0 && (
+				<p className="py-16 text-center font-mono text-xs uppercase tracking-[.2em] text-graphite-faint">
+					Nothing published yet
+				</p>
+			)}
+		</Main>
 	);
 }

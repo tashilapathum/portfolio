@@ -3,8 +3,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { allLegalPages, allProjects } from "contentlayer/generated";
 import { Mdx } from "@/app/components/mdx";
-import { Navigation } from "@/app/components/nav";
-import { Glow, Eyebrow, PlaceholderTile } from "@/app/components/ui";
+import {
+	IndexCard,
+	Label,
+	Main,
+	Paper,
+	Photo,
+	SectionHead,
+} from "@/app/components/paper";
 import { Header } from "./header";
 import { Footer, type LegalLink } from "./footer";
 import "./mdx.css";
@@ -68,41 +74,27 @@ export default async function ProjectPage({ params }: Props) {
 	const heroBanner = heroFit === "banner";
 
 	return (
-		<div className="relative min-h-screen overflow-x-hidden">
-			<Navigation />
-			<Glow
-				className="-top-44 right-[-120px] h-[520px] w-[780px]"
-				strength={0.26}
-				pulse
-			/>
+		<Main>
+			<Header project={project} />
 
-			<main className="relative mx-auto max-w-7xl px-6 pt-16 lg:px-12">
-				<Header project={project} rank={index >= 0 ? index + 1 : undefined} />
-
-				{/* Full-bleed hero */}
-				{heroSrc && heroBanner ? (
-					<div className="relative">
-						{/* Ambient spill: the cover's own colours light the page around it */}
-						<div
-							aria-hidden="true"
-							className="pointer-events-none absolute inset-x-[4%] inset-y-[-6%] opacity-40"
-						>
-							<Image
-								src={heroSrc}
-								alt=""
-								fill
-								sizes="600px"
-								className="scale-110 object-cover blur-3xl saturate-150"
-							/>
-						</div>
-						{/* Store banners are ~2:1, so phones show all of it; wider screens crop */}
-						<div className="relative aspect-[2/1] overflow-hidden rounded-[20px] border border-accent/30 sm:aspect-auto sm:h-[340px]">
+			{/* The hero, mounted.
+			 *
+			 * All three fits become a print on the page rather than a
+			 * full-bleed image: the covers are saturated store banners, and
+			 * the paper border is what stops them fighting the stock they
+			 * sit on. A banner additionally gets grain, scanlines and a
+			 * vignette, because those covers are low-res and the dressing
+			 * is what hides the upscale. */}
+			{heroSrc && heroBanner ? (
+				<Paper curl={2} radius="rounded-[2px]" tilt={-0.5}>
+					<div className="p-2 pb-6 sm:p-2.5 sm:pb-8">
+						<div className="relative aspect-[2/1] overflow-hidden bg-desk-2 sm:aspect-[3/1]">
 							<Image
 								src={heroSrc}
 								alt={project.imageAlt ?? `${project.title} cover`}
 								fill
-								sizes="(min-width: 1280px) 1200px, 100vw"
-								className="object-cover saturate-[1.15]"
+								sizes="(min-width: 1280px) 1100px, 100vw"
+								className="object-cover"
 								style={{ objectPosition: project.heroPosition ?? "50% 40%" }}
 								priority
 							/>
@@ -110,148 +102,143 @@ export default async function ProjectPage({ params }: Props) {
 								aria-hidden="true"
 								className="banner-texture absolute inset-0"
 							/>
-							<div aria-hidden="true" className="banner-scrim absolute inset-0" />
+							<div
+								aria-hidden="true"
+								className="banner-scrim absolute inset-0"
+							/>
 						</div>
 					</div>
-				) : heroSrc ? (
-					<div
-						className={`relative overflow-hidden rounded-[20px] border border-accent/30 shadow-[0_0_80px_-30px_rgba(14,165,233,.6)] ${
-							heroContain ? "h-[420px] bg-surface2" : "h-[300px]"
-						}`}
-					>
-						{heroContain && (
-							<Glow className="inset-x-[28%] inset-y-[6%]" strength={0.3} />
-						)}
-						<Image
-							src={heroSrc}
-							alt={project.imageAlt ?? `${project.title} screenshot`}
-							fill
-							sizes="(min-width: 1280px) 1200px, 100vw"
-							unoptimized={heroSrc.endsWith(".svg")}
-							className={
-								heroContain ? "object-contain py-6 px-[16%]" : "object-cover"
-							}
-							priority
-						/>
-					</div>
-				) : (
-					<PlaceholderTile
-						label={`${project.title} — hero`}
-						accent
-						className="h-[300px] rounded-[20px]"
-					/>
-				)}
+				</Paper>
+			) : heroSrc ? (
+				// A `contain` hero is a logo or a single screen, not a wide
+				// shot. Run it full width and it becomes a wall of empty
+				// mount, so it is capped to the size of an actual print.
+				<Photo
+					src={heroSrc}
+					alt={project.imageAlt ?? `${project.title} screenshot`}
+					mount="tape"
+					fit={heroContain ? "contain" : "cover"}
+					aspect={heroContain ? "aspect-[4/3]" : "aspect-[21/9]"}
+					className={heroContain ? "max-w-[420px]" : ""}
+					sizes={
+						heroContain
+							? "(min-width: 640px) 420px, 100vw"
+							: "(min-width: 1280px) 1100px, 100vw"
+					}
+					tilt={-0.5}
+					priority
+				/>
+			) : null}
 
-				{/* Fact cards */}
-				{project.facts && project.facts.length > 0 && (
-					<div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-						{project.facts.map((fact) => (
-							<div
-								key={fact.label}
-								className="rounded-[18px] border border-line bg-surface p-5"
-							>
-								<div className="font-mono text-[10px] font-medium uppercase leading-tight tracking-[.14em] text-muted2">
-									{fact.label}
-								</div>
-								<div className="mt-2 font-display text-[17px] leading-snug text-white">
+			{/* Fact cards */}
+			{project.facts && project.facts.length > 0 && (
+				<div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+					{project.facts.map((fact, i) => (
+						<Paper
+							key={fact.label}
+							stock="card"
+							tilt={[-0.5, 0.4, -0.3, 0.5][i % 4]}
+						>
+							<div className="p-5">
+								<Label>{fact.label}</Label>
+								<div className="mt-2.5 font-title text-[16px] font-bold uppercase leading-snug tracking-[-.01em] text-graphite">
 									{fact.value}
 								</div>
 							</div>
-						))}
-					</div>
-				)}
+						</Paper>
+					))}
+				</div>
+			)}
 
-				<div className="grid gap-11 pb-12 pt-10 lg:grid-cols-[1fr_250px]">
-					<div className="min-w-0">
-						{/* Spec table */}
-						{project.specs && project.specs.length > 0 && (
-							<>
-								<Eyebrow className="mb-3.5 tracking-[.14em]">
-									At a glance
-								</Eyebrow>
-								<div className="grid gap-px overflow-hidden rounded-[14px] bg-white/[.08]">
+			<div className="grid gap-12 pt-14 lg:grid-cols-[1fr_260px]">
+				<div className="min-w-0">
+					{/* Specs belong on graph paper: that is the stock's whole job. */}
+					{project.specs && project.specs.length > 0 && (
+						<>
+							<SectionHead title="At a glance" className="mb-5" />
+							<Paper stock="graph" curl={0}>
+								<div className="divide-y divide-rule/10">
 									{project.specs.map((spec) => (
 										<div
 											key={spec.label}
-											className="grid gap-4 bg-surface2 px-5 py-4 sm:grid-cols-[150px_1fr]"
+											className="grid gap-x-5 gap-y-1 px-5 py-4 sm:grid-cols-[150px_1fr]"
 										>
-											<span className="font-mono text-[10.5px] font-medium uppercase leading-snug text-muted2">
+											<span className="font-mono text-[10.5px] uppercase leading-snug tracking-[.14em] text-graphite-faint">
 												{spec.label}
 											</span>
-											<span className="text-[14.5px] leading-normal text-[#D6DBDF]">
+											<span className="text-[14.5px] leading-normal text-graphite">
 												{spec.value}
 											</span>
 										</div>
 									))}
 								</div>
-							</>
-						)}
+							</Paper>
+						</>
+					)}
 
-						{/* Engineering notes */}
-						{project.notes && project.notes.length > 0 && (
-							<>
-								<Eyebrow className="mb-3.5 mt-9 tracking-[.14em]">
-									Engineering notes
-								</Eyebrow>
-								<div className="grid gap-3 sm:grid-cols-2">
-									{project.notes.map((note) => (
-										<div
-											key={note.title}
-											className="rounded-2xl border border-line bg-surface2 p-[18px]"
-										>
-											<div className="text-sm font-semibold leading-snug text-fg">
-												{note.title}
-											</div>
-											<div className="mt-1.5 text-[13px] leading-relaxed text-muted">
-												{note.body}
-											</div>
-										</div>
-									))}
-								</div>
-							</>
-						)}
+					{project.notes && project.notes.length > 0 && (
+						<>
+							<SectionHead title="Engineering notes" className="mb-5 mt-14" />
+							<div className="grid gap-5 sm:grid-cols-2">
+								{project.notes.map((note, i) => (
+									<IndexCard
+										key={note.title}
+										title={note.title}
+										tilt={i % 2 === 0 ? -0.4 : 0.5}
+									>
+										{note.body}
+									</IndexCard>
+								))}
+							</div>
+						</>
+					)}
 
-						<article className="prose prose-invert prose-quoteless mt-10 max-w-none">
+					<Paper curl={0} className="mt-14">
+						<article className="prose prose-paper max-w-none px-6 py-9 sm:px-10 sm:py-12">
 							<Mdx
 								code={project.body.code}
 								hideImage={project.image}
 								hideHeading={project.title}
 							/>
 						</article>
-					</div>
-
-					{/* Sidebar */}
-					<aside className="grid content-start gap-5 lg:sticky lg:top-24">
-						{project.portrait && (
-							<div className="relative aspect-[9/19.5] overflow-hidden rounded-[20px] border border-accent/30 shadow-[0_0_40px_-14px_rgba(14,165,233,.5)]">
-								<Image
-									src={project.portrait}
-									alt={`${project.title} portrait screenshot`}
-									fill
-									sizes="250px"
-									className="object-cover"
-								/>
-							</div>
-						)}
-						{next && (
-							<Link
-								href={`/projects/${next.slug}`}
-								className="block rounded-[18px] border border-accent/25 bg-tile-accent p-5 transition-colors duration-200 hover:border-accent/50"
-							>
-								<div className="mb-1.5 text-sm font-semibold text-fg">
-									Next project
-								</div>
-								<div className="text-[13px] leading-relaxed text-muted">
-									{next.title} &rarr;
-								</div>
-							</Link>
-						)}
-					</aside>
+					</Paper>
 				</div>
 
-				<Footer links={legalLinks} />
-				<div className="h-10" />
-			</main>
-		</div>
+				{/*
+				 * `overflow-x: clip` on body (see `layout.tsx`) creates no
+				 * scroll container, so this sticky still works. It would
+				 * not under `overflow-x: hidden`.
+				 */}
+				<aside className="grid content-start gap-7 lg:sticky lg:top-28">
+					{project.portrait && (
+						<Photo
+							src={project.portrait}
+							alt={`${project.title} portrait screenshot`}
+							mount="photo-corners"
+							aspect="aspect-[9/19.5]"
+							sizes="260px"
+							tilt={1.2}
+						/>
+					)}
+					{next && (
+						<Link href={`/projects/${next.slug}`}>
+							<Paper stock="card" tilt={-0.6}>
+								<div className="p-5">
+									<Label>Next project</Label>
+									<div className="mt-2.5 font-title text-[17px] font-bold uppercase leading-snug tracking-[-.01em] text-graphite">
+										{next.title}
+									</div>
+									<div className="mt-3 font-mono text-[10.5px] uppercase tracking-[.16em] text-vermillion">
+										Open the file
+									</div>
+								</div>
+							</Paper>
+						</Link>
+					)}
+				</aside>
+			</div>
+
+			<Footer links={legalLinks} />
+		</Main>
 	);
 }

@@ -1,6 +1,5 @@
 import { allProjects } from "contentlayer/generated";
-import { Navigation } from "../components/nav";
-import { Glow } from "../components/ui";
+import { Main, Title } from "../components/paper";
 import { spell } from "../components/site";
 import { ProjectsList, type ProjectItem } from "./projects-list";
 
@@ -43,33 +42,20 @@ export default function ProjectsPage() {
 	}));
 
 	return (
-		<div className="relative min-h-screen overflow-x-hidden">
-			<Navigation />
-			<Glow
-				className="-top-48 left-[-140px] h-[520px] w-[760px]"
-				strength={0.2}
-			/>
+		<Main>
+			<div className="flex flex-wrap items-end justify-between gap-x-10 gap-y-5">
+				<Title as="h1" className="text-[46px] sm:text-[60px] lg:text-[72px]">
+					{spell(projects.length)}
+					<br />
+					projects.
+				</Title>
+				<p className="m-0 max-w-[38ch] pb-1.5 text-[14.5px] leading-relaxed text-graphite-soft">
+					Personal apps, client work and Android libraries. Some freelance apps
+					were pulled from Play by their owners. The write-ups stay as a record.
+				</p>
+			</div>
 
-			<main className="relative mx-auto max-w-7xl px-6 pt-28 lg:px-12">
-				<div className="flex flex-wrap items-end justify-between gap-9 border-b border-white/10 pb-6">
-					<h1 className="m-0 font-display text-5xl leading-[.96] text-fg-strong sm:text-6xl lg:text-[72px]">
-						{spell(projects.length)}
-						<br />
-						projects.
-					</h1>
-					<p className="m-0 max-w-[380px] text-[14.5px] leading-relaxed text-muted">
-						Personal apps, client work and Android libraries. Some freelance
-						apps were pulled from Play by their owners — the write-ups stay as a
-						record.
-					</p>
-				</div>
-
-				<div className="mt-6">
-					<ProjectsList projects={projects} categories={categories} />
-				</div>
-
-				<div className="h-14" />
-			</main>
-		</div>
+			<ProjectsList projects={projects} categories={categories} />
+		</Main>
 	);
 }

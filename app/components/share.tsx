@@ -1,68 +1,60 @@
+"use client";
+import { useState } from "react";
 import {
 	FacebookShareButton,
-	FacebookIcon,
 	LinkedinShareButton,
-	LinkedinIcon,
 	RedditShareButton,
-	RedditIcon,
 } from "react-share";
-import { Link2 } from "lucide-react";
-import { useState } from "react";
 
-interface ShareSheetProps {
-	url: string; // Pass URL as a prop for flexibility
-	className?: string; // Optional custom styling
-}
-
-export default function ShareSheet({ url, className }: ShareSheetProps) {
+/**
+ * The share sheet, on tracing paper.
+ *
+ * Word marks rather than the `react-share` colour icons: three
+ * saturated brand circles are the one thing on this site that would not
+ * belong on a drawing, and dropping them takes three vendor icon
+ * components out of the bundle with them.
+ *
+ * `"use client"` is load-bearing. This has always used `useState` and
+ * only worked because both callers happened to be client components.
+ */
+export default function ShareSheet({
+	url,
+	className = "",
+}: {
+	url: string;
+	className?: string;
+}) {
 	const [copied, setCopied] = useState(false);
+
+	const item =
+		"block w-full px-4 py-2.5 text-left font-mono text-[11px] uppercase tracking-[.16em] text-graphite-soft transition-colors duration-200 hover:text-vermillion";
 
 	return (
 		<div
-			className={`bg-zinc-800 shadow-md p-4 rounded-lg z-10 max-w-xs ${className}`}
+			className={`stock-tracing w-[190px] rounded-[3px] border border-rule/20 py-1.5 shadow-[0_14px_30px_-14px_rgb(var(--shadow-rgb)/.5)] ${className}`}
 		>
-			<p className="text-sm mb-2 font-medium text-zinc-200 text-center">
-				Share this page
-			</p>
-			<div className="flex space-x-2">
-				<FacebookShareButton url={url}>
-					<FacebookIcon
-						size={32}
-						round
-						iconFillColor="white"
-						bgStyle={{ fill: "#3b5998" }}
-					/>
-				</FacebookShareButton>
+			<LinkedinShareButton url={url} className={item} resetButtonStyle={false}>
+				LinkedIn
+			</LinkedinShareButton>
+			<FacebookShareButton url={url} className={item} resetButtonStyle={false}>
+				Facebook
+			</FacebookShareButton>
+			<RedditShareButton url={url} className={item} resetButtonStyle={false}>
+				Reddit
+			</RedditShareButton>
 
-				<LinkedinShareButton url={url}>
-					<LinkedinIcon
-						size={32}
-						round
-						iconFillColor="white"
-						bgStyle={{ fill: "#0077B5" }}
-					/>
-				</LinkedinShareButton>
-
-				<RedditShareButton url={url}>
-					<RedditIcon size={32} round iconFillColor="white" />
-				</RedditShareButton>
-
-				{/* Copy Link Button */}
-				<button
-					onClick={() => {
-						navigator.clipboard.writeText(url).then(() => {
-							setCopied(true);
-							setTimeout(() => setCopied(false), 2000);
-						});
-					}}
-					className="flex items-center justify-center w-8 h-8 bg-zinc-700 transition-colors duration-200 hover:bg-zinc-600 rounded-full"
-				>
-					<Link2 className="w-6 h-6 text-zinc-400 transition-colors duration-200 hover:text-zinc-100" />
-				</button>
-			</div>
-			{copied && (
-				<p className="text-xs text-green-500 text-center mt-2">Copied!</p>
-			)}
+			<button
+				type="button"
+				className={item}
+				onClick={() => {
+					navigator.clipboard.writeText(url).then(() => {
+						setCopied(true);
+						setTimeout(() => setCopied(false), 2000);
+					});
+				}}
+			>
+				{copied ? "Copied" : "Copy link"}
+			</button>
 		</div>
 	);
 }

@@ -1,6 +1,5 @@
 "use client";
 
-import { Check, Globe } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import { DEFAULT_LOCALE, nativeName } from "@/lib/i18n";
@@ -63,17 +62,13 @@ export const LanguageSwitcher: React.FC<Props> = ({
 				onClick={() => setOpen((v) => !v)}
 				aria-haspopup="listbox"
 				aria-expanded={open}
-				className="inline-flex items-center gap-2 rounded-xl border border-line bg-surface px-3 py-2 text-sm font-medium text-muted transition-colors duration-200 hover:border-line-strong hover:text-fg"
+				className="cardboard inline-flex items-center gap-2 rounded-[2px] bg-paper-2 px-3.5 py-2 font-mono text-[11px] uppercase tracking-[.14em] text-graphite [--kraft-edge:var(--graphite-faint)]"
 			>
-				<Globe className="h-4 w-4" />
 				{nativeName(current)}
 			</button>
 
 			{open && (
-				<ul
-					role="listbox"
-					className="absolute right-0 z-50 mt-2 max-h-72 w-48 overflow-auto rounded-xl border border-line bg-surface py-1 shadow-lg focus:outline-none"
-				>
+				<ul className="stock-tracing absolute right-0 z-50 mt-2 max-h-72 w-52 overflow-auto rounded-[3px] border border-rule/20 py-1.5 shadow-[0_14px_30px_-14px_rgb(var(--shadow-rgb)/.5)] focus:outline-none">
 					{available.map((code) => (
 						<li key={code}>
 							<button
@@ -81,12 +76,14 @@ export const LanguageSwitcher: React.FC<Props> = ({
 								role="option"
 								aria-selected={code === current}
 								onClick={() => select(code)}
-								className={`flex w-full items-center justify-between px-3 py-2 text-left text-sm transition-colors duration-150 hover:bg-white/5 ${
-									code === current ? "font-semibold text-accent" : "text-muted"
+								className={`flex w-full items-center justify-between px-4 py-2 text-left text-[13px] transition-colors duration-150 hover:text-vermillion ${
+									code === current
+										? "font-semibold text-vermillion"
+										: "text-graphite-soft"
 								}`}
 							>
 								{nativeName(code)}
-								{code === current && <Check className="h-4 w-4" />}
+								{code === current && <span aria-hidden="true">&check;</span>}
 							</button>
 						</li>
 					))}

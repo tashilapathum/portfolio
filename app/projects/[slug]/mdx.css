@@ -1,40 +1,78 @@
-[data-rehype-pretty-code-figure] code {
-	@apply grid min-w-full break-words rounded-none border-0 bg-transparent p-0 text-sm;
+/*
+ * Code blocks.
+ *
+ * `rehype-pretty-code` 0.10 wraps each block in
+ * `[data-rehype-pretty-code-fragment]` and, when given two themes,
+ * emits the block TWICE as sibling `<pre data-theme="light">` and
+ * `<pre data-theme="dark">`, each with its palette inlined on every
+ * span. So the switch is a display toggle, not a custom property.
+ *
+ * Note the attribute is `-fragment` in this version, not `-figure`.
+ * The old stylesheet targeted `-figure` throughout, which meant the
+ * line numbering and highlight rules below had never applied to
+ * anything.
+ */
+
+/* Light stock: hide the dark block. */
+.mdx [data-rehype-pretty-code-fragment] > pre[data-theme="dark"] {
+	display: none;
+}
+
+/* Blueprint: swap which one is showing. */
+[data-theme="dark"] .mdx [data-rehype-pretty-code-fragment] > pre[data-theme="dark"] {
+	display: block;
+}
+[data-theme="dark"] .mdx [data-rehype-pretty-code-fragment] > pre[data-theme="light"] {
+	display: none;
+}
+
+/*
+ * Shiki inlines `background-color` on the `pre`, which is `#fff` for
+ * github-light and would sit as a bright slab on manila and a white
+ * one on blueprint. The well belongs to the page, not to the theme,
+ * so it is overridden. The token colours stay inline, which is the
+ * point of them.
+ */
+.mdx [data-rehype-pretty-code-fragment] > pre {
+	background-color: rgb(var(--desk-2)) !important;
+}
+
+[data-rehype-pretty-code-fragment] code {
+	@apply grid min-w-full break-words rounded-none border-0 bg-transparent p-0 text-[13px];
 	counter-reset: line;
 	box-decoration-break: clone;
 }
-[data-rehype-pretty-code-figure] .line {
+[data-rehype-pretty-code-fragment] .line {
 	@apply px-4 py-1;
 }
-[data-rehype-pretty-code-figure] [data-line-numbers] > .line::before {
+[data-rehype-pretty-code-fragment] [data-line-numbers] > .line::before {
 	counter-increment: line;
 	content: counter(line);
 	display: inline-block;
 	width: 1rem;
 	margin-right: 1rem;
 	text-align: right;
-	@apply text-muted3;
+	@apply text-graphite-faint;
 }
-[data-rehype-pretty-code-figure] .line--highlighted {
-	@apply bg-accent/10;
+[data-rehype-pretty-code-fragment] .line--highlighted {
+	@apply bg-vermillion/10;
 }
-[data-rehype-pretty-code-figure] .line-highlighted span {
+[data-rehype-pretty-code-fragment] .line-highlighted span {
 	@apply relative;
 }
-[data-rehype-pretty-code-figure] .word--highlighted {
-	@apply rounded-md bg-accent/20 p-1;
+[data-rehype-pretty-code-fragment] .word--highlighted {
+	@apply rounded-[2px] bg-vermillion/20 p-1;
 }
 [data-rehype-pretty-code-title] {
-	@apply mt-4 px-4 py-2 font-mono text-xs uppercase tracking-[.14em] text-muted2;
+	@apply mt-4 px-4 py-2 font-mono text-[11px] uppercase tracking-[.14em] text-graphite-faint;
 }
 [data-rehype-pretty-code-title] + pre {
 	@apply mt-0;
 }
 
-/* MDX bodies carry inline light-mode assumptions in a few places. */
 .mdx img {
 	@apply mx-auto;
 }
 .mdx iframe {
-	@apply rounded-xl;
+	@apply rounded-[3px];
 }

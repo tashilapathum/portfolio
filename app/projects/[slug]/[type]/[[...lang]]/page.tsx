@@ -3,8 +3,8 @@ import { Mdx } from "@/app/components/mdx";
 import React from "react";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { Navigation } from "@/app/components/nav";
-import { Eyebrow, Glow } from "@/app/components/ui";
+import Link from "next/link";
+import { Main, Paper, Title } from "@/app/components/paper";
 import { LanguageSwitcher } from "@/app/components/language-switcher";
 import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from "@/lib/i18n";
 
@@ -79,29 +79,27 @@ export default function LegalPage({ params }: { params: Params }) {
 	);
 
 	return (
-		<div className="relative min-h-screen overflow-x-hidden">
-			<Navigation />
-			<Glow
-				className="-top-44 right-[-120px] h-[420px] w-[680px]"
-				strength={0.18}
-			/>
+		<Main className="max-w-3xl">
+			<Link
+				href={`/projects/${params.slug}`}
+				className="font-mono text-[10.5px] uppercase tracking-[.2em] text-graphite-faint transition-colors duration-200 hover:text-vermillion"
+			>
+				&larr;{" "}
+				{allProjects.find((p) => p.slug === params.slug)?.title ?? params.slug}
+			</Link>
 
-			<main className="relative mx-auto max-w-3xl px-6 pb-20 pt-28">
-				<Eyebrow tone="muted">
-					<a
-						href={`/projects/${params.slug}`}
-						className="transition-colors duration-200 hover:text-fg"
-					>
-						&larr;{" "}
-						{allProjects.find((p) => p.slug === params.slug)?.title ??
-							params.slug}
-					</a>
-				</Eyebrow>
-
-				<div className="mt-4 flex flex-wrap items-start justify-between gap-4">
-					<h1 className="m-0 font-display text-4xl leading-tight text-fg-strong sm:text-5xl">
+			{/*
+			 * `lang` wraps the heading as well as the body, not just the
+			 * article. The script fallbacks in `global.css` key off
+			 * `:lang()`, and with the attribute on the article alone a
+			 * Sinhala or Japanese title still rendered uppercase at
+			 * Archivo's tracking, which those scripts have no case for.
+			 */}
+			<div lang={lang}>
+				<div className="mt-6 flex flex-wrap items-start justify-between gap-5">
+					<Title as="h1" className="text-[30px] sm:text-[40px]">
 						{page.title}
-					</h1>
+					</Title>
 					<LanguageSwitcher
 						slug={params.slug}
 						type={params.type}
@@ -110,13 +108,14 @@ export default function LegalPage({ params }: { params: Params }) {
 					/>
 				</div>
 
-				<article
-					lang={lang}
-					className="prose prose-invert prose-quoteless mt-8 max-w-none border-t border-line pt-8"
-				>
-					<Mdx code={page.body.code} />
-				</article>
-			</main>
-		</div>
+				{/* Pinned flat, per the curl table: legal text is not
+				    something anyone picks up. */}
+				<Paper curl={0} className="mt-9">
+					<article className="prose prose-paper max-w-none px-6 py-9 sm:px-10 sm:py-12">
+						<Mdx code={page.body.code} />
+					</article>
+				</Paper>
+			</div>
+		</Main>
 	);
 }

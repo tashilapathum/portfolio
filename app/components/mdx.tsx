@@ -1,10 +1,19 @@
-// @ts-nocheck
 import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useMDXComponent } from "next-contentlayer/hooks";
 
-function clsx(...args: any) {
+/**
+ * The MDX component map, on tokens.
+ *
+ * Nothing in here may use a raw colour. The old map was built out of
+ * `border-white/10` and `bg-white/[.03]`, which is invisible on manila
+ * and was the single largest surface that broke when the site moved off
+ * the dark stock. Every rule now comes from `--rule` and every ink from
+ * the graphite ramp, so one map serves both papers.
+ */
+
+function clsx(...args: (string | false | null | undefined)[]) {
 	return args.filter(Boolean).join(" ");
 }
 
@@ -22,11 +31,16 @@ function textOf(node: React.ReactNode): string {
 	);
 }
 
+type Styled<T> = T & { className?: string; children?: React.ReactNode };
+
+const HEADING =
+	"scroll-m-20 font-title font-extrabold uppercase tracking-[-.02em] text-graphite";
+
 const buildComponents = ({
 	hideImage,
 	hideHeading,
 }: { hideImage?: string; hideHeading?: string }) => ({
-	h1: ({ className, ...props }) => {
+	h1: ({ className, ...props }: Styled<React.HTMLAttributes<HTMLElement>>) => {
 		if (
 			hideHeading &&
 			normalize(textOf(props.children)) === normalize(hideHeading)
@@ -34,87 +48,95 @@ const buildComponents = ({
 			return null;
 		return (
 			<h1
-				className={clsx(
-					"mt-2 scroll-m-20 font-display text-4xl font-normal tracking-tight",
-					className,
-				)}
+				className={clsx("mt-2 text-[32px] leading-[.95]", HEADING, className)}
 				{...props}
 			/>
 		);
 	},
-	h2: ({ className, ...props }) => (
+	h2: ({ className, ...props }: Styled<React.HTMLAttributes<HTMLElement>>) => (
 		<h2
 			className={clsx(
-				"mt-10 scroll-m-20 border-b border-b-white/10 pb-2 font-display text-3xl font-normal tracking-tight first:mt-0",
+				"mt-12 border-b border-rule/15 pb-2.5 text-[25px] leading-none first:mt-0",
+				HEADING,
 				className,
 			)}
 			{...props}
 		/>
 	),
-	h3: ({ className, ...props }) => (
+	h3: ({ className, ...props }: Styled<React.HTMLAttributes<HTMLElement>>) => (
 		<h3
-			className={clsx(
-				"mt-8 scroll-m-20 font-display text-2xl font-normal tracking-tight",
-				className,
-			)}
+			className={clsx("mt-9 text-[19px] leading-none", HEADING, className)}
 			{...props}
 		/>
 	),
-	h4: ({ className, ...props }) => (
+	h4: ({ className, ...props }: Styled<React.HTMLAttributes<HTMLElement>>) => (
 		<h4
 			className={clsx(
-				"mt-8 scroll-m-20 text-xl font-semibold tracking-tight",
+				"mt-8 font-mono text-[11px] uppercase tracking-[.2em] text-graphite-faint",
 				className,
 			)}
 			{...props}
 		/>
 	),
-	h5: ({ className, ...props }) => (
+	h5: ({ className, ...props }: Styled<React.HTMLAttributes<HTMLElement>>) => (
 		<h5
 			className={clsx(
-				"mt-8 scroll-m-20 text-lg font-semibold tracking-tight",
+				"mt-8 text-[15px] font-semibold tracking-tight text-graphite",
 				className,
 			)}
 			{...props}
 		/>
 	),
-	h6: ({ className, ...props }) => (
+	h6: ({ className, ...props }: Styled<React.HTMLAttributes<HTMLElement>>) => (
 		<h6
 			className={clsx(
-				"mt-8 scroll-m-20 text-base font-semibold tracking-tight",
+				"mt-8 text-[14px] font-semibold tracking-tight text-graphite",
 				className,
 			)}
 			{...props}
 		/>
 	),
-	a: ({ className, ...props }) => (
+	a: ({ className, ...props }: Styled<{ href?: string }>) => (
 		<Link
+			href={props.href ?? "#"}
 			className={clsx(
-				"font-medium text-accent underline decoration-accent/40 underline-offset-4 transition-colors duration-200 hover:text-accent-soft",
+				"font-medium text-vermillion underline decoration-vermillion/35 underline-offset-4 transition-colors duration-200 hover:decoration-vermillion",
 				className,
 			)}
 			{...props}
 		/>
 	),
-	p: ({ className, ...props }) => (
+	p: ({ className, ...props }: Styled<React.HTMLAttributes<HTMLElement>>) => (
 		<p
-			className={clsx("leading-7 [&:not(:first-child)]:mt-6", className)}
+			className={clsx(
+				"leading-7 text-graphite-soft [&:not(:first-child)]:mt-6",
+				className,
+			)}
 			{...props}
 		/>
 	),
-	ul: ({ className, ...props }) => (
-		<ul className={clsx("my-6 ml-6 list-disc", className)} {...props} />
+	ul: ({ className, ...props }: Styled<React.HTMLAttributes<HTMLElement>>) => (
+		<ul
+			className={clsx("my-6 ml-6 list-disc text-graphite-soft", className)}
+			{...props}
+		/>
 	),
-	ol: ({ className, ...props }) => (
-		<ol className={clsx("my-6 ml-6 list-decimal", className)} {...props} />
+	ol: ({ className, ...props }: Styled<React.HTMLAttributes<HTMLElement>>) => (
+		<ol
+			className={clsx("my-6 ml-6 list-decimal text-graphite-soft", className)}
+			{...props}
+		/>
 	),
-	li: ({ className, ...props }) => (
+	li: ({ className, ...props }: Styled<React.HTMLAttributes<HTMLElement>>) => (
 		<li className={clsx("mt-2", className)} {...props} />
 	),
-	blockquote: ({ className, ...props }) => (
+	blockquote: ({
+		className,
+		...props
+	}: Styled<React.HTMLAttributes<HTMLElement>>) => (
 		<blockquote
 			className={clsx(
-				"mt-6 border-l-2 border-accent/40 pl-6 italic text-fg [&>*]:text-muted",
+				"mt-6 border-l-2 border-vermillion/45 pl-6 italic text-graphite-soft",
 				className,
 			)}
 			{...props}
@@ -126,65 +148,74 @@ const buildComponents = ({
 		...props
 	}: React.ImgHTMLAttributes<HTMLImageElement>) => {
 		if (hideImage && props.src === hideImage) return null;
+		// A print, mounted: the paper border is what stops a saturated
+		// store banner clashing with the stock it sits on.
 		return (
 			// eslint-disable-next-line @next/next/no-img-element
+			// rome-ignore lint/a11y/useAltText: alt is forwarded from the MDX source
 			<img
-				className={clsx("rounded-xl border border-line", className)}
+				className={clsx(
+					"rounded-[2px] border-[6px] border-paper bg-desk-2 shadow-[0_10px_22px_-12px_rgb(var(--shadow-rgb)/.5)]",
+					className,
+				)}
 				alt={alt}
 				{...props}
 			/>
 		);
 	},
-	hr: ({ ...props }) => (
-		<hr className="my-4 border-white/10 md:my-8" {...props} />
+	hr: ({ ...props }: React.HTMLAttributes<HTMLHRElement>) => (
+		<hr className="my-8 border-rule/15" {...props} />
 	),
 	table: ({ className, ...props }: React.HTMLAttributes<HTMLTableElement>) => (
-		<div className="w-full my-6 overflow-y-auto">
+		<div className="my-6 w-full overflow-x-auto">
 			<table className={clsx("w-full", className)} {...props} />
 		</div>
 	),
 	tr: ({ className, ...props }: React.HTMLAttributes<HTMLTableRowElement>) => (
 		<tr
 			className={clsx(
-				"m-0 border-t border-white/10 p-0 even:bg-white/[.03]",
+				"m-0 border-t border-rule/15 p-0 even:bg-rule/[.04]",
 				className,
 			)}
 			{...props}
 		/>
 	),
-	th: ({ className, ...props }) => (
+	th: ({ className, ...props }: Styled<React.HTMLAttributes<HTMLElement>>) => (
 		<th
 			className={clsx(
-				"border border-white/10 px-4 py-2 text-left font-semibold text-fg [&[align=center]]:text-center [&[align=right]]:text-right",
+				"border border-rule/15 px-4 py-2 text-left font-mono text-[11px] uppercase tracking-[.14em] text-graphite-faint [&[align=center]]:text-center [&[align=right]]:text-right",
 				className,
 			)}
 			{...props}
 		/>
 	),
-	td: ({ className, ...props }) => (
+	td: ({ className, ...props }: Styled<React.HTMLAttributes<HTMLElement>>) => (
 		<td
 			className={clsx(
-				"border border-white/10 px-4 py-2 text-left text-muted [&[align=center]]:text-center [&[align=right]]:text-right",
+				"border border-rule/15 px-4 py-2 text-left text-graphite-soft [&[align=center]]:text-center [&[align=right]]:text-right",
 				className,
 			)}
 			{...props}
 		/>
 	),
-	pre: ({ className, ...props }) => (
+	pre: ({ className, ...props }: Styled<React.HTMLAttributes<HTMLElement>>) => (
 		<pre
 			className={clsx(
-				"mt-6 mb-4 overflow-x-auto rounded-xl border border-line bg-surface2 py-4",
+				"mb-4 mt-6 overflow-x-auto rounded-[3px] border border-rule/15 bg-desk-2 py-4",
 				className,
 			)}
 			{...props}
 		/>
 	),
-	code: ({ className, ...props }) => (
+	code: ({
+		className,
+		...props
+	}: Styled<React.HTMLAttributes<HTMLElement>>) => (
 		<code
 			className={clsx(
-				"font-mono text-sm",
+				"font-mono text-[13px]",
 				!("data-language" in props) &&
-					"relative rounded border border-line bg-white/[.06] py-[0.2rem] px-[0.3rem] text-accent-soft",
+					"relative rounded-[2px] border border-rule/15 bg-rule/[.06] px-[.3rem] py-[.15rem] text-graphite",
 				className,
 			)}
 			{...props}

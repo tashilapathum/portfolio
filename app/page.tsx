@@ -1,102 +1,106 @@
-import Image from "next/image";
-import { Navigation } from "./components/nav";
-import { SiteFooter } from "./components/footer";
+import { Cta } from "./components/cta";
 import { Toolbox } from "./components/toolbox";
-import { Button, Glow, SectionHead } from "./components/ui";
+import {
+	Annotation,
+	Button,
+	Main,
+	Photo,
+	SectionHead,
+	Title,
+} from "./components/paper";
 import { SITE, STATS } from "./components/site";
 
 export default function Home() {
 	return (
-		<div className="relative min-h-screen overflow-x-hidden">
-			<Navigation />
-			<Glow
-				className="-top-64 right-[-120px] h-[620px] w-[900px]"
-				strength={0.26}
-				pulse
-			/>
+		<Main>
+			{/*
+			 * `minmax(0, …)` on both columns, not bare `fr`. An `fr` track
+			 * floors at its content's min-content width, and a 74px
+			 * uppercase headline has a very large one: it ate the whole row
+			 * and crushed the photo column to 21 pixels.
+			 */}
+			<section className="grid items-center gap-12 pb-4 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,.95fr)] lg:gap-16">
+				<div>
+					{/*
+					 * Scale is planned against the print beside it. At 74px
+					 * this nine-word headline ran six lines in its column;
+					 * a hero headline gets two.
+					 */}
+					<Title as="h1" className="text-[36px] sm:text-[46px] lg:text-[54px]">
+						I build Android apps that feel{" "}
+						<em className="not-italic text-vermillion">exciting</em> to use.
+					</Title>
 
-			<main className="relative mx-auto max-w-7xl px-6 pt-28 lg:px-12">
-				{/* Hero */}
-				<section className="flex flex-col gap-10 pb-16 lg:grid lg:grid-cols-[1.12fr_.88fr] lg:items-center lg:gap-12">
-					<div className="animate-fade-in lg:col-start-1 lg:row-start-1">
-						{/*
-						 * The hard breaks are shaped for a wide column, so they only
-						 * apply once there is one; below `sm` the line wraps itself.
-						 */}
-						<h1 className="m-0 font-display text-[42px] leading-[.98] -tracking-[.02em] text-fg-strong sm:text-6xl lg:text-[74px]">
-							I build Android apps{" "}
-							<br className="hidden sm:inline" />
-							that feel{" "}
-							<em className="italic text-accent [text-shadow:0_0_40px_rgba(14,165,233,.55)]">
-								{" "}exciting{" "}
-							</em>
-							<br className="hidden sm:inline" />
-							to use.
-						</h1>
-						<p className="mt-6 max-w-[470px] text-[17px] leading-relaxed text-muted">
-							{SITE.role}. Seven years of Kotlin, Compose and Flutter, from a
-							music player drawn pixel by pixel on a Canvas to the Ktor backends
-							behind it.
-						</p>
-						<div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
-							<Button href="/projects" className="w-full sm:w-auto">
-								See the projects
-							</Button>
-							<Button
-								href={`mailto:${SITE.email}`}
-								variant="ghost"
-								className="w-full sm:w-auto"
-							>
-								{SITE.email}
-							</Button>
-						</div>
+					<p className="mt-7 max-w-[46ch] text-[16.5px] leading-relaxed text-graphite-soft">
+						{SITE.role}. Seven years of Kotlin, Compose and Flutter, from a
+						music player drawn pixel by pixel on a Canvas to the Ktor backends
+						behind it.
+					</p>
+
+					<div className="mt-9 flex flex-col gap-3.5 sm:flex-row sm:flex-wrap sm:items-center">
+						<Button href="/projects" className="w-full sm:w-auto">
+							See the projects
+						</Button>
+						<Button
+							href={`mailto:${SITE.email}`}
+							variant="quiet"
+							className="w-full sm:w-auto"
+						>
+							{SITE.email}
+						</Button>
 					</div>
 
-					{/* Floating player: fills the row once the hero stacks, the column beside the copy from `lg` */}
-					<div className="relative flex justify-center lg:col-start-2 lg:row-span-2 lg:row-start-1">
-						<Glow
-							className="inset-y-[-8%] inset-x-[4%]"
-							strength={0.34}
-							tone="crimson"
-						/>
-						<Image
-							src="/hero.png"
-							alt="NeoMusic player screen"
-							width={1020}
-							height={1123}
-							sizes="(min-width: 1024px) 520px, 100vw"
-							priority
-							className="relative h-auto w-full animate-float rounded-[20px] border border-white/10 shadow-[0_0_80px_-10px_rgba(234,51,59,.45),0_40px_80px_-30px_rgba(0,0,0,.9)] sm:rounded-[28px]"
-						/>
-					</div>
+					{/* In the first viewport, so it does not wipe on: the
+					    animation would finish before anyone looked at it. */}
+					<Annotation className="ml-1 mt-8" tilt={-1.8} write={false}>
+						the Canvas one is still my favourite
+					</Annotation>
+				</div>
 
-					{/* Four stats sit as an even 2 x 2 on a phone, one row from `sm` up. */}
-					<dl className="m-0 grid grid-cols-2 gap-x-6 gap-y-7 border-t border-line pt-7 sm:flex sm:flex-wrap sm:gap-9 lg:col-start-1 lg:row-start-2">
-						{STATS.map((stat) => (
-							<div key={stat.label}>
-								<dt className="sr-only">{stat.label}</dt>
-								<dd className="m-0">
-									<div className="font-display text-[34px] leading-none text-fg-strong">
-										{stat.value}
-									</div>
-									<div className="mt-1.5 font-mono text-[10.5px] font-medium uppercase leading-tight tracking-[.12em] text-muted2">
-										{stat.label}
-									</div>
-								</dd>
+				<Photo
+					src="/hero.png"
+					alt="NeoMusic player screen"
+					mount="tape"
+					aspect="aspect-[1020/1123]"
+					sizes="(min-width: 1024px) 460px, 100vw"
+					tilt={1.4}
+					// `w-full` is load-bearing next to `mx-auto`. An auto
+					// margin stops a grid item stretching to its area, so the
+					// print sized to its content instead, and an aspect-ratio
+					// box holding a `fill` image has no intrinsic width: it
+					// collapsed to its own padding, 21 pixels.
+					className="w-full max-w-[420px] mx-auto lg:max-w-none"
+					priority
+				/>
+			</section>
+
+			{/*
+			 * Printed straight on the desk, not boxed. Four numbers do not
+			 * need four cards, and a row of tiles here would compete with
+			 * the print beside it.
+			 */}
+			<dl className="m-0 mt-16 grid grid-cols-2 gap-x-8 gap-y-8 border-t border-rule/15 pt-9 sm:flex sm:flex-wrap sm:gap-12">
+				{STATS.map((stat) => (
+					<div key={stat.label}>
+						<dt className="sr-only">{stat.label}</dt>
+						<dd className="m-0">
+							<div className="font-title text-[34px] font-extrabold leading-none tracking-[-.02em] text-graphite">
+								{stat.value}
 							</div>
-						))}
-					</dl>
-				</section>
+							<div className="mt-2 font-mono text-[10px] uppercase leading-tight tracking-[.16em] text-graphite-faint">
+								{stat.label}
+							</div>
+						</dd>
+					</div>
+				))}
+			</dl>
 
-				<SiteFooter />
+			<Cta />
 
-				{/* Tech stack */}
-				<section className="pt-14">
-					<SectionHead title="Tech stack" className="mb-2.5" />
-					<Toolbox />
-				</section>
-				<div className="h-14" />
-			</main>
-		</div>
+			<section className="pt-20">
+				<SectionHead title="Tech stack" className="mb-8" />
+				<Toolbox />
+			</section>
+		</Main>
 	);
 }

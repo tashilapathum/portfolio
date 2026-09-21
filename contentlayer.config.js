@@ -238,7 +238,12 @@ export default makeSource({
 			[
 				rehypePrettyCode,
 				{
-					theme: "github-dark",
+					// Both stocks. Shiki writes each token twice, as
+					// `--shiki-light` and `--shiki-dark` custom properties,
+					// and `mdx.css` picks the pair that matches the theme.
+					// A single dark theme left a black code island sitting on
+					// manila.
+					theme: { light: "github-light", dark: "github-dark" },
 					onVisitLine(node) {
 						// Prevent lines from collapsing in `display: grid` mode, and allow empty
 						// lines to be copy/pasted

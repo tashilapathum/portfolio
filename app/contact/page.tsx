@@ -1,7 +1,5 @@
-import { Github, Linkedin, Mail, Smartphone } from "lucide-react";
 import { Metadata } from "next";
-import { Navigation } from "../components/nav";
-import { Glow } from "../components/ui";
+import { Annotation, Label, Main, Paper, Title } from "../components/paper";
 import { SITE } from "../components/site";
 
 export const metadata: Metadata = {
@@ -9,28 +7,15 @@ export const metadata: Metadata = {
 	description: `Get in touch with ${SITE.name}.`,
 };
 
-const channels = [
+/**
+ * No icons here on purpose. A drafting sheet labels a thing in words;
+ * a little glyph in a rounded chip is the vocabulary of a different
+ * design, and it was the only reason this page pulled in lucide.
+ */
+const CHANNELS = [
+	{ href: SITE.links.linkedin, handle: SITE.name, label: "LinkedIn" },
+	{ href: SITE.links.github, handle: "tashilapathum", label: "GitHub" },
 	{
-		icon: Mail,
-		href: `mailto:${SITE.email}`,
-		handle: SITE.email,
-		label: "Email",
-		primary: true,
-	},
-	{
-		icon: Linkedin,
-		href: SITE.links.linkedin,
-		handle: SITE.name,
-		label: "LinkedIn",
-	},
-	{
-		icon: Github,
-		href: SITE.links.github,
-		handle: "tashilapathum",
-		label: "GitHub",
-	},
-	{
-		icon: Smartphone,
 		href: SITE.links.playStore,
 		handle: "Tashila Pathum",
 		label: "Google Play",
@@ -39,63 +24,53 @@ const channels = [
 
 export default function ContactPage() {
 	return (
-		<div className="relative min-h-screen overflow-x-hidden">
-			<Navigation />
-			<Glow
-				className="bottom-[-190px] left-1/2 h-[380px] w-[520px] -translate-x-1/2"
-				strength={0.26}
-				pulse
-			/>
+		<Main className="max-w-3xl">
+			<Title as="h1" className="text-[38px] sm:text-[52px]">
+				Say hello.
+			</Title>
+			<p className="mb-10 mt-4 max-w-[46ch] text-[15px] leading-relaxed text-graphite-soft">
+				Roles, collaborations, or a question about a project.
+			</p>
 
-			<main className="relative mx-auto flex min-h-screen max-w-lg flex-col justify-center px-6 py-28">
-				<h1 className="m-0 font-display text-4xl leading-tight text-fg-strong sm:text-[42px]">
-					Say hello.
-				</h1>
-				<p className="mb-7 mt-3 text-[14.5px] leading-relaxed text-muted">
-					Roles, collaborations or a question about a project.
-				</p>
+			{/* Email is the one thing on this page anyone actually wants, so
+			    it gets a sheet of its own rather than a slot in a grid. */}
+			<Paper curl={2} tilt={-0.4}>
+				<a
+					href={`mailto:${SITE.email}`}
+					className="block p-6 sm:p-8"
+					aria-label={`Email ${SITE.email}`}
+				>
+					<Label>Email</Label>
+					<div className="mt-3 break-words font-title text-[26px] font-extrabold uppercase leading-none tracking-[-.02em] text-graphite sm:text-[34px]">
+						{SITE.email}
+					</div>
+					<div className="mt-4 font-mono text-[11px] uppercase tracking-[.16em] text-vermillion">
+						Write to me
+					</div>
+				</a>
+			</Paper>
 
-				<div className="grid gap-2.5">
-					{channels.map((c) => {
-						const Icon = c.icon;
-						return (
-							<a
-								key={c.href}
-								href={c.href}
-								target={c.href.startsWith("mailto:") ? undefined : "_blank"}
-								rel="noopener noreferrer"
-								className={`flex items-center gap-3.5 rounded-2xl p-[18px] transition-colors duration-200 ${
-									c.primary
-										? "border border-accent/30 bg-tile-accent shadow-[0_0_40px_-18px_rgba(14,165,233,.8)] hover:border-accent/60"
-										: "border border-line bg-surface hover:border-line-strong"
-								}`}
-							>
-								<span
-									className={`flex h-[38px] w-[38px] flex-none items-center justify-center rounded-xl ${
-										c.primary
-											? "bg-accent/20 text-accent-soft"
-											: "bg-white/[.07] text-muted"
-									}`}
-								>
-									<Icon size={18} />
-								</span>
-								<span>
-									<span className="block text-sm font-semibold leading-snug text-fg">
-										{c.handle}
-									</span>
-									<span
-										className={`mt-0.5 block font-mono text-xs leading-snug ${
-											c.primary ? "text-accent-soft" : "text-muted2"
-										}`}
-									>
-										{c.label}
-									</span>
-								</span>
-							</a>
-						);
-					})}
-				</div>
-			</main>
-		</div>
+			<Annotation className="ml-1 mt-6" tilt={-1.6}>
+				I read all of it. I reply to most of it.
+			</Annotation>
+
+			<div className="mt-10 grid gap-5 sm:grid-cols-3">
+				{CHANNELS.map((channel, i) => (
+					<Paper key={channel.href} stock="card" tilt={[-0.5, 0.4, -0.3][i]}>
+						<a
+							href={channel.href}
+							target="_blank"
+							rel="noopener noreferrer"
+							className="block p-5"
+						>
+							<Label>{channel.label}</Label>
+							<div className="mt-2.5 text-[14px] leading-snug text-graphite">
+								{channel.handle}
+							</div>
+						</a>
+					</Paper>
+				))}
+			</div>
+		</Main>
 	);
 }

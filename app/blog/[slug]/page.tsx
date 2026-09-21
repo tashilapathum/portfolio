@@ -2,8 +2,7 @@ import { notFound } from "next/navigation";
 import { allBlogPosts } from "contentlayer/generated";
 import "../../projects/[slug]/mdx.css";
 import { Mdx } from "@/app/components/mdx";
-import { Navigation } from "@/app/components/nav";
-import { Glow } from "@/app/components/ui";
+import { Main, Paper } from "@/app/components/paper";
 import { Header } from "./header";
 
 export const revalidate = 60;
@@ -28,20 +27,16 @@ export default async function PostPage({ params }: Props) {
 	}
 
 	return (
-		<div className="relative min-h-screen overflow-x-hidden">
-			<Navigation />
-			<Glow
-				className="-top-44 right-[-120px] h-[460px] w-[720px]"
-				strength={0.22}
-				pulse
-			/>
+		<Main className="max-w-3xl">
+			<Header post={post} />
 
-			<main className="relative mx-auto max-w-3xl px-6 pb-20 pt-16">
-				<Header post={post} />
-				<article className="prose prose-invert prose-quoteless max-w-none border-t border-line pt-10">
+			{/* Long-form copy is pinned flat. Curl is for things you could
+			    pick up, and nobody picks up the page they are reading. */}
+			<Paper curl={0}>
+				<article className="prose prose-paper max-w-none px-6 py-9 sm:px-10 sm:py-12">
 					<Mdx code={post.body.code} />
 				</article>
-			</main>
-		</div>
+			</Paper>
+		</Main>
 	);
 }

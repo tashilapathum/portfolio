@@ -1,8 +1,8 @@
 "use client";
-import { Share2 } from "lucide-react";
-import React, { useState } from "react";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 import ShareSheet from "@/app/components/share";
-import { Eyebrow } from "@/app/components/ui";
+import { Title } from "@/app/components/paper";
 
 type Props = {
 	post: {
@@ -13,48 +13,51 @@ type Props = {
 	};
 };
 
-export const Header: React.FC<Props> = ({ post }) => {
+export function Header({ post }: Props) {
 	const [isOpen, setIsOpen] = useState(false);
+	const [url, setUrl] = useState("");
+
+	// Read the location after mount rather than during render, so this
+	// stays safe if the share sheet ever renders before a click.
+	useEffect(() => setUrl(window.location.href), []);
 
 	return (
-		<div className="relative pb-8 pt-11">
+		<div className="relative pb-9">
 			<div className="flex items-start justify-between gap-6">
-				<Eyebrow tone="muted">
-					<a
-						href="/blog"
-						className="transition-colors duration-200 hover:text-fg"
-					>
-						&larr; Blog
-					</a>
-				</Eyebrow>
+				<Link
+					href="/blog"
+					className="font-mono text-[10.5px] uppercase tracking-[.2em] text-graphite-faint transition-colors duration-200 hover:text-vermillion"
+				>
+					&larr; Blog
+				</Link>
 
 				<div className="relative">
 					<button
 						type="button"
-						aria-label="Share"
+						aria-expanded={isOpen}
 						onClick={() => setIsOpen((o) => !o)}
-						className="text-muted2 transition-colors duration-200 hover:text-fg"
+						className="font-mono text-[10.5px] uppercase tracking-[.2em] text-graphite-faint transition-colors duration-200 hover:text-vermillion"
 					>
-						<Share2 className="h-5 w-5" />
+						Share
 					</button>
 					{isOpen && (
 						<div className="absolute right-0 top-full z-40 mt-2">
-							<ShareSheet url={window.location.href} />
+							<ShareSheet url={url} />
 						</div>
 					)}
 				</div>
 			</div>
 
-			<h1 className="mt-5 font-display text-4xl leading-[1.02] text-white sm:text-5xl lg:text-[56px]">
+			<Title as="h1" className="mt-6 text-[34px] sm:text-[44px] lg:text-[54px]">
 				{post.title}
-			</h1>
-			<p className="mt-4 max-w-[620px] text-[17px] leading-relaxed text-muted">
+			</Title>
+			<p className="mt-5 max-w-[58ch] text-[16px] leading-relaxed text-graphite-soft">
 				{post.description}
 			</p>
-			<div className="mt-5 flex gap-5 font-mono text-[11px] uppercase tracking-[.14em] text-muted2">
+			<div className="mt-5 flex gap-5 font-mono text-[10.5px] uppercase tracking-[.16em] text-graphite-faint">
 				<span>{post.formattedDate}</span>
 				<span>{post.readingTime} min read</span>
 			</div>
 		</div>
 	);
-};
+}

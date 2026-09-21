@@ -2,23 +2,525 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ==================================================================
+ * THE DRAUGHTSMAN'S DESK
+ *
+ * Light mode is manila drafting paper under warm daylight.
+ * Dark mode is a cyanotype blueprint under a drafting lamp: a
+ * different paper stock, not an inversion.
+ *
+ * Tokens are space-separated RGB triplets so Tailwind's alpha
+ * modifier works, e.g. `bg-paper/60` -> rgb(var(--paper) / .6).
+ * ================================================================== */
 @layer base {
+	:root {
+		/* Manila drafting paper */
+		--desk: 223 214 197;
+		--desk-2: 210 200 181;
+		--paper: 245 241 232;
+		--paper-2: 236 230 217;
+		--kraft: 198 170 130;
+		--kraft-edge: 148 120 84;
+		--kraft-ink: 28 27 24;
+		--graphite: 28 27 24;
+		--graphite-soft: 84 80 72;
+		--graphite-faint: 106 100 90;
+		--vermillion: 190 62 42;
+		--rule: 28 27 24;
+		--shadow-rgb: 72 62 48;
+		--tape: 244 236 208;
+		--tape-alpha: 0.5;
+		--grain-alpha: 0.04;
+		--sheen: 255 255 255;
+
+		/* Chips. Raised is the lighter of the pair in both stocks. */
+		--chip: 236 230 217;
+		--chip-raised: 245 241 232;
+
+		/* The paper's own fibre, stretched along the grain direction.
+		 * Distinct from `.grain`, which is the lamp's dust over the
+		 * whole page. This one tiles inside each sheet. */
+		--fibre: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.025 .9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)' opacity='.05'/%3E%3C/svg%3E");
+
+		/* The single light source. `LightSource` rewrites these on
+		 * pointer move; the defaults put the lamp up and to the left.
+		 * Range is -1..1 on each axis. */
+		--lx: -0.35;
+		--ly: -1;
+
+		color-scheme: light;
+	}
+
+	:root[data-theme="dark"] {
+		/* Cyanotype blueprint, printed deep */
+		--desk: 4 10 20;
+		--desk-2: 7 16 30;
+		--paper: 13 30 56;
+		--paper-2: 17 38 68;
+		--kraft: 33 58 93;
+		--kraft-edge: 13 28 50;
+		--kraft-ink: 220 234 250;
+		--graphite: 214 230 246;
+		--graphite-soft: 156 184 212;
+		--graphite-faint: 116 146 180;
+		--vermillion: 232 118 96;
+		--rule: 190 220 250;
+		--shadow-rgb: 0 3 10;
+		--tape: 132 168 204;
+		--tape-alpha: 0.22;
+		--grain-alpha: 0.055;
+		--sheen: 190 225 255;
+
+		/* Reversed against the light stock on purpose: on blueprint the
+		 * lighter tone is the more elevated one, so raised takes the
+		 * value that light mode gives the quiet chip. */
+		--chip: 13 30 56;
+		--chip-raised: 17 38 68;
+
+		/* Blueprint is a smoother, harder stock than manila, and the
+		 * dark ground shows noise far more readily. Half the fibre. */
+		--fibre: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.025 .9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)' opacity='.03'/%3E%3C/svg%3E");
+
+		color-scheme: dark;
+	}
+
 	html {
 		scroll-behavior: smooth;
 	}
 
+	/*
+	 * Non-Latin scripts.
+	 *
+	 * Archivo covers Latin, Latin-ext and Vietnamese. It does not cover
+	 * Sinhala, Japanese, Korean, Devanagari, Thai, Chinese or Cyrillic,
+	 * and the legal pages render in all of them. Left alone, a Sinhala
+	 * heading falls back to whatever the browser picks at Archivo's
+	 * metrics, which is both unstyled and badly spaced.
+	 *
+	 * These are SYSTEM stacks, not webfonts, and that is deliberate:
+	 * Noto Sans JP alone is several megabytes, and shipping that so a
+	 * privacy policy can have a matching headline is the wrong trade.
+	 * Every platform ships a good face for each of these scripts. The
+	 * uppercase transform is also dropped, because none of these
+	 * scripts have letter case and `uppercase` is meaningless or
+	 * harmful in them.
+	 */
+	:lang(si) {
+		--font-script: "Noto Sans Sinhala", "Iskoola Pota", "Nirmala UI", sans-serif;
+	}
+	:lang(ja) {
+		--font-script: "Hiragino Sans", "Yu Gothic", "Noto Sans JP", "Meiryo",
+			sans-serif;
+	}
+	:lang(ko) {
+		--font-script: "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR",
+			sans-serif;
+	}
+	:lang(zh-cn) {
+		--font-script: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+	}
+	:lang(hi) {
+		--font-script: "Noto Sans Devanagari", "Nirmala UI", "Kohinoor Devanagari",
+			sans-serif;
+	}
+	:lang(th) {
+		--font-script: "Noto Sans Thai", "Thonburi", "Leelawadee UI", sans-serif;
+	}
+	:lang(ru) {
+		--font-script: "Inter", "Segoe UI", system-ui, sans-serif;
+	}
+
+	/* Applies to headings and body alike wherever a script font is set. */
+	[lang]:not(:lang(en)) .font-title,
+	[lang]:not(:lang(en)) h1,
+	[lang]:not(:lang(en)) h2,
+	[lang]:not(:lang(en)) h3 {
+		font-family: var(--font-script, var(--font-archivo)), sans-serif;
+	}
+
+	:lang(si) .font-title,
+	:lang(ja) .font-title,
+	:lang(ko) .font-title,
+	:lang(zh-cn) .font-title,
+	:lang(hi) .font-title,
+	:lang(th) .font-title,
+	:lang(si) h1,
+	:lang(ja) h1,
+	:lang(ko) h1,
+	:lang(zh-cn) h1,
+	:lang(hi) h1,
+	:lang(th) h1,
+	:lang(si) h2,
+	:lang(ja) h2,
+	:lang(ko) h2,
+	:lang(zh-cn) h2,
+	:lang(hi) h2,
+	:lang(th) h2,
+	:lang(si) h3,
+	:lang(ja) h3,
+	:lang(ko) h3,
+	:lang(zh-cn) h3,
+	:lang(hi) h3,
+	:lang(th) h3 {
+		/* No case in these scripts, so uppercase does nothing useful and
+		 * the tight display tracking fights their glyph shapes. */
+		text-transform: none;
+		letter-spacing: normal;
+		line-height: 1.35;
+	}
+
+	[lang]:not(:lang(en)) p,
+	[lang]:not(:lang(en)) li,
+	[lang]:not(:lang(en)) td,
+	[lang]:not(:lang(en)) th {
+		font-family: var(--font-script, var(--font-geist)), sans-serif;
+	}
+
+	/* No colour here. The desk wrapper in `layout.tsx` paints the
+	 * ground from tokens, so both stocks work without a `dark:`
+	 * variant. A hardcoded colour on body is theme-blind and fights
+	 * light mode on every page at once. */
 	body {
-		background-color: #101215;
-		color: #e8ebed;
 		text-rendering: optimizeLegibility;
 	}
 
 	::selection {
-		background-color: rgba(14, 165, 233, 0.3);
+		background-color: rgb(var(--vermillion) / 0.22);
 	}
 }
 
+/* ==================================================================
+ * MATERIALS
+ * Every shadow below derives its direction from --lx / --ly, so the
+ * whole page is lit by one lamp. Offsets are the negative of the
+ * light vector: light up-left means shadows fall down-right.
+ * ================================================================== */
 @layer components {
+	/* ---- The desk itself ---------------------------------------- */
+	.desk {
+		background-color: rgb(var(--desk));
+		background-image: radial-gradient(
+			130% 100% at calc(50% + var(--lx) * 26%) calc(8% + var(--ly) * 8%),
+			rgb(var(--sheen) / 0.17),
+			transparent 62%
+		);
+	}
+
+	/* One fixed grain pass for the whole page. Never per sheet. */
+	.grain::after {
+		content: "";
+		position: fixed;
+		inset: 0;
+		z-index: 60;
+		pointer-events: none;
+		opacity: var(--grain-alpha);
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+	}
+
+	/* ---- Paper --------------------------------------------------
+	 * Structure is <div.paper> > two .curl layers + <div.sheet>.
+	 * The curl layers are real siblings painted under the sheet
+	 * rather than a ::before at z-index:-1, which disappears behind
+	 * an opaque parent background.
+	 *
+	 * Because each curl layer is rotated, its blurred shadow
+	 * spreads at the lifted corner and pinches at the contact
+	 * edge. That asymmetry is what reads as paper rather than as
+	 * a generic drop shadow.
+	 * ------------------------------------------------------------ */
+	/* Curl levels live in CSS, never as inline style. An inline custom
+	 * property outranks the :active rule below, which would leave the
+	 * press animating nothing but a 1px nudge. */
+	/* Flex column so the sheet always fills the paper box. In a stretch
+	 * grid the paper is as tall as the tallest cell while the sheet is
+	 * only as tall as its content, and every pixel of that difference is
+	 * bare .paper with the curl shadows sitting on it, unmasked. That is
+	 * what puts two grey shapes under a short card in a row of tall ones.
+	 * The sheet is the only in-flow child; both curl layers are absolute. */
+	.paper {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		--curl-rot: 1.8deg;
+		--curl-inset: 17px;
+		--curl-drop: 9px;
+		--curl-blur: 22px;
+		--curl-alpha: 0.28;
+	}
+
+	.paper[data-curl="0"] {
+		--curl-rot: 0deg;
+		--curl-inset: 19px;
+		--curl-drop: 5px;
+		--curl-blur: 16px;
+		--curl-alpha: 0.22;
+	}
+
+	.paper[data-curl="2"] {
+		--curl-rot: 3deg;
+		--curl-inset: 15px;
+		--curl-drop: 12px;
+		--curl-blur: 28px;
+		--curl-alpha: 0.32;
+	}
+
+	/* Sits behind the sheet, which is opaque, so only the lower part of
+	 * its shadow escapes past the sheet's edge. The inset keeps the body
+	 * of the shadow hidden: push it down too far and the layers stop
+	 * reading as a lift and start reading as two grey shapes parked
+	 * under the card.
+	 *
+	 * The caster is an ELLIPSE, and that is the whole trick. A rectangle
+	 * casts a shadow with a straight bottom and square ends, so what
+	 * escapes below the sheet is a flat-bottomed slab, and the two of
+	 * them read as trapezoids with a notch between. An ellipse has no
+	 * edge to escape: the shadow is deepest under the corner the
+	 * rotation dips and thins to nothing toward the middle of the card,
+	 * which is what a lifted corner actually does to the light.
+	 *
+	 * Rotation only. A skew here puts the hard edge straight back. */
+	.paper > .curl {
+		position: absolute;
+		z-index: 0;
+		bottom: var(--curl-inset);
+		width: 56%;
+		height: 30%;
+		min-height: 34px;
+		max-height: 74px;
+		border-radius: 50%;
+		box-shadow: calc(var(--lx) * -3px) var(--curl-drop) var(--curl-blur)
+			rgb(var(--shadow-rgb) / var(--curl-alpha));
+		transition: box-shadow 0.24s cubic-bezier(0.2, 0.8, 0.3, 1),
+			transform 0.24s cubic-bezier(0.2, 0.8, 0.3, 1),
+			bottom 0.24s cubic-bezier(0.2, 0.8, 0.3, 1);
+	}
+
+	/* The outer end of each ellipse is the one the rotation dips, so the
+	 * pair reads as two lifted corners rather than one wide bar. */
+	.paper > .curl-l {
+		left: 0;
+		transform: rotate(calc(var(--curl-rot) * -1));
+	}
+
+	.paper > .curl-r {
+		right: 0;
+		transform: rotate(var(--curl-rot));
+	}
+
+	.paper > .sheet {
+		position: relative;
+		z-index: 1;
+		flex: 1 1 auto;
+		box-shadow: calc(var(--lx) * -2px) calc(var(--ly) * -2px) 4px -1px
+			rgb(var(--shadow-rgb) / 0.24);
+		transition: box-shadow 0.24s cubic-bezier(0.2, 0.8, 0.3, 1),
+			transform 0.24s cubic-bezier(0.2, 0.8, 0.3, 1);
+	}
+
+	/* Pressed: the sheet flattens to the curl-0 shadow. Because the
+	 * curl layer transitions box-shadow and transform, and both are
+	 * computed from these variables, the shadow eases down rather
+	 * than the sheet just nudging. It settles tight and near, never
+	 * to nothing: flat paper still touches the desk. */
+	.paper:active,
+	.paper[data-pressed="true"] {
+		--curl-rot: 0deg;
+		--curl-inset: 19px;
+		--curl-drop: 5px;
+		--curl-blur: 16px;
+		--curl-alpha: 0.22;
+	}
+
+	.paper:active > .sheet,
+	.paper[data-pressed="true"] > .sheet {
+		transform: translateY(1.5px);
+	}
+
+	/* ---- Stock --------------------------------------------------- */
+	.stock-bond {
+		background-color: rgb(var(--paper));
+		background-image: var(--fibre);
+	}
+
+	.stock-card {
+		background-color: rgb(var(--paper-2));
+		background-image: var(--fibre);
+	}
+
+	.stock-graph {
+		background-color: rgb(var(--paper));
+		background-image: linear-gradient(
+				rgb(var(--rule) / 0.07) 1px,
+				transparent 1px
+			),
+			linear-gradient(90deg, rgb(var(--rule) / 0.07) 1px, transparent 1px),
+			var(--fibre);
+		background-size: 22px 22px, 22px 22px, auto;
+	}
+
+	/* A ruled left margin, like an engineering pad. */
+	.stock-pad {
+		background-color: rgb(var(--paper));
+		background-image: linear-gradient(
+				90deg,
+				transparent 0 54px,
+				rgb(var(--vermillion) / 0.28) 54px 55px,
+				transparent 55px
+			),
+			linear-gradient(rgb(var(--rule) / 0.06) 1px, transparent 1px),
+			var(--fibre);
+		background-size: 100% 100%, 100% 28px, auto;
+	}
+
+	.stock-tracing {
+		background-color: rgb(var(--paper) / 0.66);
+		backdrop-filter: blur(12px) saturate(1.15);
+		-webkit-backdrop-filter: blur(12px) saturate(1.15);
+	}
+
+	/* ---- Cardboard ----------------------------------------------
+	 * A hard, unblurred shadow is the visible side edge. Pressing
+	 * shortens it while the face sinks by the same amount, so the
+	 * button genuinely compresses instead of just moving.
+	 * ------------------------------------------------------------ */
+	.cardboard {
+		position: relative;
+		--thick: 4px;
+		background-color: rgb(var(--kraft));
+		box-shadow: 0 var(--thick) 0 rgb(var(--kraft-edge)),
+			calc(var(--lx) * -2px) calc(var(--thick) + 4px) 9px
+				rgb(var(--shadow-rgb) / 0.3);
+		transition: transform 0.13s cubic-bezier(0.2, 0.8, 0.3, 1),
+			box-shadow 0.13s cubic-bezier(0.2, 0.8, 0.3, 1);
+	}
+
+	/* Fine corrugation across the face. */
+	.cardboard::before {
+		content: "";
+		position: absolute;
+		inset: 0;
+		border-radius: inherit;
+		pointer-events: none;
+		background-image: repeating-linear-gradient(
+			90deg,
+			rgb(var(--kraft-edge) / 0.06) 0 1px,
+			transparent 1px 9px
+		);
+	}
+
+	.cardboard:hover {
+		--thick: 5px;
+		transform: translateY(-1px);
+	}
+
+	.cardboard:active {
+		--thick: 1px;
+		transform: translateY(3px);
+	}
+
+	/* ---- Tape and photo corners ---------------------------------- */
+	/* Tape sits OVER what it holds down. The sheet inside .paper is
+	 * z-index 1 and .paper itself does not create a stacking context,
+	 * so that 1 competes with the tape directly: without this the
+	 * tape paints underneath the photo it is supposedly holding. */
+	.tape {
+		position: absolute;
+		z-index: 4;
+		background: rgb(var(--tape) / var(--tape-alpha));
+		background-image: linear-gradient(
+			105deg,
+			rgb(var(--sheen) / 0.2) 0 18%,
+			transparent 30% 70%,
+			rgb(var(--sheen) / 0.14) 82% 100%
+		);
+		box-shadow: 0 1px 4px rgb(var(--shadow-rgb) / 0.26);
+		backdrop-filter: saturate(0.8) brightness(1.05);
+		-webkit-backdrop-filter: saturate(0.8) brightness(1.05);
+		/* Torn ends. The zigzag runs down the two short edges, so the
+		 * strip reads as ripped off a roll rather than guillotined. */
+		clip-path: polygon(
+			0% 3%,
+			38% 0%,
+			72% 4%,
+			100% 1%,
+			97% 18%,
+			100% 38%,
+			96% 62%,
+			100% 82%,
+			97% 99%,
+			68% 96%,
+			32% 100%,
+			2% 97%,
+			4% 80%,
+			0% 60%,
+			3% 40%,
+			0% 20%
+		);
+	}
+
+	/* A strip laid diagonally across a corner, centred on it so half
+	 * hangs off the print the way real corner tape does. */
+	.tape-corner {
+		position: absolute;
+		z-index: 4;
+	}
+
+	.tape-corner-tl {
+		top: 0;
+		left: 0;
+		transform: translate(-50%, -50%) rotate(-45deg);
+	}
+
+	.tape-corner-tr {
+		top: 0;
+		right: 0;
+		transform: translate(50%, -50%) rotate(45deg);
+	}
+
+	.tape-corner-bl {
+		bottom: 0;
+		left: 0;
+		transform: translate(-50%, 50%) rotate(45deg);
+	}
+
+	.tape-corner-br {
+		bottom: 0;
+		right: 0;
+		transform: translate(50%, 50%) rotate(-45deg);
+	}
+
+	.photo-corner {
+		position: absolute;
+		width: 26px;
+		height: 26px;
+		background: rgb(var(--graphite) / 0.72);
+		box-shadow: 0 1px 3px rgb(var(--shadow-rgb) / 0.4);
+	}
+
+	.photo-corner-tl {
+		top: 0;
+		left: 0;
+		clip-path: polygon(0 0, 100% 0, 0 100%);
+	}
+
+	.photo-corner-tr {
+		top: 0;
+		right: 0;
+		clip-path: polygon(100% 0, 100% 100%, 0 0);
+	}
+
+	.photo-corner-bl {
+		bottom: 0;
+		left: 0;
+		clip-path: polygon(0 0, 0 100%, 100% 100%);
+	}
+
+	.photo-corner-br {
+		bottom: 0;
+		right: 0;
+		clip-path: polygon(100% 0, 100% 100%, 0 100%);
+	}
+
 	/* The recurring cinematic wash. Positioned by the caller. */
 	.glow {
 		background: radial-gradient(
@@ -45,15 +547,145 @@
 		pointer-events: none;
 	}
 
-	/* Vignette and bottom fade, so the banner's edges recede into the page. */
+	/* A brand mark, tinted for the stock it sits on. Both values come
+	 * from `tintOn` as inline custom properties, because the theme is
+	 * not known at build time and a single hex is only legible on one
+	 * of the two papers. */
+	.brand-mark {
+		color: var(--brand-on-light);
+	}
+
+	[data-theme="dark"] .brand-mark {
+		color: var(--brand-on-dark);
+	}
+
+	/* ---- The folder ----------------------------------------------
+	 * A tab is the folder's tab, so the active one must be the same
+	 * piece of card as the folder: same kraft face, no side edge
+	 * along the bottom, sitting 1px into the folder's top edge so
+	 * there is no seam. The inactive tabs are a lighter stock and
+	 * sit lower, which is what tabs behind the open one do.
+	 *
+	 * Without this the active tab keeps its own bottom edge and
+	 * reads as a chip resting on the folder rather than part of it.
+	 * ------------------------------------------------------------ */
+	.folder-tabs {
+		display: flex;
+		align-items: flex-end;
+		gap: 3px;
+		padding-left: 4px;
+		overflow-x: auto;
+		scrollbar-width: none;
+	}
+
+	.folder-tabs::-webkit-scrollbar {
+		display: none;
+	}
+
+	.folder-tab-on {
+		position: relative;
+		z-index: 1;
+		margin-bottom: -1px;
+		/* Face only. The bottom edge belongs to the folder now. */
+		box-shadow: calc(var(--lx) * -2px) 2px 7px
+			rgb(var(--shadow-rgb) / 0.18);
+	}
+
+	.folder-tab-on:hover,
+	.folder-tab-on:active {
+		transform: none;
+	}
+
+	.folder-tab-off {
+		transform: translateY(3px);
+	}
+
+	.folder-tab-off:hover {
+		transform: translateY(2px);
+	}
+
+	/* The folder's own top edge, which the active tab flows into. */
+	.folder-edge {
+		height: 9px;
+		background-color: rgb(var(--kraft));
+		box-shadow: 0 3px 0 rgb(var(--kraft-edge)),
+			calc(var(--lx) * -2px) 8px 12px rgb(var(--shadow-rgb) / 0.26);
+	}
+
+	/* ---- Title block --------------------------------------------
+	 * The ruled box a real drafting sheet carries in its corner.
+	 * The fields are separated by `gap-px` over a rule-coloured
+	 * ground, so the hairlines come from the gap rather than from a
+	 * border on every cell: one rule between neighbours, never two
+	 * stacked, and it reflows correctly when the fields wrap.
+	 * ------------------------------------------------------------ */
+	.title-block {
+		border: 1px solid rgb(var(--rule) / 0.25);
+		background-color: rgb(var(--rule) / 0.18);
+		font-variant-numeric: tabular-nums;
+	}
+
+	.title-block > * {
+		background-color: rgb(var(--paper));
+	}
+
+	/* ---- The red pen ---------------------------------------------
+	 * A margin note wipes on left to right at writing speed rather
+	 * than fading in. The class is added by `<InkIn>` on mount, so
+	 * with no JavaScript the note simply renders, never clipped.
+	 * ------------------------------------------------------------ */
+	.ink-in {
+		clip-path: inset(0 100% 0 0);
+	}
+
+	.ink-in.is-written {
+		animation: ink-in 0.85s cubic-bezier(0.45, 0.05, 0.25, 1) forwards;
+	}
+
+	/* ---- Sheet handling ------------------------------------------
+	 * The route transition. The incoming page arrives tilted and
+	 * slightly above the desk, then settles flat, which is the same
+	 * gesture as laying a sheet down. Transform and opacity only:
+	 * anything else here repaints the whole page on every
+	 * navigation.
+	 * ------------------------------------------------------------ */
+	.sheet-settle {
+		animation: sheet-settle 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+	}
+
+	/* Vignette, so a low-res cover's edges fall away rather than ending
+	 * on a hard line. Derived from the desk rather than the old dark
+	 * ink: on manila a near-black vignette reads as a bruise around the
+	 * print, where the desk's own colour reads as shadow in the mount. */
 	.banner-scrim {
-		background: linear-gradient(to top, rgba(16, 18, 21, 0.55), transparent 40%),
-			radial-gradient(
-				ellipse at center,
-				transparent 45%,
-				rgba(16, 18, 21, 0.7) 100%
-			);
+		background: radial-gradient(
+			ellipse at center,
+			transparent 48%,
+			rgb(var(--desk) / 0.55) 100%
+		);
 		pointer-events: none;
+	}
+}
+
+@keyframes ink-in {
+	from {
+		clip-path: inset(0 100% 0 0);
+	}
+	to {
+		/* Slightly past the right edge, so the last stroke is not
+		 * shaved by a rounding error on the clip. */
+		clip-path: inset(0 -3% 0 0);
+	}
+}
+
+@keyframes sheet-settle {
+	from {
+		opacity: 0;
+		transform: translateY(-18px) rotate(-0.4deg);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0) rotate(0);
 	}
 }
 
@@ -69,5 +701,14 @@
 		animation-iteration-count: 1 !important;
 		transition-duration: 0.01ms !important;
 		scroll-behavior: auto !important;
+	}
+
+	/* The flattener zeroes the duration, but `.ink-in`'s resting
+	 * state is a clip that hides the note entirely. Release it, or a
+	 * reduced-motion visitor never sees the annotation at all. */
+	.ink-in,
+	.ink-in.is-written {
+		clip-path: none;
+		animation: none !important;
 	}
 }

@@ -92,15 +92,41 @@ export const BRAND = {
  * the tile it sits on.
  * ------------------------------------------------------------------ */
 
-const TILE_BG = "#171A1D";
+/**
+ * The tile a brand mark sits on, in each stock. These are `--paper-2`
+ * from `global.css`: the well the mark is printed into, which is
+ * `--chip` in each stock.
+ */
+type Rgb = [number, number, number];
+
+const TILE_BG_LIGHT = "#ECE6D9";
+const TILE_BG_DARK = "#0D1E38";
 const MIN_CONTRAST = 3;
 
-function channels(hex: string): [number, number, number] {
+/**
+ * Blueprint needs a contrast BAND, not a floor.
+ *
+ * A floor alone is fine on manila, where the fix is to darken: a deep
+ * saturated blue on cream is just ink, and ink cannot glare. On
+ * blueprint the fix is to lighten, and a bright saturated colour on a
+ * near-black ground reads as emissive however "legible" the ratio says
+ * it is. Supabase green came out at 7.6:1 against its tile and looked
+ * like an LED, because the floor let anything already above 3:1 through
+ * completely untouched at full chroma.
+ *
+ * So on the dark stock every mark is first muted into the stock, then
+ * held between a ceiling and a floor.
+ */
+const DARK_MUTE = 0.3;
+const DARK_MIN_CONTRAST = 2.3;
+const DARK_MAX_CONTRAST = 3.4;
+
+function channels(hex: string): Rgb {
 	const n = Number.parseInt(hex.slice(1), 16);
 	return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
 }
 
-function luminance([r, g, b]: [number, number, number]): number {
+function luminance([r, g, b]: Rgb): number {
 	const lin = (c: number) => {
 		const s = c / 255;
 		return s <= 0.03928 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;
@@ -112,19 +138,90 @@ function contrast(a: number, b: number): number {
 	return (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
 }
 
-export function tintOn(hex: string): string {
+function toHex(rgb: Rgb): string {
+	return `#${rgb.map((c) => c.toString(16).padStart(2, "0")).join("")}`;
+}
+
+/**
+ * Walks a brand hex toward the given target until it clears
+ * `MIN_CONTRAST` against the tile it will sit on.
+ */
+function shift(
+	hex: string,
+	tileBg: string,
+	toward: 0 | 255,
+	fallback: string,
+): string {
 	const base = channels(hex);
-	const bg = luminance(channels(TILE_BG));
+	const bg = luminance(channels(tileBg));
 
 	for (let t = 0; t <= 1; t += 0.05) {
-		const mix = base.map((c) => Math.round(c + (255 - c) * t)) as [
+		const mix = base.map((c) => Math.round(c + (toward - c) * t)) as [
 			number,
 			number,
 			number,
 		];
-		if (contrast(luminance(mix), bg) >= MIN_CONTRAST) {
-			return `#${mix.map((c) => c.toString(16).padStart(2, "0")).join("")}`;
-		}
+		if (contrast(luminance(mix), bg) >= MIN_CONTRAST) return toHex(mix);
 	}
-	return "#FFFFFF";
+	return fallback;
+}
+
+function mix(a: Rgb, b: Rgb, t: number): Rgb {
+	return [
+		Math.round(a[0] + (b[0] - a[0]) * t),
+		Math.round(a[1] + (b[1] - a[1]) * t),
+		Math.round(a[2] + (b[2] - a[2]) * t),
+	];
+}
+
+/**
+ * The blueprint treatment: mute the mark into the stock, then hold it
+ * inside the contrast band.
+ *
+ * Blending toward the tile is what does the real work. It lowers the
+ * ratio and drops chroma at the same time, and it ties the mark to the
+ * paper it is printed on rather than leaving it floating above it.
+ */
+function band(hex: string): string {
+	const tile = channels(TILE_BG_DARK);
+	const tileLum = luminance(tile);
+	const white: Rgb = [255, 255, 255];
+
+	let c = mix(channels(hex), tile, DARK_MUTE);
+
+	// Ceiling first: the loud ones come down into the stock.
+	for (
+		let i = 0;
+		i < 40 && contrast(luminance(c), tileLum) > DARK_MAX_CONTRAST;
+		i++
+	) {
+		c = mix(c, tile, 0.05);
+	}
+	// Then the floor, for anything the muting left too dim to read.
+	for (
+		let i = 0;
+		i < 40 && contrast(luminance(c), tileLum) < DARK_MIN_CONTRAST;
+		i++
+	) {
+		c = mix(c, white, 0.05);
+	}
+	return toHex(c);
+}
+
+/**
+ * A brand hex, adjusted per stock.
+ *
+ * Both values are needed because the tile flips: on manila a mark must
+ * DARKEN to stay legible, on blueprint it must lighten. The old
+ * single-value version only lightened, which is correct for exactly one
+ * of the two papers and washes every mark out on the other.
+ *
+ * The caller sets both as custom properties and lets CSS pick, since
+ * the theme is not known at build time.
+ */
+export function tintOn(hex: string): { onLight: string; onDark: string } {
+	return {
+		onLight: shift(hex, TILE_BG_LIGHT, 0, "#000000"),
+		onDark: band(hex),
+	};
 }
