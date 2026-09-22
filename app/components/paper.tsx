@@ -614,7 +614,7 @@ export function DimensionString({
  * A section header: title, an optional aside, and a rule running out to
  * the right margin.
  *
- * No section number. `DESIGN.md` §4 is explicit that `01 / INDEX`
+ * No section number. `CLAUDE.md` (Type) is explicit that `01 / INDEX`
  * breadcrumbs are out, and the eyebrow budget is one per three
  * sections, so the title carries the section on its own.
  */

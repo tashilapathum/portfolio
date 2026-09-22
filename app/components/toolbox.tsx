@@ -145,8 +145,8 @@ function Entry({ tool }: { tool: Tool }) {
  * The stack as a specification schedule, pinned flat to the board.
  *
  * Graph stock is this system's convention for anything technical
- * (DESIGN.md §5) and curl 0 is the pinned level, which is what a
- * schedule on a drawing board actually is. The row rhythm is a
+ * (CLAUDE.md, Materials) and curl 0 is the pinned level, which is
+ * what a schedule on a drawing board actually is. The row rhythm is a
  * multiple of the stock's 22px ruling, or the two grids beat.
  */
 export function Toolbox() {

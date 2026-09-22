@@ -70,7 +70,8 @@ module.exports = {
 			// Tailwind's gray-200. That is invisible on manila and a hard
 			// white outline on blueprint, which is why the dark chips read
 			// as drawn boxes while the light ones read as tone. Twenty
-			// classes across nine files were dead. See DESIGN.md §9.
+			// classes across nine files were dead. See the opacity-step
+			// trap in CLAUDE.md.
 			opacity: {
 				12: "0.12",
 				15: "0.15",

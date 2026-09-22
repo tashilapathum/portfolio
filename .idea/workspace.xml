@@ -4,11 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="eb028b40-4751-4f73-b9cd-77875eaef4e1" name="Changes" comment="Update NeoMusic privacy and terms">
-      <change beforePath="$PROJECT_DIR$/app/projects/[slug]/[type]/page.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/content/projects/neo-music/privacy.mdx" beforeDir="false" afterPath="$PROJECT_DIR$/content/projects/neo-music/privacy.mdx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/content/projects/neo-music/terms.mdx" beforeDir="false" afterPath="$PROJECT_DIR$/content/projects/neo-music/terms.mdx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contentlayer.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/contentlayer.config.js" afterDir="false" />
+    <list default="true" id="eb028b40-4751-4f73-b9cd-77875eaef4e1" name="Changes" comment="Introduce arrival animations and enhance visual effects&#10;&#10;Introduce a choreographed arrival animation sequence for the homepage hero, featuring CSS animations for tape sticking, note writing, shadow casting, and lamp sweeping. Add `Leader` and `DimensionString` components to better align with the structured design. Refactor toolbox and stats display for improved clarity and alignment. Enhance `InkIn`, `CornerTape`, and `LightSource` components with support for delays and arrival choreography. Simplify and reorganize the title block, removing irrelevant fields.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DESIGN.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/REDESIGN.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/paper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/paper.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/toolbox.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/toolbox.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/projects/projects-list.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/projects/projects-list.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/content/projects/neo-music/index.mdx" beforeDir="false" afterPath="$PROJECT_DIR$/content/projects/neo-music/index.mdx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/content/projects/please-wait-library/index.mdx" beforeDir="false" afterPath="$PROJECT_DIR$/content/projects/please-wait-library/index.mdx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/projects/neo-music-cover.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tailwind.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/tailwind.config.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,6 +28,10 @@
     <option name="groupingKeys">
       <option value="directory" />
     </option>
+  </component>
+  <component name="EmbeddingIndexingInfo">
+    <option name="cachedIndexableFilesCount" value="251" />
+    <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -44,10 +57,73 @@
 }</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/tashilapathum/portfolio&quot;,
-    &quot;accountId&quot;: &quot;724df73b-0241-4241-8442-c2e2f1acc091&quot;
+    &quot;url&quot;: &quot;https://github.com/tashilapathum/portfolio.git&quot;,
+    &quot;accountId&quot;: &quot;b185bf50-afd4-456d-9188-f008988f722b&quot;
   }
 }</component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
+  <component name="NextEditCompletionFeaturesState">
+    <decayedCancelled>
+      <entry key="MS100" value="1.1347963337273466" />
+      <entry key="MS500" value="2.210714072956656" />
+      <entry key="S2" value="3.5682620764741446" />
+      <entry key="S5" value="4.786836161676909" />
+      <entry key="S10" value="5.63254809356835" />
+      <entry key="S30" value="6.464946187866616" />
+      <entry key="S60" value="6.720802121407691" />
+      <entry key="M2" value="6.857329774142595" />
+      <entry key="M5" value="6.9421741421420355" />
+      <entry key="M10" value="6.970959011162602" />
+      <entry key="M15" value="6.980610750658077" />
+      <entry key="M30" value="6.990291047025615" />
+      <entry key="H1" value="6.995141935188931" />
+      <entry key="H2" value="6.997570069731214" />
+      <entry key="H4" value="6.998784810301929" />
+      <entry key="D1" value="6.999797437185945" />
+      <entry key="W1" value="6.999971061691002" />
+    </decayedCancelled>
+    <decayedSelected>
+      <entry key="MS100" value="0.0" />
+      <entry key="MS500" value="0.0" />
+      <entry key="S2" value="0.0" />
+      <entry key="S5" value="0.0" />
+      <entry key="S10" value="0.0" />
+      <entry key="S30" value="0.0" />
+      <entry key="S60" value="0.0" />
+      <entry key="M2" value="0.0" />
+      <entry key="M5" value="0.0" />
+      <entry key="M10" value="0.0" />
+      <entry key="M15" value="0.0" />
+      <entry key="M30" value="0.0" />
+      <entry key="H1" value="0.0" />
+      <entry key="H2" value="0.0" />
+      <entry key="H4" value="0.0" />
+      <entry key="D1" value="0.0" />
+      <entry key="W1" value="0.0" />
+    </decayedSelected>
+    <decayedShown>
+      <entry key="MS100" value="0.8930415866946809" />
+      <entry key="MS500" value="2.060251027605136" />
+      <entry key="S2" value="3.511935848523033" />
+      <entry key="S5" value="4.760544675264704" />
+      <entry key="S10" value="5.618418201649384" />
+      <entry key="S30" value="6.459957473458126" />
+      <entry key="S60" value="6.718267996372491" />
+      <entry key="M2" value="6.8560523435789875" />
+      <entry key="M5" value="6.9416606243222345" />
+      <entry key="M10" value="6.970701823096205" />
+      <entry key="M15" value="6.980439196212418" />
+      <entry key="M30" value="6.990205221843347" />
+      <entry key="H1" value="6.995099010590634" />
+      <entry key="H2" value="6.9975486044281086" />
+      <entry key="H4" value="6.998774076899116" />
+      <entry key="D1" value="6.999795648181111" />
+      <entry key="W1" value="6.999970806116326" />
+    </decayedShown>
+  </component>
   <component name="PackageJsonUpdateNotifier">
     <dismissed value="$PROJECT_DIR$/package.json" />
   </component>
@@ -55,29 +131,39 @@
   &quot;associatedIndex&quot;: 8
 }</component>
   <component name="ProjectId" id="2nyZYVYJgZrDpfepQB99oO2HRK5" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+  <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/payabledev/Development/Web/portfolio/content/projects/hazle&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_interpreter_path&quot;: &quot;node&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.inline.completion&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Users/payabledev/Development/Web/portfolio/node_modules/typescript/lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "dev",
+    "javascript.preferred.runtime.type.id": "node",
+    "js.debugger.nextJs.config.created.client": "true",
+    "js.debugger.nextJs.config.created.server": "true",
+    "junie.onboarding.icon.badge.shown": "true",
+    "last_opened_file_path": "/Users/payabledev/Development/Web/portfolio/content/projects/hazle",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_interpreter_path": "node",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "editor.preferences.inline.completion",
+    "to.speed.mode.migration.done": "true",
+    "ts.external.directory.path": "/mnt/Dev/Projects/Web/portfolio/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/content/projects/hazle" />
@@ -94,10 +180,25 @@
       <recent name="$PROJECT_DIR$/content/projects/please-wait-library" />
     </key>
   </component>
+  <component name="RunManager" selected="npm.Next.js: server-side">
+    <configuration name="Next.js: debug client-side" type="JavascriptDebugType" uri="http://localhost:3000/">
+      <method v="2" />
+    </configuration>
+    <configuration name="Next.js: server-side" type="js.build_tools.npm">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="dev" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-WS-242.26775.11" />
+        <option value="bundled-js-predefined-d6986cc7102b-4abd2a77f808-JavaScript-WS-262.9437.145" />
       </set>
     </attachedChunks>
   </component>
@@ -131,6 +232,8 @@
       <workItem from="1781327171898" duration="485000" />
       <workItem from="1782915606490" duration="1331000" />
       <workItem from="1783011157879" duration="2893000" />
+      <workItem from="1790074567886" duration="3945000" />
+      <workItem from="1790094255921" duration="4827000" />
     </task>
     <task id="LOCAL-00001" summary="Added privacy and tos pages">
       <option name="closed" value="true" />
@@ -196,7 +299,39 @@
       <option name="project" value="LOCAL" />
       <updated>1782916333075</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Full site-wide redesign">
+      <option name="closed" value="true" />
+      <created>1790034454489</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1790034454490</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Define package manager version in package.json">
+      <option name="closed" value="true" />
+      <created>1790034889920</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1790034889920</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Add button icons and reusable `ICON` definitions&#10;&#10;Enhance button styling by introducing support for SVG icons next to labels. Define reusable `ICON` paths for consistent iconography. Update buttons across pages to include appropriate icons where relevant.">
+      <option name="closed" value="true" />
+      <created>1790075061623</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1790075061623</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Introduce arrival animations and enhance visual effects&#10;&#10;Introduce a choreographed arrival animation sequence for the homepage hero, featuring CSS animations for tape sticking, note writing, shadow casting, and lamp sweeping. Add `Leader` and `DimensionString` components to better align with the structured design. Refactor toolbox and stats display for improved clarity and alignment. Enhance `InkIn`, `CornerTape`, and `LightSource` components with support for delays and arrival choreography. Simplify and reorganize the title block, removing irrelevant fields.">
+      <option name="closed" value="true" />
+      <created>1790079963721</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1790079963721</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -222,6 +357,13 @@
     <MESSAGE value="Add Hazle deletion page" />
     <MESSAGE value="Update Hazle project description" />
     <MESSAGE value="Update NeoMusic privacy and terms" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update NeoMusic privacy and terms" />
+    <MESSAGE value="Migrate pnpm config for pnpm 11&#10;&#10;pnpm 11 no longer reads the &quot;pnpm&quot; field from package.json and requires&#10;build scripts to be approved explicitly, so `pnpm install` (and with it&#10;`pnpm dev`) failed.&#10;&#10;Move the @opentelemetry overrides into pnpm-workspace.yaml and allow&#10;builds for contentlayer, esbuild, protobufjs and rome." />
+    <MESSAGE value="Migrate pnpm config for pnpm 11&#10;&#10;pnpm 11 no longer reads the &quot;pnpm&quot; field from package.json and requires&#10;build scripts to be approved explicitly, so `pnpm install` (and with it&#10;`pnpm dev`) failed.&#10;&#10;Move the @opentelemetry overrides into pnpm-workspace.yaml and allow&#10;builds for contentlayer, esbuild, protobufjs and rome." />
+    <MESSAGE value="Update banner hero and project cover images" />
+    <MESSAGE value="Full site-wide redesign" />
+    <MESSAGE value="Define package manager version in package.json" />
+    <MESSAGE value="Add button icons and reusable `ICON` definitions&#10;&#10;Enhance button styling by introducing support for SVG icons next to labels. Define reusable `ICON` paths for consistent iconography. Update buttons across pages to include appropriate icons where relevant." />
+    <MESSAGE value="Introduce arrival animations and enhance visual effects&#10;&#10;Introduce a choreographed arrival animation sequence for the homepage hero, featuring CSS animations for tape sticking, note writing, shadow casting, and lamp sweeping. Add `Leader` and `DimensionString` components to better align with the structured design. Refactor toolbox and stats display for improved clarity and alignment. Enhance `InkIn`, `CornerTape`, and `LightSource` components with support for delays and arrival choreography. Simplify and reorganize the title block, removing irrelevant fields." />
+    <option name="LAST_COMMIT_MESSAGE" value="Introduce arrival animations and enhance visual effects&#10;&#10;Introduce a choreographed arrival animation sequence for the homepage hero, featuring CSS animations for tape sticking, note writing, shadow casting, and lamp sweeping. Add `Leader` and `DimensionString` components to better align with the structured design. Refactor toolbox and stats display for improved clarity and alignment. Enhance `InkIn`, `CornerTape`, and `LightSource` components with support for delays and arrival choreography. Simplify and reorganize the title block, removing irrelevant fields." />
   </component>
 </project>

@@ -58,7 +58,7 @@ function Act({
 				{project.category ?? "Project"}
 				{project.year ? ` · ${project.year}` : ""}
 			</Label>
-			<Title as="h3" className="mt-3.5 text-[34px] sm:text-[42px]">
+			<Title as="h2" className="mt-3.5 text-[34px] sm:text-[42px]">
 				<Link href={`/projects/${project.slug}`}>{project.title}</Link>
 			</Title>
 			<p className="mt-4 max-w-[52ch] text-[15px] leading-relaxed text-graphite-soft">

@@ -69,7 +69,7 @@ export default function Home() {
 
 					<p className="mt-7 max-w-[46ch] text-[16.5px] leading-relaxed text-graphite-soft">
 						{SITE.role}. Seven years of Kotlin, Compose and Flutter, from a
-						music player drawn pixel by pixel on a Canvas to an AI chatbot with
+						music player drawn pixel by pixel on a Canvas, to an AI chatbot with
 						a Ktor + Supabase backend behind it.
 					</p>
 
@@ -94,8 +94,12 @@ export default function Home() {
 					{/* In the first viewport, so the wipe runs off a cue
 					    rather than an observer: scrolled-into-view fires on
 					    mount here, before anyone has looked at the page.
-					    Last beat of the arrival, just after the leader. */}
-					<div className="relative ml-1 mt-8 inline-block">
+					    Last beat of the arrival, just after the leader.
+					    Stacked, the note belongs under the print it points
+					    at, so it renders twice: here from `lg` up, where the
+					    leader can reach across to the photo, and again after
+					    the photo below `lg`. */}
+					<div className="relative ml-1 mt-8 hidden lg:inline-block">
 						<Leader />
 						<Annotation tilt={-1.8} delay={1050}>
 							the Canvas one is still my favourite
@@ -120,6 +124,12 @@ export default function Home() {
 					className="w-full max-w-[420px] mx-auto lg:max-w-none"
 					priority
 				/>
+
+				<div className="relative -mt-4 ml-1 inline-block lg:hidden">
+					<Annotation tilt={-1.8} delay={1050}>
+						the Canvas one is still my favourite
+					</Annotation>
+				</div>
 			</section>
 
 			{/*
