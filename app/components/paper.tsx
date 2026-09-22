@@ -75,21 +75,37 @@ export function Paper({
 /* ------------------------------------------------------------------ *
  * Cardboard: buttons and tabs. Real thickness, compresses on press.
  * ------------------------------------------------------------------ */
+/**
+ * Path data for the marks `Button` draws, on a 24x24 stroked grid. Kept
+ * here so the two buttons in a pair share one weight and one geometry
+ * instead of each page inlining its own SVG.
+ */
+export const ICON = {
+	folder:
+		"M3 7.5A1.5 1.5 0 0 1 4.5 6h4l2 2.5h9a1.5 1.5 0 0 1 1.5 1.5v7.5a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5Z",
+	mail: "M3 6.75h18v10.5H3zM3.6 7.4l8.4 6 8.4-6",
+	arrow: "M4 12h14M12.5 6.5 19 12l-6.5 5.5",
+	download: "M12 4v11M7.5 10.5 12 15l4.5-4.5M4.5 19.5h15",
+} as const;
+
 export function Button({
 	href,
 	children,
 	variant = "primary",
 	external = false,
+	icon,
 	className = "",
 }: {
 	href: string;
 	children: React.ReactNode;
 	variant?: "primary" | "quiet";
 	external?: boolean;
+	/** Path data for a 24x24 stroked mark, drawn at the label's left. */
+	icon?: string;
 	className?: string;
 }) {
 	const base =
-		"cardboard inline-flex items-center justify-center whitespace-nowrap rounded-[2px] px-6 py-3 text-sm font-semibold tracking-tight";
+		"cardboard inline-flex items-center justify-center gap-2.5 whitespace-nowrap rounded-[2px] px-6 py-3 text-sm font-semibold tracking-tight";
 	const tone =
 		variant === "primary"
 			? "text-kraft-ink"
@@ -99,6 +115,28 @@ export function Button({
 	const isExternal =
 		external || href.startsWith("http") || href.startsWith("mailto:");
 
+	// Stroked, not filled: a solid glyph next to 14px semibold type reads
+	// heavier than the label it belongs to.
+	const label = (
+		<>
+			{icon && (
+				<svg
+					aria-hidden="true"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					strokeWidth={1.7}
+					strokeLinecap="round"
+					strokeLinejoin="round"
+					className="h-[16px] w-[16px] flex-none opacity-80"
+				>
+					<path d={icon} />
+				</svg>
+			)}
+			{children}
+		</>
+	);
+
 	if (isExternal) {
 		return (
 			<a
@@ -107,13 +145,13 @@ export function Button({
 				rel="noopener noreferrer"
 				className={cls}
 			>
-				{children}
+				{label}
 			</a>
 		);
 	}
 	return (
 		<Link href={href} className={cls}>
-			{children}
+			{label}
 		</Link>
 	);
 }

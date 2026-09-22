@@ -3,6 +3,7 @@ import { Toolbox } from "./components/toolbox";
 import {
 	Annotation,
 	Button,
+	ICON,
 	Main,
 	Photo,
 	SectionHead,
@@ -33,17 +34,22 @@ export default function Home() {
 
 					<p className="mt-7 max-w-[46ch] text-[16.5px] leading-relaxed text-graphite-soft">
 						{SITE.role}. Seven years of Kotlin, Compose and Flutter, from a
-						music player drawn pixel by pixel on a Canvas to the Ktor backends
-						behind it.
+						music player drawn pixel by pixel on a Canvas to an AI chatbot
+						with a Ktor + Supabase backend behind it.
 					</p>
 
 					<div className="mt-9 flex flex-col gap-3.5 sm:flex-row sm:flex-wrap sm:items-center">
-						<Button href="/projects" className="w-full sm:w-auto">
+						<Button
+							href="/projects"
+							icon={ICON.folder}
+							className="w-full sm:w-auto"
+						>
 							See the projects
 						</Button>
 						<Button
 							href={`mailto:${SITE.email}`}
 							variant="quiet"
+							icon={ICON.mail}
 							className="w-full sm:w-auto"
 						>
 							{SITE.email}

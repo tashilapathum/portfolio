@@ -1,5 +1,5 @@
 import { allProjects } from "contentlayer/generated";
-import { Button, Title } from "./paper";
+import { Button, ICON, Title } from "./paper";
 import { SITE, spell } from "./site";
 
 /**
@@ -28,8 +28,15 @@ export function Cta({
 					{note}
 				</p>
 				<div className="mt-7 flex flex-wrap items-center gap-3.5">
-					<Button href="/projects">Browse projects</Button>
-					<Button href={SITE.resume} variant="quiet" external>
+					<Button href="/projects" icon={ICON.folder}>
+						Browse projects
+					</Button>
+					<Button
+						href={SITE.resume}
+						variant="quiet"
+						icon={ICON.download}
+						external
+					>
 						Résumé (PDF)
 					</Button>
 				</div>
