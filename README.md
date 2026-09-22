@@ -4,7 +4,7 @@ My personal website: portfolio, case studies and writing.
 
 Built with [Next.js](https://nextjs.org/), [Tailwind CSS](https://tailwindcss.com/) and [Contentlayer](https://www.contentlayer.dev/), deployed to [Vercel](https://vercel.com/).
 
-![image](https://github.com/user-attachments/assets/fa8b0dde-dc3d-4490-9902-a5b0713dbe0e)
+<img width="1279" height="900" alt="image" src="https://github.com/user-attachments/assets/8203e403-6c4d-44b1-928d-69295a5e26c8" />
 
 ## The design
 
@@ -27,16 +27,14 @@ with.
 Everything material is pure CSS, so it works without JavaScript, and the whole
 system collapses gracefully under `prefers-reduced-motion`.
 
-## Stack
+## Tech Stack
 
-| | |
+| Tech | Stack |
 |---|---|
 | Framework | Next.js 13 (App Router), TypeScript |
 | Styling | Tailwind CSS, CSS custom properties for the token layer |
 | Content | Contentlayer, MDX |
 | Type | Archivo, Geist, JetBrains Mono, Caveat |
-| Tooling | pnpm, Rome (lint and format) |
-| Hosting | Vercel, with Upstash Redis for view counts |
 
 ## Running it locally
 
