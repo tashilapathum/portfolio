@@ -3,6 +3,50 @@
 @tailwind utilities;
 
 /* ==================================================================
+ * REGISTERED CUSTOM PROPERTIES
+ *
+ * The curl variables have to be registered or `@keyframes` cannot
+ * interpolate them: an unregistered custom property animates as a
+ * discrete step at 50%, so the hero print would snap onto the desk
+ * instead of settling. Registering them also smooths the press,
+ * which previously eased only because `box-shadow` itself was in a
+ * transition.
+ *
+ * The initial values must match the `.paper` defaults below. They
+ * are the fallback for any browser that parses the rule but fails
+ * a value, and a mismatch would show up as a one-frame jump.
+ * ================================================================== */
+@property --curl-rot {
+	syntax: "<angle>";
+	inherits: true;
+	initial-value: 1.8deg;
+}
+
+@property --curl-inset {
+	syntax: "<length>";
+	inherits: true;
+	initial-value: 17px;
+}
+
+@property --curl-drop {
+	syntax: "<length>";
+	inherits: true;
+	initial-value: 9px;
+}
+
+@property --curl-blur {
+	syntax: "<length>";
+	inherits: true;
+	initial-value: 22px;
+}
+
+@property --curl-alpha {
+	syntax: "<number>";
+	inherits: true;
+	initial-value: 0.28;
+}
+
+/* ==================================================================
  * THE DRAUGHTSMAN'S DESK
  *
  * Light mode is manila drafting paper under warm daylight.
@@ -665,6 +709,135 @@
 		);
 		pointer-events: none;
 	}
+
+	/* ---- The arrival --------------------------------------------
+	 * Home only, and the hero only. `PageTransition` already lays
+	 * the whole page down as one sheet on first paint, so these are
+	 * the beats that gesture cannot carry: the print's curl easing
+	 * down, the tape sticking, the pen. Every one is pure CSS, so a
+	 * visitor with no JavaScript sees all of it at rest.
+	 *
+	 * FILL MODE IS LOAD-BEARING. `forwards` or `both` leaves the
+	 * final keyframe applied for the life of the page, and an
+	 * animation's declarations outrank `:active`, so the print would
+	 * stop flattening under a press from then on. `backwards` only,
+	 * and every `to` frame ends on the value the stylesheet already
+	 * holds, so the element falls straight back to the cascade the
+	 * moment the animation finishes. Same trap as an inline curl
+	 * variable, arrived at from the other side.
+	 * ------------------------------------------------------------ */
+
+	/* The print itself: dropped from above and turned a little
+	 * further than it rests. `translate` and `rotate` are the
+	 * individual properties, not `transform`, because the wrapper
+	 * already carries an inline `transform: rotate(tilt)` and the
+	 * two compose instead of fighting. */
+	.print-arrive {
+		animation: print-arrive 0.44s cubic-bezier(0.22, 1, 0.36, 1) 0.36s
+			backwards;
+	}
+
+	/* The shadow underneath it, easing from a high lift down to the
+	 * curl-2 rest. Runs on the same clock as the movement above. */
+	.print-land {
+		animation: print-land 0.44s cubic-bezier(0.22, 1, 0.36, 1) 0.36s backwards;
+	}
+
+	/* Each strip pulled across its corner, staggered by `--i`. The
+	 * scale is along the strip's length only: the corner classes put
+	 * their rotation in `transform`, which applies after `scale`, so
+	 * the x axis here is still the roll's direction. */
+	.tape-stick {
+		animation: tape-stick 0.26s cubic-bezier(0.34, 1.4, 0.64, 1)
+			calc(0.72s + var(--i, 0) * 0.07s) backwards;
+	}
+
+	/* ---- The leader ----------------------------------------------
+	 * The line from the margin note to the thing it marks. It rests
+	 * drawn and animates from undrawn, so `animation: none` under
+	 * reduced motion leaves it visible rather than erasing it. Same
+	 * reasoning as `.ink-in`, which needs the opposite fix because
+	 * its resting state is the clip. */
+	.leader {
+		stroke-dasharray: 1;
+		stroke-dashoffset: 0;
+		animation: leader-draw 0.5s cubic-bezier(0.45, 0.05, 0.25, 1) 0.92s
+			backwards;
+	}
+
+	/* ---- The dimension string ------------------------------------
+	 * Figures off a drawing rather than four numerals over a rule:
+	 * a baseline, a tick dropping at every division, an arrowhead at
+	 * each end. The ticks are per-cell borders and not a repeating
+	 * gradient, so they land exactly on the divisions at any width.
+	 * ------------------------------------------------------------ */
+	.dim-arrow {
+		position: absolute;
+		top: -3px;
+		width: 7px;
+		height: 7px;
+		background-color: rgb(var(--vermillion) / 0.85);
+	}
+
+	.dim-arrow-l {
+		left: 0;
+		clip-path: polygon(0 50%, 100% 0, 100% 100%);
+	}
+
+	.dim-arrow-r {
+		right: 0;
+		clip-path: polygon(100% 50%, 0 0, 0 100%);
+	}
+}
+
+@keyframes print-arrive {
+	from {
+		translate: 0 -16px;
+		rotate: 2.4deg;
+	}
+	to {
+		translate: 0 0;
+		rotate: 0deg;
+	}
+}
+
+/* Ends on the curl-2 values from `.paper[data-curl="2"]`. Change one
+ * and change the other, or the print jumps on the last frame. */
+@keyframes print-land {
+	from {
+		--curl-rot: 5.4deg;
+		--curl-inset: 10px;
+		--curl-drop: 21px;
+		--curl-blur: 38px;
+		--curl-alpha: 0.34;
+	}
+	to {
+		--curl-rot: 3deg;
+		--curl-inset: 15px;
+		--curl-drop: 12px;
+		--curl-blur: 28px;
+		--curl-alpha: 0.32;
+	}
+}
+
+@keyframes tape-stick {
+	from {
+		scale: 0.25 1;
+		opacity: 0;
+	}
+	to {
+		scale: 1 1;
+		opacity: 1;
+	}
+}
+
+@keyframes leader-draw {
+	from {
+		stroke-dashoffset: 1;
+	}
+	to {
+		stroke-dashoffset: 0;
+	}
 }
 
 @keyframes ink-in {
@@ -709,6 +882,18 @@
 	.ink-in,
 	.ink-in.is-written {
 		clip-path: none;
+		animation: none !important;
+	}
+
+	/* The flattener does not touch `animation-delay` either, and every
+	 * beat of the arrival is delayed and filled `backwards`. Zeroing
+	 * the duration alone would leave the print hanging above the desk
+	 * and the tape invisible for most of a second, then snap. Drop the
+	 * animations outright: each one rests at its finished state. */
+	.print-arrive,
+	.print-land,
+	.tape-stick,
+	.leader {
 		animation: none !important;
 	}
 }

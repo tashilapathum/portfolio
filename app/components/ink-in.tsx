@@ -14,13 +14,21 @@ import { useEffect, useRef } from "react";
  * IntersectionObserver rather than a scroll listener, and it
  * disconnects after the first hit: this fires at most six times across
  * the whole site, per the handwriting budget.
+ *
+ * `delay` swaps the observer for a timer. A note already in the first
+ * viewport has nothing to scroll into, so the observer fires on mount,
+ * before anyone has looked at the page; a note that is one beat of a
+ * choreographed arrival needs to wait for its cue instead.
  */
 export function InkIn({
 	children,
 	className = "",
+	delay,
 }: {
 	children: React.ReactNode;
 	className?: string;
+	/** Milliseconds from mount. Omit to wipe on when scrolled into view. */
+	delay?: number;
 }) {
 	const ref = useRef<HTMLSpanElement>(null);
 
@@ -29,6 +37,17 @@ export function InkIn({
 		if (!el) return;
 
 		el.classList.add("ink-in");
+
+		if (delay !== undefined) {
+			// Measured from navigation, not from mount. Every other beat of
+			// an arrival is a CSS animation on the document's own clock, and
+			// hydration can land well after all of them: counting from mount
+			// would leave the leader line pointing at a note that has not
+			// been written yet. A late hydrate simply writes it at once.
+			const wait = Math.max(0, delay - performance.now());
+			const timer = setTimeout(() => el.classList.add("is-written"), wait);
+			return () => clearTimeout(timer);
+		}
 
 		const observer = new IntersectionObserver(
 			([entry]) => {
@@ -40,7 +59,7 @@ export function InkIn({
 		);
 		observer.observe(el);
 		return () => observer.disconnect();
-	}, []);
+	}, [delay]);
 
 	return (
 		<span ref={ref} className={`inline-block ${className}`}>

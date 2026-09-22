@@ -3,6 +3,7 @@ import { Toolbox } from "./components/toolbox";
 import {
 	Annotation,
 	Button,
+	DimensionString,
 	ICON,
 	Main,
 	Photo,
@@ -10,6 +11,40 @@ import {
 	Title,
 } from "./components/paper";
 import { SITE, STATS } from "./components/site";
+
+/**
+ * The leader from the margin note to the print it marks.
+ *
+ * Red-pen markup always points at something, and the note below is
+ * about the print beside it. Wide screens only: below `lg` the print
+ * sits under the copy and a line across the page would be a scribble.
+ *
+ * The curve, both barbs of the arrowhead and the wipe are one `<path>`
+ * with `pathLength={1}`, so a single dash animation draws the whole
+ * gesture in order and the geometry can be retuned without touching
+ * the dash maths.
+ */
+function Leader() {
+	return (
+		// rome-ignore lint/a11y/noSvgWithoutTitle: decorative, aria-hidden
+		<svg
+			aria-hidden="true"
+			viewBox="0 0 380 72"
+			fill="none"
+			className="pointer-events-none absolute left-full top-1/2 hidden h-[72px] w-[380px] -translate-y-1/2 overflow-visible text-vermillion lg:block"
+		>
+			<path
+				className="leader"
+				pathLength={1}
+				d="M4 40 C 78 41, 158 38, 236 29 C 284 23, 318 18, 352 11 M352 11 l -12 0.6 M352 11 l -7 9.5"
+				stroke="currentColor"
+				strokeWidth={1.3}
+				strokeLinecap="round"
+				strokeLinejoin="round"
+			/>
+		</svg>
+	);
+}
 
 export default function Home() {
 	return (
@@ -34,8 +69,8 @@ export default function Home() {
 
 					<p className="mt-7 max-w-[46ch] text-[16.5px] leading-relaxed text-graphite-soft">
 						{SITE.role}. Seven years of Kotlin, Compose and Flutter, from a
-						music player drawn pixel by pixel on a Canvas to an AI chatbot
-						with a Ktor + Supabase backend behind it.
+						music player drawn pixel by pixel on a Canvas to an AI chatbot with
+						a Ktor + Supabase backend behind it.
 					</p>
 
 					<div className="mt-9 flex flex-col gap-3.5 sm:flex-row sm:flex-wrap sm:items-center">
@@ -56,17 +91,24 @@ export default function Home() {
 						</Button>
 					</div>
 
-					{/* In the first viewport, so it does not wipe on: the
-					    animation would finish before anyone looked at it. */}
-					<Annotation className="ml-1 mt-8" tilt={-1.8} write={false}>
-						the Canvas one is still my favourite
-					</Annotation>
+					{/* In the first viewport, so the wipe runs off a cue
+					    rather than an observer: scrolled-into-view fires on
+					    mount here, before anyone has looked at the page.
+					    Last beat of the arrival, just after the leader. */}
+					<div className="relative ml-1 mt-8 inline-block">
+						<Leader />
+						<Annotation tilt={-1.8} delay={1050}>
+							the Canvas one is still my favourite
+						</Annotation>
+					</div>
 				</div>
 
 				<Photo
 					src="/hero.png"
 					alt="NeoMusic player screen"
 					mount="tape"
+					caption="NeoMusic · visualiser drawn per frame on a Canvas"
+					arrive
 					aspect="aspect-[1020/1123]"
 					sizes="(min-width: 1024px) 460px, 100vw"
 					tilt={1.4}
@@ -81,25 +123,11 @@ export default function Home() {
 			</section>
 
 			{/*
-			 * Printed straight on the desk, not boxed. Four numbers do not
-			 * need four cards, and a row of tiles here would compete with
-			 * the print beside it.
+			 * Dimensioned, not tiled. Four numerals over a hairline is the
+			 * most-shipped block on the web; these are figures taken off a
+			 * drawing, which is the only kind of number this design has.
 			 */}
-			<dl className="m-0 mt-16 grid grid-cols-2 gap-x-8 gap-y-8 border-t border-rule/15 pt-9 sm:flex sm:flex-wrap sm:gap-12">
-				{STATS.map((stat) => (
-					<div key={stat.label}>
-						<dt className="sr-only">{stat.label}</dt>
-						<dd className="m-0">
-							<div className="font-title text-[34px] font-extrabold leading-none tracking-[-.02em] text-graphite">
-								{stat.value}
-							</div>
-							<div className="mt-2 font-mono text-[10px] uppercase leading-tight tracking-[.16em] text-graphite-faint">
-								{stat.label}
-							</div>
-						</dd>
-					</div>
-				))}
-			</dl>
+			<DimensionString items={STATS} className="mt-16 sm:mt-20" />
 
 			<Cta />
 

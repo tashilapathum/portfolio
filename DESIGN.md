@@ -188,6 +188,33 @@ per card. It is off under `(pointer: coarse)` and under `prefers-reduced-motion`
 movement is damped to 0.6: a lamp across the room moves far less than the cursor does, and
 full range reads as a gimmick.
 
+### The arrival
+
+Home only, and the hero only. `PageTransition` already lays every route down as one sheet
+on first paint, so the arrival is the beats that gesture cannot carry.
+
+| t | Beat | Where |
+|---|---|---|
+| 0.00-0.50 | The page settles onto the desk | `.sheet-settle`, on every route |
+| 0.36-0.80 | The print lands: curl 2 and extra tilt ease to rest | `.print-arrive`, `.print-land` |
+| 0.72-1.00 | Four tape strips stick, 70ms apart, clockwise | `.tape-stick` |
+| 0.92-1.42 | The leader draws from the note to the print | `.leader` |
+| 1.05 | The note inks itself in | `<InkIn delay>` |
+| 1.20-2.70 | The lamp sweeps once and every shadow re-casts together | `LightSource` |
+
+Motion is budgeted to the hero. Nothing below the fold animates, or the page reads as a
+slideshow rather than as a desk. Everything but the note and the lamp is pure CSS, so a
+visitor with no JavaScript gets the whole page at rest.
+
+The lamp's opening sweep is the point of the whole system: until it existed the one thing
+this design does that nothing else does was invisible unless a visitor happened to move the
+pointer. The first real `pointermove` cancels it mid-flight, and it is off under a coarse
+pointer and under reduced motion like the rest of the lamp.
+
+`InkIn`'s `delay` is measured from **navigation**, not from mount. Every other beat is a CSS
+animation on the document's clock, and hydration can land after all of them; counting from
+mount would leave the leader pointing at a note that has not been written yet.
+
 ---
 
 ## 6. Components
@@ -205,6 +232,7 @@ one of these works inside a server component with no JavaScript.
 | `IndexCard` | A catalogue entry, not a fallback. See below |
 | `Annotation` | Caveat margin note. Mind the budget |
 | `Title`, `Label` | Drafted header, technical label |
+| `DimensionString` | Figures off a drawing: baseline, tick per division, arrowheads |
 
 `IndexCard` earns its place: only 4 of 19 projects carry rich case-study frontmatter and
 most have no artwork. A typed card is a legitimate entry for those, where a hatched
@@ -295,6 +323,20 @@ the shadow body clears the card, which destroys the illusion for the same reason
 **Curl layers are siblings, not `::before` at `z-index: -1`.** A negative z-index child
 disappears behind an opaque parent background.
 
+**An arrival animation must fill `backwards`, never `forwards`.** `forwards` (or `both`)
+leaves the final keyframe applied for the life of the page, and an animation's declarations
+outrank `:active`, so the hero print would stop flattening under a press from then on. Every
+arrival keyframe therefore ends on the value the stylesheet already holds and fills
+`backwards` only, so the element drops straight back to the cascade the moment it finishes.
+Same failure as an inline curl variable, reached from the other side.
+
+**The reduced-motion flattener does not touch `animation-delay`.** It zeroes durations, and
+every beat of the arrival is delayed. Zeroing the duration alone would leave the print
+hanging above the desk and the tape invisible for most of a second, then snap. The arrival
+selectors are therefore killed outright in that block; each one rests at its finished state,
+which is also why `.leader` rests **drawn** and animates from undrawn. `.ink-in` needs the
+opposite fix for the same reason: its resting state is the clip.
+
 **Check the Tailwind opacity step exists.** `border-graphite/12` silently generates nothing.
 
 **Never run `pnpm build` and `pnpm dev` against the same `.next`.** Mixing production and
@@ -305,7 +347,7 @@ dev artifacts makes the dev server serve an unstyled page with a 404 stylesheet.
 
 ## 10. Not built yet
 
-- Lighthouse pass, and a look at the phone layout at 380px
+- Lighthouse pass
 
 Everything else is done: every route is converted, the prose theme runs off
 the tokens, code highlighting is dual-theme, the legal pages have per-script
@@ -367,6 +409,8 @@ stocks, and its hairline is meant to be barely visible. `--chip` and
 manila `paper` is the lighter of the pair, on blueprint it is the darker, so
 a chip built from them is the brightest thing in the row in one theme and the
 dimmest in the other. The dedicated pair keeps "raised" meaning raised.
+Nothing uses them since the toolbox became a schedule; the pair stays because
+the trap is about any chip, not about that one.
 
 **Blueprint needs a contrast band, not a floor.** A minimum-contrast rule
 is enough on manila, where the fix is to darken and the result is just ink.
@@ -377,6 +421,26 @@ sat at 7.6:1 and looked like an LED. `tintOn` therefore mutes every mark
 into the stock and then holds it between a ceiling and a floor, which drops
 chroma and ties the mark to the paper instead of leaving it floating above
 it. Light mode still uses the plain floor.
+
+**Custom properties do not interpolate until they are registered.** An unregistered one
+animates as a discrete step at 50%, so the hero print snapped onto the desk instead of
+settling. The five `--curl-*` variables are registered with `@property` at the top of
+`global.css`, and their `initial-value` must match the `.paper` defaults or there is a
+one-frame jump. Firefox has `@property` from 128; without it the landing steps, which under a
+22px blur is survivable.
+
+**A schedule is a column grid, not a wrapped run.** The toolbox entries were a flex-wrap run
+with hairline separators, and a wrapped line puts a stray separator at its own head. They are
+a `grid` now, so names line up down the sheet the way a parts list does.
+
+**A reserved slot must never be empty.** Giving each entry its own dot slot and mark slot
+lined the names up perfectly and still read as misaligned: rows like "Room" had two holes
+where their neighbours had two glyphs, and a ragged column of furniture beats flush type
+every time. One mark slot, always filled, fixed it: the brand mark where there is one and a
+filled square where there is none, coloured by the same daily rule, so the legend's swatch
+is the mark the table actually uses. And the
+names **wrap**, never truncate: two columns at 380px are narrower than "Dependency injection" and an ellipsis there
+loses the entry.
 
 **These scripts have no letter case.** Sinhala, Japanese, Korean, Devanagari,
 Thai and Chinese get `text-transform: none` and normal tracking, and the

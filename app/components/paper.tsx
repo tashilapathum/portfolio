@@ -264,26 +264,35 @@ export function Tape({
  * Tailwind tree-shakes `@layer components` against the source text, so
  * a `tape-corner-${c}` template would compile to nothing.
  */
-export function CornerTape() {
+export function CornerTape({ stagger = false }: { stagger?: boolean }) {
 	// Smaller strips on a phone, where the print itself is smaller.
 	const size = "h-[17px] w-[54px] sm:h-[22px] sm:w-[74px]";
+	// Pulled across one corner at a time, 70ms apart. Pure CSS, so the
+	// strips are simply there for a visitor with no JavaScript.
+	const stick = stagger ? "tape-stick" : "";
+	const beat = (i: number) =>
+		stagger ? ({ "--i": i } as React.CSSProperties) : undefined;
 	return (
 		<>
 			<span
 				aria-hidden="true"
-				className={`tape tape-corner tape-corner-tl ${size}`}
+				style={beat(0)}
+				className={`tape tape-corner tape-corner-tl ${size} ${stick}`}
 			/>
 			<span
 				aria-hidden="true"
-				className={`tape tape-corner tape-corner-tr ${size}`}
+				style={beat(1)}
+				className={`tape tape-corner tape-corner-tr ${size} ${stick}`}
 			/>
 			<span
 				aria-hidden="true"
-				className={`tape tape-corner tape-corner-bl ${size}`}
+				style={beat(3)}
+				className={`tape tape-corner tape-corner-bl ${size} ${stick}`}
 			/>
 			<span
 				aria-hidden="true"
-				className={`tape tape-corner tape-corner-br ${size}`}
+				style={beat(2)}
+				className={`tape tape-corner tape-corner-br ${size} ${stick}`}
 			/>
 		</>
 	);
@@ -314,6 +323,8 @@ export function Photo({
 	fit = "cover",
 	aspect = "aspect-[4/3]",
 	tilt = 0,
+	caption,
+	arrive = false,
 	className = "",
 	sizes = "(min-width: 1024px) 420px, 100vw",
 	priority = false,
@@ -322,6 +333,19 @@ export function Photo({
 	alt: string;
 	mount?: "tape" | "corners" | "photo-corners" | "none";
 	fit?: "cover" | "contain";
+	/**
+	 * The slug printed in the mount's bottom margin, the way a lab
+	 * writes on the border of a print. The margin is there either way,
+	 * so nothing moves on a page that passes none.
+	 */
+	caption?: string;
+	/**
+	 * Lay the print down on load: it drops from above, turned a little
+	 * further than it rests, and the tape sticks a beat later. One
+	 * print per page at most, and only above the fold. See the arrival
+	 * block in `global.css`.
+	 */
+	arrive?: boolean;
 	/**
 	 * The print's own proportions. A Tailwind aspect utility rather
 	 * than a number, so it can vary by breakpoint: a wide store banner
@@ -335,11 +359,22 @@ export function Photo({
 }) {
 	return (
 		<div
-			className={`relative ${className}`}
+			// The arrival moves this with `translate` and `rotate`, the
+			// individual properties, precisely so it composes with the
+			// inline tilt below instead of overwriting it.
+			className={`relative ${arrive ? "print-arrive" : ""} ${className}`}
 			style={tilt ? { transform: `rotate(${tilt}deg)` } : undefined}
 		>
-			<Paper curl={mount === "none" ? 1 : 2} radius="rounded-[2px]">
-				<div className="p-2 pb-6 sm:p-2.5 sm:pb-7">
+			<Paper
+				curl={mount === "none" ? 1 : 2}
+				radius="rounded-[2px]"
+				className={arrive ? "print-land" : ""}
+			>
+				{/* The bottom margin is deeper than the other three, which is
+				    what a mounted print has and where the slug goes. Its
+				    height is fixed so a captioned print and a bare one are
+				    the same object. */}
+				<div className="p-2 sm:p-2.5">
 					<div className={`relative overflow-hidden bg-desk-2 ${aspect}`}>
 						<Image
 							src={src}
@@ -353,10 +388,17 @@ export function Photo({
 							}
 						/>
 					</div>
+					<div className="flex h-4 items-end overflow-hidden sm:h-[18px]">
+						{caption && (
+							<span className="truncate font-mono text-[9px] uppercase leading-none tracking-[.14em] text-graphite-faint sm:text-[10px]">
+								{caption}
+							</span>
+						)}
+					</div>
 				</div>
 			</Paper>
 
-			{mount === "tape" && <CornerTape />}
+			{mount === "tape" && <CornerTape stagger={arrive} />}
 			{mount === "corners" && (
 				<>
 					<Tape
@@ -432,6 +474,7 @@ export function Annotation({
 	className = "",
 	tilt = -2,
 	write = true,
+	delay,
 }: {
 	children: React.ReactNode;
 	className?: string;
@@ -440,16 +483,19 @@ export function Annotation({
 	 * Wipe the note on when it scrolls into view, as if it were being
 	 * written. On by default: the whole point of the red pen is that
 	 * someone picked it up. Pass `false` where the note is already in
-	 * the first viewport and the wipe would fire before anyone looks.
+	 * the first viewport and the wipe would fire before anyone looks,
+	 * or `delay` to give it a cue instead.
 	 */
 	write?: boolean;
+	/** Milliseconds from mount, for a note that is part of an arrival. */
+	delay?: number;
 }) {
 	return (
 		<p
 			className={`m-0 font-hand text-[19px] leading-snug text-vermillion ${className}`}
 			style={{ transform: `rotate(${tilt}deg)` }}
 		>
-			{write ? <InkIn>{children}</InkIn> : children}
+			{write ? <InkIn delay={delay}>{children}</InkIn> : children}
 		</p>
 	);
 }
@@ -487,6 +533,80 @@ export function Rule({ className = "" }: { className?: string }) {
 			className={`m-0 h-px border-0 bg-rule/15 ${className}`}
 			aria-hidden="true"
 		/>
+	);
+}
+
+/* ------------------------------------------------------------------ *
+ * The dimension string.
+ *
+ * Figures taken off a drawing rather than four numerals over a rule:
+ * a baseline, a tick dropping at every division, an arrowhead at each
+ * end. The ticks are per-cell borders and not a repeating gradient, so
+ * they land exactly on the divisions whatever the column widths do.
+ *
+ * Four divisions will not fit at 380px, so below `sm` it breaks into
+ * pairs and each ROW becomes its own dimension string: that is why the
+ * end ticks and arrowheads are worked out per row rather than once.
+ * ------------------------------------------------------------------ */
+export function DimensionString({
+	items,
+	className = "",
+}: {
+	items: readonly { value: string; label: string }[];
+	className?: string;
+}) {
+	const last = items.length - 1;
+
+	return (
+		<dl className={`m-0 grid grid-cols-2 gap-y-8 sm:flex ${className}`}>
+			{items.map((item, i) => {
+				// A cell ends its row on the phone if it is the odd one of a
+				// pair; on a wide screen only the final cell does.
+				const endsMobileRow = i % 2 === 1 || i === last;
+				const startsMobileRow = i % 2 === 0;
+
+				return (
+					<div
+						key={item.label}
+						className="flex min-w-0 flex-1 flex-col-reverse"
+					>
+						<dt className="mt-2.5 pr-5 font-mono text-[10px] uppercase leading-tight tracking-[.16em] text-graphite-faint">
+							{item.label}
+						</dt>
+						<dd className="m-0">
+							<div className="pr-5 font-title text-[34px] font-extrabold leading-none tracking-[-.02em] text-graphite [font-variant-numeric:tabular-nums]">
+								{item.value}
+							</div>
+							<div
+								aria-hidden="true"
+								className={`relative mt-3 h-2.5 border-l border-t border-rule/25 ${
+									i === last
+										? "border-r"
+										: endsMobileRow
+										? "border-r sm:border-r-0"
+										: ""
+								}`}
+							>
+								{(i === 0 || startsMobileRow) && (
+									<span
+										className={`dim-arrow dim-arrow-l ${
+											i === 0 ? "" : "sm:hidden"
+										}`}
+									/>
+								)}
+								{(i === last || endsMobileRow) && (
+									<span
+										className={`dim-arrow dim-arrow-r ${
+											i === last ? "" : "sm:hidden"
+										}`}
+									/>
+								)}
+							</div>
+						</dd>
+					</div>
+				);
+			})}
+		</dl>
 	);
 }
 
